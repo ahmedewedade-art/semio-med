@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiz – Sémiologie cardiovasculaire</title>
+<style>
+:root{--bg:#f7f4f1;--card:#fff;--ink:#241a1c;--mut:#6b5f61;--ac:#7a1f2b;--ok:#1f7a4d;--ko:#b3261e;--ln:#e4dcd8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Georgia,"Times New Roman",serif}
+header{background:var(--ac);color:#fff;padding:28px 20px}
+header h1{margin:0 0 6px;font-size:1.6rem}
+header p{margin:0;opacity:.9;font-size:.95rem}
+main{max-width:820px;margin:0 auto;padding:16px}
+#bar{position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:2;border-bottom:1px solid var(--ln);font:600 .9rem system-ui,sans-serif;display:flex;justify-content:space-between}
+.q{background:var(--card);border:1px solid var(--ln);border-radius:6px;padding:16px;margin:16px 0}
+.q h2{font-size:1.05rem;margin:0 0 12px}
+.q h2 span{color:var(--ac)}
+label{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border:1px solid var(--ln);border-radius:4px;margin:6px 0;cursor:pointer}
+label b{min-width:1.2em;color:var(--ac)}
+label input{margin-top:5px;accent-color:var(--ac)}
+label.ok{background:#e6f4ec;border-color:var(--ok)}
+label.ko{background:#fbe9e7;border-color:var(--ko)}
+label.miss{border:2px dashed var(--ok)}
+button{font:600 .95rem system-ui,sans-serif;background:var(--ac);color:#fff;border:0;border-radius:4px;padding:9px 16px;cursor:pointer}
+button:disabled{background:#b9aeb0;cursor:default}
+button.alt{background:#fff;color:var(--ac);border:1px solid var(--ac)}
+button:focus-visible,input:focus-visible{outline:3px solid #e0a000;outline-offset:2px}
+.ex{display:none;margin-top:12px;padding:12px;background:#faf6f0;border-left:4px solid var(--ac);font-size:.95rem}
+.res{font:700 .9rem system-ui,sans-serif;margin-left:10px}
+#final{display:none;text-align:center;background:var(--card);border:1px solid var(--ln);padding:24px;border-radius:6px;margin:16px 0}
+#final strong{font-size:2rem;color:var(--ac)}
+</style>
+</head>
+<body>
+<header>
+<h1>La sémiologie cardiovasculaire – Quiz de niveau avancé</h1>
+<p>30 QCM · chaque question comporte les propositions A à E · une ou plusieurs réponses exactes · tout est justifié</p>
+</header>
+<main>
+<div id="bar"><span id="prog">0 / 30 validées</span><span id="sc">Score : 0</span></div>
+<div id="list"></div>
+<div id="final"></div>
+<p><button id="all">Valider toutes les questions</button> <button class="alt" id="rst">Recommencer</button></p>
+</main>
+<script>
+/* [énoncé, [A,B,C,D,E], bonnes réponses, justification] */
+const Q=[
+["Concernant les principaux symptômes cardiovasculaires :",
+["La dyspnée est le symptôme le plus fréquent.","La douleur thoracique oriente en premier lieu vers une ischémie myocardique.","Les palpitations désignent une perte de connaissance brève.","La toux peut traduire une hypertension veineuse pulmonaire.","Les œdèmes traduisent une rétention hydrosodée."],"ABDE",
+"C faux : les palpitations sont la perception des battements cardiaques ; la perte de connaissance brève est le syncope. A, B, D, E exacts (l’hémoptysie évoque OAP et rétrécissement mitral)."],
+["Particularités de l’observation cardiologique :",
+["L’identification comprend nom, prénom, âge, profession et origine géographique.","L’interrogatoire repose uniquement sur le malade.","La fiabilité dépend de la mémoire, de l’état intellectuel et de l’humeur du patient.","Le mode de vie et les habitudes alimentaires ne se précisent que si un facteur de risque est suspecté.","Le motif est le symptôme amenant à consulter, développé selon les 7 attributs."],"ACE",
+"B faux : sources = malade, entourage, lettre de correspondance, compte rendu médical. D faux : mode de vie et habitudes alimentaires sont à préciser TOUJOURS."],
+["La revue des systèmes :",
+["Explore le patient appareil par appareil.","Comprend état général, pneumo, neuro et cardio.","Le volet cardio recherche dyspnée, œdèmes, douleur thoracique, palpitations.","Débouche directement sur le traitement, sans regroupement syndromique.","Est suivie du regroupement syndromique, des diagnostics de présomption, des examens, du pronostic et de l’attitude thérapeutique."],"ABCE",
+"D faux : le raisonnement passe par le regroupement syndromique puis les diagnostics de présomption avant les examens et le traitement."],
+["Facteurs de risque cardiovasculaires (classification du cours) :",
+["Âge > 50 ans est non modifiable.","Le sexe masculin est non modifiable.","La sédentarité est un facteur biochimique et physiologique (rouge).","HTA, diabète, hypercholestérolémie et obésité sont des facteurs biochimiques/physiologiques.","Tabagisme et alimentation riche en graisses relèvent des habitudes de vie (orange)."],"ABDE",
+"C faux : la sédentarité est une habitude de vie (orange). Non modifiables : âge, sexe masculin, ATCD familiaux et personnels CV."],
+["Risque cardiovasculaire global (exemple d’un homme hypertendu, PAS 190 mmHg, cholestérol 3,3 g/L, Kannel – Framingham 1977) :",
+["Les facteurs de risque s’additionnent.","L’HTA seule multiplie le risque par 1,6.","Le tabac seul multiplie le risque par 3.","L’association HTA + tabac + cholestérol multiplie le risque par 18.","L’association tabac + cholestérol multiplie le risque par 6."],"BCD",
+"A faux : l’augmentation est multiplicative. E faux : tabac + cholestérol = ×9 ; ×6 correspond à HTA + cholestérol (HTA + tabac = ×4,5 ; cholestérol seul = ×4)."],
+["SCORE2 et SCORE2-OP :",
+["SCORE2 s’applique de 40 à 69 ans, SCORE2-OP à 70 ans et plus.","Ils estiment le risque à 10 ans d’événement CV fatal ou non fatal (infarctus, AVC, décès CV).","Variables : sexe, âge, tabagisme actuel, PAS, cholestérol non-HDL.","Le cholestérol non-HDL = cholestérol total + HDL.","Ils s’appliquent surtout aux patients ayant une maladie CV établie."],"ABC",
+"D faux : non-HDL = cholestérol total − HDL. E faux : ils s’adressent à une personne apparemment saine (prévention primaire). Société européenne de cardiologie, 2021."],
+["Catégories de risque et région de risque :",
+["Avant 50 ans : risque très élevé si ≥ 7,5 %.","De 50 à 69 ans : risque élevé si 5 à < 10 %.","À ≥ 70 ans : risque très élevé si ≥ 10 %.","La Mauritanie figure dans la classification ESC des régions à haut risque.","À défaut, par analogie avec le Maghreb et l’Égypte, on utilise les tables de la région à très haut risque."],"ABE",
+"C faux : à ≥ 70 ans, très élevé = ≥ 15 % (élevé 7,5 à < 15 %). D faux : la Mauritanie ne figure pas dans la classification ESC."],
+["Modificateurs de risque et lecture des tables :",
+["La maladie rénale chronique est un modificateur.","Les maladies inflammatoires sont des modificateurs.","Un ATCD de prééclampsie ou de diabète gestationnel est un modificateur.","Les tables se lisent selon sexe, statut fumeur, tranche d’âge, PAS et cholestérol non-HDL (mg/dL).","Les tables SCORE2-OP couvrent de 40 à 69 ans."],"ABCD",
+"E faux : SCORE2 couvre 40-44 à 65-69 ans ; SCORE2-OP couvre 70-74 à 85-89 ans."],
+["Antécédents cardiovasculaires personnels :",
+["Accident cardiovasculaire : infarctus du myocarde, AVC.","Rhumatisme articulaire aigu dans l’enfance.","Les traitements en cours peuvent interférer avec examens et prescriptions.","Chez les patients à haut risque, les antécédents sont à préciser et vérifier.","Un ATCD personnel CV est un facteur de risque modifiable."],"ABCD",
+"E faux : les ATCD personnels et familiaux CV sont des facteurs non modifiables."],
+["Antécédents familiaux :",
+["Accident CV précoce chez un parent du 1er degré (père, mère, frère, sœur).","Précoce = < 55 ans chez l’homme, < 65 ans chez la femme.","Précoce = < 65 ans chez l’homme, < 55 ans chez la femme.","Mort subite inexpliquée d’un apparenté jeune.","Les grands-parents sont des parents du 1er degré."],"ABD",
+"C faux : seuils inversés. E faux : 1er degré = père, mère, frère, sœur. Penser aussi diabète, HTA, dyslipidémie familiale, athérosclérose."],
+["Angor d’effort : siège et irradiations :",
+["Siège médian, rétrosternal (ou épigastrique), identique d’une crise à l’autre.","Le siège varie d’une crise à l’autre.","Irradiation vers mâchoire, cou, épaules, bras et avant-bras (gauche +), poignets.","Des irradiations bilatérales sont très évocatrices.","L’irradiation au poignet exclut l’angor."],"ACD",
+"B faux : le siège est identique d’une crise à l’autre. E faux : les poignets font partie des irradiations typiques."],
+["Angor d’effort : qualité, déclenchement, durée, test :",
+["Douleur constrictive, en étau, écrasement, poids, brûlure ; parfois simple inconfort.","Déclenchée par effort (marche rapide, côte, escalier), froid, vent, démarrage matinal.","Durée typique de 10 à 20 minutes.","Une durée > 20-30 min évoque un infarctus.","Disparition rapide sous trinitrine sublinguale."],"ABDE",
+"C faux : l’angor est bref (< 5 min), cède à l’arrêt de l’effort. E est le test à la trinitrine (disparition rapide)."],
+["Caractériser une douleur thoracique (3 critères) :",
+["Gêne rétrosternale constrictive, de siège et durée typiques.","Déclenchée par l’effort ou le stress émotionnel.","Soulagée en quelques minutes par le repos ou la trinitrine.","Avec 2 critères, on parle d’angor typique.","Avec 0 ou 1 critère, la douleur est non angineuse."],"ABCE",
+"D faux : 3 critères = angor typique ; 2 critères = angor atypique."],
+["Urgence : syndrome coronarien aigu :",
+["Douleur prolongée (> 20 min) au repos, angor de novo ou aggravation récente.","Sueurs, nausées, malaise, dyspnée associés.","Chez le diabétique, la femme et le sujet âgé, les formes atypiques sont fréquentes.","ECG 12 dérivations en moins de 10 minutes.","ECG à réaliser dans l’heure suivant l’admission."],"ABCD",
+"E faux : l’ECG 12 dérivations doit être fait en moins de 10 minutes."],
+["Douleurs thoraciques non cardiovasculaires :",
+["Algies précordiales nerveuses : très fréquentes, punctiformes, sans irradiation, sans lien avec l’effort, sujet anxieux.","Douleurs cervico-brachiales : déclenchées par un mouvement de tête ou du bras (pathologie vertébrale, périarthrite scapulo-humérale).","Douleurs pariétales : soulagées par la palpation et l’inspiration profonde.","Douleurs digestives et hépatiques : biliaires, gastriques, pancréatiques.","L’hépatalgie d’effort relève de l’insuffisance ventriculaire gauche."],"ABD",
+"C faux : majorées par palpation et inspiration profonde (zona, rachis dorsal, syndrome de Tietze). E faux : insuffisance ventriculaire DROITE."],
+["Dyspnée : définition et caractères de la dyspnée cardiaque :",
+["Gêne respiratoire pénible lors d’une activité ordinaire, dans des conditions normales de pression et de température.","Polypnée superficielle, rapide, peu ample, régulière.","Bradypnée ample.","Proportionnelle à l’effort ; apparaît pour des efforts de moins en moins importants.","Principal symptôme de l’insuffisance cardiaque."],"ABDE",
+"C faux : la dyspnée cardiaque est une polypnée superficielle, pas une bradypnée ample."],
+["Orthopnée, dyspnée paroxystique nocturne et dyspnée d’effort :",
+["Orthopnée : dyspnée en décubitus, soulagée en position assise (nombre d’oreillers).","DPN : réveille le malade et l’oblige à s’asseoir au bord du lit.","La DPN survient à l’effort.","La dyspnée d’effort est quantifiée par l’interrogatoire : classe NYHA.","L’orthopnée est soulagée par le décubitus."],"ABD",
+"C faux : la DPN est nocturne (réveil). E faux : l’orthopnée est soulagée en position assise."],
+["Classification NYHA :",
+["Classe I : aucune dyspnée au repos, gêne aux efforts importants compatible avec l’âge.","Classe II : dyspnée aux efforts modérés de la vie courante (marche rapide, bain).","Classe III : aucune dyspnée au repos, dyspnée au moindre effort (déplacement, parole, repas).","Classe III : dyspnée de repos.","Classe IV : dyspnée au repos, dyspnée de décubitus."],"ABCE",
+"D faux : en classe III il n’y a pas de dyspnée au repos ; la dyspnée de repos définit la classe IV."],
+["Étiologies des dyspnées AIGUËS :",
+["Cardiaques : OAP, pseudo-asthme cardiaque, tamponnade, troubles du rythme mal tolérés, choc cardiogénique.","Embolie pulmonaire : à toujours évoquer.","Laryngo-trachéales : œdème de Quincke, corps étranger, épiglottite, laryngite, sténose trachéale.","La cyphoscoliose est une cause de dyspnée aiguë.","La constriction péricardique est une cause de dyspnée aiguë."],"ABC",
+"D et E faux : cyphoscoliose et constriction péricardique sont des causes de dyspnée chronique."],
+["Étiologies des dyspnées CHRONIQUES :",
+["Cardiaques : insuffisance cardiaque, constriction péricardique.","Pulmonaires/pleurales : BPCO, asthme à dyspnée continue, pneumopathies infiltrantes diffuses, pneumoconioses, séquelles pleurales de tuberculose, paralysie phrénique, cyphoscoliose.","Hypertension pulmonaire : idiopathique, familiale, connectivite, shunt, VIH, toxique, post-embolique.","Pneumothorax et SDRA sont des causes chroniques.","Autres : obstacle des voies aériennes supérieures, anémie, acidose métabolique, myopathie, hyperventilation, CO."],"ABCE",
+"D faux : pneumothorax et SDRA sont des causes de dyspnée aiguë."],
+["Mécanismes de la dyspnée (schéma de haut en bas) :",
+["Commande ventilatoire excessive (cortex) : syndrome d’hyperventilation.","Voies aériennes supérieures : obstacle (corps étranger, œdème).","Emphysème et fibrose : obstruction bronchique.","Anomalie vasculaire (embolie pulmonaire) ; cœur : trouble du transport de l’O₂ (insuffisance cardiaque, anémie).","Paroi thoracique : trouble de la cinétique (scoliose, obésité) ; diaphragme : dysfonction (atteinte neuromusculaire)."],"ABDE",
+"C faux : asthme/BPCO = obstruction bronchique ; emphysème/fibrose = destruction/épaississement du parenchyme."],
+["Palpitations : interrogatoire :",
+["Sensation désagréable et épisodique de battements irréguliers, rapides ou trop forts.","Début et fin brusques ou progressifs ?","Faire tapoter le rythme pour juger régulier/irrégulier.","Circonstances : effort, repos, café, alcool, anxiété.","La tolérance (malaise, syncope, douleur, dyspnée) est sans intérêt si la fréquence est connue."],"ABCD",
+"E faux : la tolérance est une question clé de l’interrogatoire."],
+["Palpitations : orientations possibles :",
+["Extrasystoles.","Tachycardie sinusale.","Tachycardie paroxystique.","Arythmie complète (FA) = bradycardie régulière.","Cœur normal chez le sujet anxieux."],"ABCE",
+"D faux : l’arythmie complète (FA) est irrégulière, pas une bradycardie régulière."],
+["Toux cardiaque :",
+["Révélatrice d’une insuffisance ventriculaire gauche ou d’un rétrécissement mitral.","Liée à l’hypertension veineuse pulmonaire (œdème interstitiel ou alvéolaire).","Sèche, irritative, spasmodique, nocturne.","Grasse, productive et matinale.","Due à une HTA systémique isolée."],"ABC",
+"D et E faux : la toux cardiaque est sèche et nocturne et résulte de la congestion pulmonaire."],
+["Aspect de l’expectoration et orientation :",
+["Mousseuse, rosée : œdème aigu du poumon.","Claire, blanche, filante : infection bactérienne.","Épaisse, jaune : infection bactérienne.","Rouillée : pneumonie à pneumocoque, OAP.","Striée de sang : tuberculose, bronchectasies, cancer, infarctus pulmonaire."],"ACDE",
+"B faux : claire, blanche, filante = affection virale. Penser aussi à une cause respiratoire indépendante ou intriquée."],
+["Les œdèmes :",
+["Accumulation excessive de liquide dans les espaces interstitiels ; premier signe : chaussures trop étroites.","Blancs, mous, indolores, prenant le godet.","Symétriques et déclives.","Gain de poids de 3 à 5 kg.","Rouges, chauds et douloureux."],"ABCD",
+"E faux : les œdèmes cardiaques sont blancs, mous et indolores."],
+["Œdèmes : distribution et diagnostic différentiel :",
+["Progression ascendante : dos des pieds/chevilles, jambes, cuisses, organes génitaux externes, paroi abdominale (± ascite).","Unilatéral : thrombophlébite, blocage lymphatique, décubitus latéral prolongé.","Dans l’origine cardiaque, l’ascite précède toujours les œdèmes.","Dans la cirrhose, l’ascite précède les œdèmes.","Autres origines : rénale, hépatique."],"ABDE",
+"C faux : l’ascite cardiaque succède aux œdèmes ; dans la cirrhose elle les précède."],
+["Hémoptysie :",
+["Rejet de sang rouge par la bouche lors d’un effort de toux, des voies respiratoires sous-glottiques.","En cardiologie : surtout OAP et rétrécissement mitral.","Habituellement abondante, dépassant souvent un litre.","Toujours rechercher une autre cause bronchique ou pulmonaire (cancer, tuberculose).","Distinguer hématémèse (vomissement) et épistaxis déglutie."],"ABDE",
+"C faux : abondance habituellement modérée, n’excédant pas un demi-verre pour une hémoptysie d’origine cardiaque."],
+["Syncope : orienter le mécanisme :",
+["Réflexe : vasovagale (émotion, station debout prolongée, chaleur), situationnelle (toux, miction), sinus carotidien.","Hypotension orthostatique : passage debout ; médicaments, déshydratation, dysautonomie (diabète, Parkinson).","Cardiaque : troubles du rythme (BAV, tachycardie ventriculaire) ou obstacle (rétrécissement aortique, CMH).","Signe d’alerte : mort subite familiale < 60 ans.","Pseudo-syncope psychogène : épisodes longs et répétés, yeux fermés, sans traumatisme – diagnostic d’élimination."],"ABCE",
+"D faux : le signe d’alerte est une mort subite familiale < 40 ans. Autres alertes : syncope à l’effort ou en décubitus, palpitations avant la perte de connaissance, cardiopathie connue, sujet âgé, absence de prodromes, traumatisme sévère."],
+["Syncope et lipothymie :",
+["Syncope : perte de connaissance transitoire par hypoperfusion cérébrale globale.","Syncope : début rapide, durée brève, récupération spontanée et complète, chute avec relâchement du tonus.","Lipothymie : malaise progressif, perte de conscience incomplète (vertiges, bourdonnements d’oreilles, voile devant les yeux, nausées).","Dans la lipothymie, le malade n’en garde aucun souvenir.","4 questions essentielles : circonstances déclenchantes, mode de début, durée, mode de terminaison."],"ABCE",
+"D faux : dans la lipothymie le malade en garde le souvenir (la perte de conscience est incomplète)."]
+];
+const L="ABCDE",list=document.getElementById("list"),done=new Array(Q.length).fill(null);
+function build(){
+ list.innerHTML="";done.fill(null);
+ Q.forEach((q,i)=>{
+  const d=document.createElement("div");d.className="q";d.id="q"+i;
+  d.innerHTML='<h2><span>Q'+(i+1)+'.</span> '+q[0]+'</h2>'+q[1].map((o,j)=>'<label><input type="checkbox" value="'+L[j]+'"><b>'+L[j]+'.</b><span>'+o+'</span></label>').join("")+
+  '<button type="button">Valider</button><span class="res"></span><div class="ex"></div>';
+  d.querySelector("button").onclick=()=>check(i);
+  list.appendChild(d);
+ });
+ upd();document.getElementById("final").style.display="none";
+}
+function check(i){
+ if(done[i]!==null)return;
+ const d=document.getElementById("q"+i),q=Q[i];let sel="";
+ d.querySelectorAll("label").forEach((lb,j)=>{
+  const c=lb.querySelector("input"),good=q[2].includes(L[j]);
+  if(c.checked)sel+=L[j];
+  c.disabled=true;
+  if(c.checked)lb.classList.add(good?"ok":"ko");else if(good)lb.classList.add("miss");
+ });
+ const ok=sel===q[2];done[i]=ok?1:0;
+ const r=d.querySelector(".res");r.textContent=ok?"✔ Exact":"✘ Réponse attendue : "+q[2].split("").join(", ");r.style.color=ok?"var(--ok)":"var(--ko)";
+ const e=d.querySelector(".ex");e.style.display="block";e.textContent="Justification : "+q[3];
+ d.querySelector("button").disabled=true;upd();
+}
+function upd(){
+ const n=done.filter(x=>x!==null).length,s=done.reduce((a,x)=>a+(x||0),0);
+ document.getElementById("prog").textContent=n+" / "+Q.length+" validées";
+ document.getElementById("sc").textContent="Score : "+s+" / "+Q.length;
+ if(n===Q.length){const f=document.getElementById("final");f.style.display="block";
+  f.innerHTML="<strong>"+s+" / "+Q.length+"</strong><p>"+(s>=24?"Excellent niveau.":s>=15?"Bon niveau, revoyez les justifications des erreurs.":"À retravailler : relisez le cours et refaites le quiz.")+" Une question n’est comptée que si toutes les bonnes réponses, et uniquement elles, sont cochées.</p>";}
+}
+document.getElementById("all").onclick=()=>Q.forEach((_,i)=>check(i));
+document.getElementById("rst").onclick=()=>{build();scrollTo(0,0)};
+build();
+</script>
+</body>
+</html>
