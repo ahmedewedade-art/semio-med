@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QCM – Hémoptysies</title>
+<style>
+:root{--bg:#f6f7fb;--c:#fff;--t:#1d2433;--m:#6b7385;--b:#d9dde8;--ok:#1e9e5a;--ko:#d6403a;--ac:#3b5bdb}
+@media(prefers-color-scheme:dark){:root{--bg:#12151c;--c:#1b1f2a;--t:#e8ebf3;--m:#9aa3b8;--b:#2e3446;--ok:#46c37f;--ko:#ef6a64;--ac:#7c93f5}}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,sans-serif;background:var(--bg);color:var(--t);padding:12px;max-width:760px;margin:auto}
+h1{font-size:1.2rem}select,button{font:inherit;padding:8px 12px;border-radius:8px;border:1px solid var(--b);background:var(--c);color:var(--t)}
+button.p{background:var(--ac);color:#fff;border:0}
+.q{background:var(--c);border:1px solid var(--b);border-radius:12px;padding:12px;margin:12px 0}
+.pg{font-size:.75rem;color:var(--m)}.q h3{font-size:1rem;margin:4px 0 8px}
+label{display:flex;gap:8px;padding:8px;border:1px solid var(--b);border-radius:8px;margin:5px 0;cursor:pointer}
+label.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 15%,transparent)}
+label.ko{border-color:var(--ko);background:color-mix(in srgb,var(--ko) 15%,transparent)}
+.ex{display:none;margin-top:8px;font-size:.9rem;color:var(--m)}.ex b{color:var(--t)}
+#sc{position:sticky;top:0;background:var(--bg);padding:8px 0;font-weight:600}
+</style>
+</head>
+<body>
+<h1>QCM difficile – Hémoptysies</h1>
+<p class="pg">Chaque question (A à E) peut avoir plusieurs réponses justes. Barème : exact = 1, une erreur = 0,5, sinon 0.</p>
+<div><select id="f"></select> <button id="rs">Recommencer</button></div>
+<div id="sc"></div>
+<div id="L"></div>
+<script>
+const Q=[
+[2,"Définition de l'hémoptysie :",["Expectoration de sang d'origine sous-glottique","Survient au cours d'un effort de toux","Sang d'origine sus-glottique","Sang souvent rouge et aéré","Sang noirâtre mêlé aux aliments"],"ABD","C faux : sous-glottique. E décrit une hématémèse."],
+[2,"Caractères du sang hémoptoïque :",["Rouge","Aéré","Noirâtre, digéré","Rejeté par vomissement","Origine sous-glottique"],"ABE","C et D : hématémèse (origine digestive)."],
+[3,"Abondance de l'hémoptysie :",["Très variable","De l'expectoration hémoptoïque à l'hémoptysie foudroyante","Toujours faible","Peut être abondante et foudroyante","Toujours constante"],"ABD","C et E faux : très variable."],
+[3,"Valeur sémiologique de l'hémoptysie :",["Toujours pathologique","Signe d'alarme","Nécessite des explorations urgentes","Peut être physiologique si minime","Peut être négligée si faible"],"ABC","D et E faux : toujours pathologique, quelle que soit l'abondance."],
+[4,"Mécanisme du décès :",["L'hémoptysie ne tue pas par anémie","Elle tue par inondation de l'arbre bronchique","Avec asphyxie","La gravité tient à l'anémie aiguë","Le décès est dû à un choc hypovolémique"],"ABC","D et E faux : le danger est l'asphyxie."],
+[4,"Origine du saignement :",["Artères bronchiques le plus souvent","Atteintes capillaires possibles","Atteintes artériolaires possibles","Artères pulmonaires le plus souvent","Origine exclusivement veineuse"],"ABC","D et E faux : artères bronchiques +++."],
+[5,"L'effort de toux :",["Affirme l'origine sous-glottique","Élimine une hématémèse","Élimine une épistaxis déglutie","Élimine un saignement d'origine buccale","Est un signe accessoire sans importance"],"ABCD","E faux : il est très important."],
+[5,"Saignements extériorisés par la bouche à éliminer :",["Hématémèse","Épistaxis déglutie","Saignement d'origine buccale","Embolie pulmonaire","Œdème aigu du poumon"],"ABC","D et E sont des causes d'hémoptysie."],
+[5,"Distinction hémoptysie / hématémèse :",["L'effort de toux oriente vers l'hémoptysie","Le sang aéré oriente vers l'hémoptysie","L'origine est sous-glottique","L'hématémèse est d'origine sous-glottique","L'hémoptysie est un rejet digestif"],"ABC","D et E : inversés."],
+[6,"Critères d'appréciation de la gravité :",["Signes de détresse respiratoire","Heure de début et abondance","Couleur du sang","Mesure de la quantité","Présence de toux"],"ABD","C et E non retenus."],
+[6,"Classification (valeurs seuils) :",["Faible : moins de 50 mL en 24 h","Moyenne : 50 à 200 mL en 24 h","Grande : plus de 200 mL en 24 h","Faible : moins de 200 mL en 24 h","Grande : plus de 50 mL/h chez tout patient"],"ABC","D faux : seuil faible = 50 mL. E faux : seuil de 50 mL/h chez l'insuffisant respiratoire chronique."],
+[7,"Grande abondance :",["Plus de 200 mL en 24 h","Plus de 50 mL en 1 h chez l'insuffisant respiratoire chronique","Plus de 50 mL en 1 h quel que soit le terrain","150 mL en 24 h","100 mL en 24 h"],"AB","C faux : insuffisant respiratoire chronique. D et E : moyenne abondance."],
+[7,"Insuffisant respiratoire chronique, 60 mL en 1 h :",["Grande abondance","Gravité majeure, exploration urgente","Faible abondance","Moyenne abondance","Rechercher des signes de détresse respiratoire"],"ABE","C et D faux : > 50 mL/h chez l'IRC = grande abondance."],
+[7,"120 mL en 24 h, sans détresse :",["Moyenne abondance","Faible abondance","Grande abondance","Toujours pathologique","Nécessite des explorations urgentes"],"ADE","B, C faux : 50-200 mL = moyenne."],
+[8,"Trois principales causes :",["Cancer bronchopulmonaire","Tuberculose pulmonaire","Dilatation des bronches","Œdème aigu du poumon","Embolie pulmonaire"],"ABC","D et E : autres causes."],
+[8,"Étiologies :",["Très nombreuses","Le CBP en fait partie des 3 principales","La DDB = dilatation des bronches","Le RM est une des 3 principales","Les pneumopathies sont une des 3 principales"],"ABC","D et E : autres causes."],
+[9,"Autres causes d'hémoptysie :",["Bronchite aiguë","EP","OAP","Pneumopathies","Cancer bronchopulmonaire"],"ABCD","E : cause principale, non « autre »."],
+[9,"Parmi les autres causes :",["RM","OAP","DDB","Tuberculose pulmonaire","EP"],"ABE","C et D sont des causes principales."],
+[9,"Causes vasculaires/cardiaques citées :",["OAP","EP","RM","Les pneumopathies","La bronchite aiguë"],"ABC","D et E : causes infectieuses bronchopulmonaires."],
+[10,"Conclusion :",["L'hémoptysie est un symptôme","La recherche étiologique est essentielle","Elle conditionne la prise en charge","C'est une maladie à part entière","Arrêter le saignement suffit"],"ABC","D et E faux."],
+[3,"Hémoptysie foudroyante :",["Forme abondante possible","Décès par asphyxie","Décès par anémie","Nécessite des explorations urgentes","Une hémoptysie minime est sans importance"],"ABD","C faux. E faux : toujours pathologique."],
+[6,"Toux, sang rouge aéré, 30 mL en 24 h, sans détresse :",["Faible abondance","Pathologique","Explorations nécessaires","Bénin, sans exploration","Dispense d'exploration car < 50 mL"],"ABC","D et E faux."],
+[4,"Mécanismes de gravité :",["Inondation de l'arbre bronchique","Asphyxie","Détresse respiratoire à rechercher","Mesure de la quantité","Anémie comme cause principale"],"ABCD","E faux."]
+];
+
+const L=document.getElementById('L'),F=document.getElementById('f'),S=document.getElementById('sc');
+let st={};
+F.innerHTML='<option value="0">Toutes les pages</option>'+[...Array(10)].map((_,i)=>`<option value="${i+1}">Page ${i+1}</option>`).join('');
+function render(){
+ const p=+F.value;L.innerHTML='';
+ Q.forEach((q,i)=>{if(p&&q[0]!==p)return;
+  const d=document.createElement('div');d.className='q';
+  d.innerHTML=`<div class="pg">Page ${q[0]} · Q${i+1}</div><h3>${q[1]}</h3>`+
+  q[2].map((o,j)=>`<label data-j="${j}"><input type="checkbox"> <span><b>${'ABCDE'[j]}.</b> ${o}</span></label>`).join('')+
+  `<button class="p">Valider</button><div class="ex"></div>`;
+  d.querySelector('button').onclick=()=>check(d,i);L.appendChild(d);});
+ upd();}
+function check(d,i){
+ const q=Q[i],ls=[...d.querySelectorAll('label')];let err=0;
+ ls.forEach((l,j)=>{const c=l.firstElementChild.checked,r=q[3].includes('ABCDE'[j]);
+  l.firstElementChild.disabled=true;if(r)l.classList.add('ok');else if(c)l.classList.add('ko');if(c!==r)err++;});
+ st[i]=err==0?1:err==1?.5:0;
+ const e=d.querySelector('.ex');e.style.display='block';e.innerHTML=`<b>Réponses : ${q[3].split('').join(', ')}</b><br>${q[4]}`;
+ d.querySelector('button').disabled=true;upd();}
+function upd(){const n=Object.keys(st).length;S.textContent=`Score : ${Object.values(st).reduce((a,b)=>a+b,0)} / ${n} répondues (total ${Q.length})`;}
+F.onchange=render;document.getElementById('rs').onclick=()=>{st={};render();};
+render();
+</script>
+</body>
+</html>
