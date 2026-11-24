@@ -1,75 +1,75 @@
 <!DOCTYPE html>
-<html lang="fr"><head><meta charset="utf-8"><title>Quiz – Examen du nourrisson et de l’enfant</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QCM – Examen du nourrisson et de l’enfant</title>
 <style>
-:root{--bg:#f6f7fb;--card:#fff;--tx:#1c2230;--mu:#667;--bd:#d9deea;--ac:#2f5fd0;--ok:#1f8a4c;--ko:#c93a3a;--okb:#e5f6ec;--kob:#fbe9e9;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12151c;--card:#1c212b;--tx:#e8ebf2;--mu:#9aa3b5;--bd:#333b4b;--ac:#7ea2ff;--ok:#5fd08d;--ko:#ff8a8a;--okb:#16352a;--kob:#3a1d1d}}
-:root[data-theme="dark"]{--bg:#12151c;--card:#1c212b;--tx:#e8ebf2;--mu:#9aa3b5;--bd:#333b4b;--ac:#7ea2ff;--ok:#5fd08d;--ko:#ff8a8a;--okb:#16352a;--kob:#3a1d1d}
-*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.45 system-ui,-apple-system,Segoe UI,sans-serif;padding:12px}
-main{max-width:760px;margin:auto}h1{font-size:1.25rem;margin:.4rem 0}
-.sub{color:var(--mu);font-size:.9rem;margin-bottom:10px}
-.pg{margin:22px 0 8px;font-weight:700;color:var(--ac);border-bottom:2px solid var(--ac);padding-bottom:3px}
-.q{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin:10px 0}
-.q h3{font-size:1rem;margin:0 0 8px}
-.o{display:flex;gap:8px;align-items:flex-start;border:1px solid var(--bd);border-radius:8px;padding:8px;margin:6px 0;cursor:pointer}
-.o.s{border-color:var(--ac);background:rgba(47,95,208,.1)}
-.o.ok{border-color:var(--ok);background:var(--okb)}.o.ko{border-color:var(--ko);background:var(--kob)}
-.o b{min-width:1.2em}
-button{font:inherit;border:0;border-radius:8px;padding:8px 14px;background:var(--ac);color:#fff;cursor:pointer;margin:4px 6px 4px 0}
-button.g{background:var(--mu)}
-.ex{margin-top:8px;font-size:.92rem;color:var(--mu);border-left:3px solid var(--ac);padding-left:8px}
-.sc{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:6px 0;font-weight:700;z-index:5}
-</style></head><body><main>
-<h1>🩺 Quiz – Examen du nourrisson et de l’enfant</h1>
-<div class="sub">QCM à réponses multiples (A–E), niveau difficile. Une question est juste uniquement si <b>toutes</b> les bonnes réponses sont cochées et aucune fausse.</div>
-<div class="sc" id="sc">Score : 0 / 0</div>
-<div id="app"></div>
-<div><button onclick="done()">Résultat final</button><button class="g" onclick="location.reload()">Recommencer</button><button class="g" onclick="cp()">Copier le code HTML</button></div>
-<div id="fin" class="q" style="display:none"></div>
-</main>
+:root{--bg:#f6f7f9;--c:#fff;--t:#1a1d21;--m:#5c6670;--b:#d8dde3;--ok:#1b8a4b;--okb:#e3f5ea;--ko:#c0392b;--kob:#fbe5e2;--ms:#b9770e;--msb:#fdf1dc;--ac:#2456c7}
+@media(prefers-color-scheme:dark){:root{--bg:#14171b;--c:#1d2127;--t:#e8eaed;--m:#9aa4af;--b:#333a43;--ok:#4cc783;--okb:#17301f;--ko:#f07a6c;--kob:#37201d;--ms:#e8b04a;--msb:#34290f;--ac:#7aa2ff}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font:16px/1.5 system-ui,sans-serif;padding:12px;max-width:820px;margin:auto}
+h1{font-size:1.3rem;margin:8px 0}.bar{position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:5;display:flex;flex-wrap:wrap;gap:8px;align-items:center;border-bottom:1px solid var(--b)}
+select,button{font:inherit;padding:8px 12px;border-radius:8px;border:1px solid var(--b);background:var(--c);color:var(--t)}button{cursor:pointer;background:var(--ac);color:#fff;border:0}button.g{background:var(--c);color:var(--t);border:1px solid var(--b)}
+#sc{margin-left:auto;font-weight:600}
+.q{background:var(--c);border:1px solid var(--b);border-radius:12px;padding:14px;margin:14px 0}
+.tag{font-size:.75rem;color:var(--m);text-transform:uppercase;letter-spacing:.04em}
+.q h3{font-size:1rem;margin:4px 0 10px}
+.o{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border:1px solid var(--b);border-radius:8px;margin:6px 0;cursor:pointer}
+.o input{margin-top:5px}.o.ok{background:var(--okb);border-color:var(--ok)}.o.ko{background:var(--kob);border-color:var(--ko)}.o.ms{background:var(--msb);border-color:var(--ms)}
+.e{display:none;margin-top:10px;padding:10px;border-left:4px solid var(--ac);background:var(--bg);border-radius:6px;font-size:.93rem}
+.r{font-weight:600;margin-top:8px}
+</style></head><body>
+<h1>QCM difficile – Examen du nourrisson et de l’enfant</h1>
+<div class="bar"><select id="f"></select><button onclick="allv()">Tout valider</button><button class="g" onclick="rs()">Recommencer</button><span id="sc"></span></div>
+<div id="L"></div>
 <script>
-const T={2:"Page 2 – Règles basiques",4:"Pages 3-4 – Anamnèse : motif de la consultation",5:"Page 5 – Antécédents",7:"Pages 6-7 – Règles méthodiques d’examen",8:"Page 8 – Inspection",9:"Page 9 – Mesures de base",10:"Page 10 – Examen systématique",11:"Page 11 – Conclusion",13:"Pages 12-13 – Bon usage des examens complémentaires",14:"Page 14 – Bons motifs d’examens complémentaires",15:"Page 15 – Examens complémentaires en pédiatrie quotidienne",16:"Page 16 – Prélèvements biologiques",17:"Page 17 – Imagerie médicale",18:"Page 18 – Autres examens"};
+// [diapo, énoncé, [A,B,C,D,E], bonnes réponses, justification]
 const Q=[
-[2,"Règles basiques de l’examen pédiatrique :",["Les parents sont la principale source de renseignements dans la majorité des cas","L’enfant n’est interrogé qu’à partir de l’adolescence","Il faut mettre l’enfant et sa famille en confiance","Les situations de détresse vitale sont à éliminer d’emblée","Les symptômes s’interprètent avec les normes de l’adulte"],"ACD","L’enfant est un interlocuteur à part entière (B faux) et la symptomatologie s’apprécie pour un organisme en développement (E faux)."],
-[2,"« La symptomatologie est appréciée pour un organisme en développement » implique que :",["Les valeurs normales (FC, FR, PA) varient avec l’âge","Un même symptôme a la même signification à tout âge","L’enfant est un adulte en miniature","On se réfère à des normes et courbes adaptées à l’âge","L’enfant n’est interlocuteur que s’il parle couramment"],"AD","B et C nient la spécificité pédiatrique ; E contredit « l’enfant interlocuteur à part entière »."],
-[4,"Le motif de consultation comprend :",["Description précise des symptômes, analysés appareil par appareil","Uniquement les symptômes rapportés, sans le comportement","Les modifications du comportement","L’alimentation et l’appétit","L’aspect et la fréquence des selles"],"ACDE","Le comportement fait partie des éléments recherchés (B faux)."],
-[4,"Parmi les points à explorer à l’interrogatoire :",["Les douleurs","Les troubles de déglutition","Les vomissements","Un bilan biologique antérieur obligatoire","Uniquement l’appareil en cause"],"ABC","L’analyse est faite appareil par appareil, sans bilan préalable obligatoire."],
-[5,"Le contexte socio-familial comprend (selon le plan du cours) :",["Le rang dans la fratrie","Les conditions matérielles de vie à la maison","L’activité professionnelle des parents","Les vaccinations","La consanguinité"],"ABC","Vaccinations et consanguinité figurent comme rubriques distinctes."],
-[5,"À rechercher dans les antécédents :",["Passé médico-chirurgical des parents et de la fratrie","Consanguinité","Décès dans la fratrie","Maladie intrafamiliale","Grossesse et accouchement : inutiles après 5 ans"],"ABCD","Le déroulement de la grossesse et de l’accouchement est toujours à documenter, sans limite d’âge (E faux)."],
-[7,"Règles méthodiques d’examen :",["Environnement et cadre favorables","Enfant entièrement dévêtu","Commencer par les gestes invasifs pour gagner du temps","Aller du simple au compliqué, de l’anodin à l’invasif","Réserver les manœuvres désagréables ou douloureuses pour la fin"],"ABDE","C est l’inverse du principe."],
-[7,"Applications correctes de ces règles :",["Examiner la gorge à l’abaisse-langue en fin d’examen","Ausculter l’enfant calme avant de palper une zone douloureuse","Palper d’abord la zone douloureuse","Examiner sans dévêtir si l’enfant pleure","Mettre en confiance avant toute manœuvre"],"ABE","C et D contredisent « du simple à l’invasif » et « entièrement dévêtu »."],
-[8,"L’inspection recherche :",["L’état de conscience","La motilité spontanée","Le tonus et la vivacité","Le périmètre crânien","Une dysmorphie"],"ABCE","Le périmètre crânien est une mesure de base (page 9)."],
-[8,"Concernant la coloration cutanéo-muqueuse et les attitudes vicieuses :",["Cyanose, pâleur, ictère et éruption sont à noter (peau, lèvres)","Cyphose, torticolis, déformation d’un membre sont des attitudes vicieuses","Le tonus est une attitude vicieuse","L’ictère est une attitude vicieuse","La coloration des lèvres est notée"],"ABE","Tonus et ictère sont des items distincts."],
-[9,"Mesures de base :",["Poids","Taille","Périmètre crânien","Température corporelle","Glycémie capillaire systématique"],"ABCD","La glycémie n’est pas une mesure de base systématique."],
-[9,"Concernant ces mesures :",["Poids, taille et PC sont reportés sur la courbe de croissance","Elles sont comparées à une valeur adulte unique","La pression artérielle en fait partie","Elles ne sont prises que si le motif est une anomalie de croissance","Elles font partie de tout examen"],"ACE","Elles sont systématiques (D faux) et interprétées sur courbes d’âge (B faux)."],
-[10,"Examen systématique :",["Système respiratoire","Abdomen","Examen cardiovasculaire","Fond d’œil chez tout enfant","Évaluation de la douleur"],"ABCE","Le fond d’œil n’est pas systématique."],
-[10,"Figurent aussi dans l’examen systématique :",["Peau et aires ganglionnaires","Tête et cou","Évaluation du développement psychomoteur","Examen neuromusculaire et orthopédique","Biologie systématique"],"ABCD","La biologie n’est jamais systématique."],
-[11,"Conclusion de la consultation :",["Synthèse interrogatoire + examen clinique = diagnostic","L’analyse sémiologique classe les hypothèses par vraisemblance","Elle justifie d’éventuels examens complémentaires","Elle est transcrite dans le carnet de santé ou le dossier d’observation","Elle n’est faite qu’après les examens complémentaires"],"ABCD","Les examens complémentaires viennent après la synthèse clinique."],
-[11,"Analyse sémiologique et transcription :",["Elle doit être rigoureuse et exhaustive","Dossier d’observation si l’enfant est hospitalisé","Carnet de santé en consultation","Classement alphabétique des hypothèses","Examens systématiques pour confirmer"],"ABC","Le classement se fait par vraisemblance, pas alphabétique."],
-[13,"Bon usage des examens complémentaires :",["Ils ne sont que le complément de l’examen clinique","La réflexion précède la demande","On demande d’abord, on réfléchit ensuite","On se demande : « qu’attend-on de cet examen ? »","L’examen complémentaire est l’acte médical par excellence"],"ABD","L’acte médical par excellence est la consultation."],
-[13,"À propos de la consultation et de l’examen complémentaire :",["La consultation est l’acte médical par excellence","L’examen complémentaire ne vient qu’après","Il remplace l’examen clinique si l’enfant coopère mal","Un bilan systématique est le meilleur moyen de rassurer","La réflexion suit la demande d’examen"],"AB","C, D, E contredisent le principe."],
-[14,"Les trois circonstances justifiant un examen complémentaire :",["Établir le diagnostic ou les orientations diagnostiques","Porter un pronostic ou identifier une complication modifiant la thérapeutique","Surveiller l’efficacité thérapeutique","Demande des parents","Dépistage systématique"],"ABC","Seules les trois circonstances A, B, C sont retenues."],
-[14,"Cas où un examen est justifié :",["Contrôle sous traitement pour juger de son efficacité","Échographie pour rechercher une complication qui changerait la prise en charge","Radiographie pour orienter le diagnostic","Bilan de confirmation sans conséquence thérapeutique","Bilan par habitude"],"ABC","D et E ne répondent à aucune des trois indications."],
-[15,"En pédiatrie quotidienne :",["Pas d’examen systématique","Examens orientés par la synthèse clinique","Bilan standard à chaque consultation","Radiographie thoracique systématique si fièvre","Les examens précèdent l’examen clinique"],"AB","C, D, E sont des demandes systématiques ou non orientées."],
-[16,"Prélèvements biologiques :",["Sang","Urines","Selles","Liquide céphalorachidien","Scintigraphie"],"ABCD","La scintigraphie est de l’imagerie."],
-[16,"Autres liquides et tissus :",["Liquide pleural","Ascite","Salive, crachat","Biopsie (examen anatomopathologique) = prélèvement de tissu","LCR classé dans « autres liquides »"],"ABCD","Le LCR a sa propre rubrique."],
-[17,"Imagerie médicale :",["Échographie","Tomodensitométrie (scanner)","IRM","Scintigraphie","Électrocardiogramme"],"ABCD","L’ECG fait partie des « autres examens »."],
-[17,"Concernant l’imagerie :",["TDM = scanner","IRM = imagerie par résonance magnétique","La radiographie conventionnelle en fait partie","La fibroscopie est de l’imagerie","L’EEG est de l’imagerie"],"ABC","Fibroscopie : exploration digestive ; EEG : exploration fonctionnelle."],
-[18,"Autres examens :",["Électro-encéphalogramme","Électromyogramme","Électrocardiogramme","Audiogramme","Scintigraphie"],"ABCD","La scintigraphie appartient à l’imagerie."],
-[18,"Autres examens (suite) :",["Tympanogramme","Tests psychométriques","Tests orthophoniques","Fibroscopie = exploration digestive","IRM"],"ABCD","L’IRM relève de l’imagerie."]
+[2,'Règles basiques de l’examen pédiatrique : quelles propositions sont exactes ?',['Mettre l’enfant et sa famille en confiance','Éliminer les situations de détresse vitale','Les parents sont la source principale de renseignements dans la majorité des cas','L’enfant n’est pas un interlocuteur : seuls les parents répondent','La symptomatologie est appréciée comme chez l’adulte'],'ABC','A, B, C conformes au cours. D faux : l’enfant est un interlocuteur à part entière. E faux : la symptomatologie est appréciée pour un organisme en développement.'],
+[2,'À propos des règles basiques :',['L’enfant doit être un interlocuteur à part entière','La symptomatologie est appréciée pour un organisme en développement','La détresse vitale est recherchée après l’examen complet','Les parents sont l’unique source de renseignements','Les parents restent la source principale de renseignements dans la majorité des cas'],'ABE','A, B, E exacts. C faux : on élimine d’emblée une détresse vitale. D faux : « principale dans la majorité des cas » ≠ « unique ».'],
+[4,'Motif de consultation – conduite de l’analyse :',['Description précise des symptômes évoqués','Symptômes analysés globalement, sans distinction d’appareil','Analyse appareil par appareil','Recherche des modifications du comportement','Analyse de l’alimentation et de l’appétit'],'ACDE','B faux : l’analyse est faite appareil par appareil. Les autres sont des éléments du cours.'],
+[4,'Éléments à explorer dans le motif de consultation :',['Troubles de déglutition','Vomissements','Aspect et fréquence des selles','Rang dans la fratrie','Vaccinations'],'ABC','A, B, C = motif de consultation. D et E appartiennent aux antécédents.'],
+[5,'Contexte socio-familial (rubrique des antécédents) :',['Rang dans la fratrie','Conditions matérielles de vie à la maison','Activité professionnelle des parents','Consanguinité','Décès dans la fratrie'],'ABC','A, B, C sont les sous-rubriques du contexte socio-familial. D et E sont des items distincts des antécédents.'],
+[5,'Autres items des antécédents cités dans le cours :',['Passé médico-chirurgical des parents et de la fratrie','Consanguinité','Décès dans la fratrie','Maladie intrafamiliale','Résultats de l’imagerie de l’enfant'],'ABCD','A–D cités. E n’est pas un antécédent : relève des examens complémentaires.'],
+[5,'Antécédents – autres rubriques :',['Déroulement de la grossesse et de l’accouchement','Antécédents personnels','Vaccinations','Le rang dans la fratrie relève des antécédents personnels','Le motif de consultation fait partie des antécédents'],'ABC','D faux : le rang dans la fratrie relève du contexte socio-familial. E faux : le motif est une rubrique à part de l’anamnèse.'],
+[7,'Règles méthodiques d’examen :',['Environnement et cadre favorables','Enfant mis en confiance','Enfant entièrement dévêtu','Aller de l’invasif vers l’anodin','Réserver les manœuvres désagréables ou douloureuses pour la fin'],'ABCE','D inversé : on va du simple au compliqué, de l’anodin à l’invasif.'],
+[7,'Ordre de l’examen :',['Du simple au compliqué','De l’anodin à l’invasif','Manœuvres douloureuses d’emblée pour gagner du temps','Examen sur enfant habillé pour ne pas l’inquiéter','Manœuvres potentiellement douloureuses réservées pour la fin'],'ABE','C inversé. D faux : l’enfant doit être entièrement dévêtu.'],
+[8,'Inspection – éléments recherchés :',['Etat de conscience','Motilité spontanée','Attitudes vicieuses : cyphose, torticolis, déformation d’un membre','Tonus, vivacité','Poids et périmètre crânien'],'ABCD','E = mesures de base, pas inspection.'],
+[8,'Inspection – coloration et aspect :',['Cyanose, pâleur, ictère, éruption : coloration de la peau et des lèvres','Une dysmorphie est recherchée','La cyphose est une attitude vicieuse','Le torticolis est une attitude vicieuse','Le périmètre crânien fait partie de l’inspection'],'ABCD','E faux : mesure de base.'],
+[9,'Mesures de base :',['Poids, taille et périmètre crânien reportés sur la courbe de croissance','Température corporelle','Pression artérielle','Auscultation cardiaque','Électrocardiogramme'],'ABC','D appartient à l’examen cardiovasculaire (systématique). E = autre examen.'],
+[9,'À propos des mesures de base :',['Poids, taille et PC sont reportés sur la courbe de croissance','Seul le poids est reporté sur la courbe','La pression artérielle en fait partie','La température corporelle en fait partie','Elles sont facultatives'],'ACD','B faux (poids, taille ET PC). E faux : ce sont des mesures de base.'],
+[10,'Examen systématique (1) :',['Peau et aires ganglionnaires','Tête et cou','Système respiratoire','Examen cardiovasculaire','Examen gynécologique systématique'],'ABCD','E non cité dans le cours.'],
+[10,'Examen systématique (2) :',['Examen de l’abdomen','Examen neuromusculaire et orthopédique','Évaluation du développement psychomoteur','Évaluation de la douleur','Fond d’œil systématique'],'ABCD','E non cité.'],
+[11,'Conclusion de la consultation :',['La synthèse de l’interrogatoire et de l’examen clinique = diagnostic','Une analyse sémiologique rigoureuse et exhaustive classe les hypothèses par vraisemblance','Elle justifie d’éventuels examens complémentaires','La synthèse est transcrite dans le carnet de santé ou le dossier d’observation si hospitalisé','Le diagnostic repose d’abord sur les examens complémentaires'],'ABCD','E faux : le diagnostic vient de la clinique (interrogatoire + examen).'],
+[11,'Transcription et classement des hypothèses :',['Synthèse notée dans le carnet de santé','Dossier d’observation si l’enfant est hospitalisé','Hypothèses classées par ordre alphabétique','Examens complémentaires demandés avant l’analyse sémiologique','Synthèse uniquement orale'],'AB','C faux (ordre de vraisemblance). D faux (la réflexion précède). E faux (transcrite).'],
+[13,'Bon usage des examens complémentaires :',['Ils ne sont que le complément de l’examen clinique','On doit se demander : qu’attend-on de cet examen ?','La réflexion précède la demande','La consultation est l’acte médical par excellence','Ils précèdent la consultation'],'ABCD','E faux : l’examen complémentaire ne vient qu’après la consultation.'],
+[13,'Principes complémentaires :',['La réflexion suit la demande d’examen','L’examen complémentaire remplace l’examen clinique','Il ne vient qu’après la consultation','On doit toujours savoir ce qu’on attend de l’examen','Il n’est que le complément de l’examen clinique'],'CDE','A inversé. B faux : il ne remplace pas la clinique.'],
+[14,'Les trois bons motifs de demander un examen complémentaire :',['Établir le diagnostic ou du moins les orientations diagnostiques','Porter un pronostic ou identifier une complication changeant l’attitude thérapeutique','Surveiller l’efficacité thérapeutique si l’évolution l’exige','Rassurer les parents','Par habitude, de façon systématique'],'ABC','D et E ne sont pas des motifs retenus.'],
+[14,'Un examen complémentaire est justifié si :',['Il identifie une complication impliquant une attitude thérapeutique différente','L’évolution nécessite de surveiller l’efficacité du traitement','Il est demandé avant tout examen clinique','Il permet d’établir au moins une orientation diagnostique','Il est réalisé systématiquement chez tout enfant'],'ABD','C et E contraires au cours.'],
+[15,'Examens complémentaires en pédiatrie quotidienne :',['Pas d’examen systématique','Toujours orientés par la synthèse de l’examen clinique','Bilan systématique à chaque consultation','Bilan de routine chez tout nourrisson','Guidés par l’examen clinique'],'ABE','C et D faux : pas d’examen systématique.'],
+[16,'Prélèvements biologiques cités :',['Sang','Urines','Selles','Liquide céphalorachidien','Scintigraphie'],'ABCD','E = imagerie, pas un prélèvement.'],
+[16,'Autres prélèvements :',['Liquide pleural','Ascite','Salive, crachat','Biopsie (prélèvement de tissu, ex. anapath)','Le LCR est classé dans « autres liquides »'],'ABCD','E faux : le LCR est cité séparément. (A, B, C = autres liquides ; D = tissu.)'],
+[17,'Imagerie médicale citée :',['Radiographie conventionnelle','Échographie','Tomodensitométrie (scanner)','IRM','Électro-encéphalogramme'],'ABCD','E = « autre examen », pas imagerie.'],
+[17,'Imagerie – identification :',['Scintigraphie','IRM = imagerie par résonance magnétique','TDM = scanner','EEG','Fibroscopie'],'ABC','D et E sont classés dans « autres examens ».'],
+[18,'Autres examens cités :',['Électro-encéphalogramme','Électromyogramme','Électrocardiogramme','Audiogramme','Scintigraphie'],'ABCD','E = imagerie.'],
+[18,'Autres examens (suite) :',['Tympanogramme','Tests psychométriques','Tests orthophoniques','Fibroscopie (explorations digestives)','Biopsie'],'ABCD','E = prélèvement de tissu, pas dans « autres examens ».'],
+[18,'Lesquels sont des « autres examens » et NON de l’imagerie ?',['Électro-encéphalogramme','Échographie','Électromyogramme','Scanner','Audiogramme'],'ACE','B et D = imagerie.']
 ];
-const L="ABCDE",st=Q.map(()=>({s:new Set(),d:false,ok:false}));let lp=0,app=document.getElementById("app");
-Q.forEach((q,i)=>{if(q[0]!=lp){lp=q[0];app.insertAdjacentHTML("beforeend",`<div class="pg">${T[lp]}</div>`)}
-let d=document.createElement("div");d.className="q";d.id="q"+i;
-d.innerHTML=`<h3>${i+1}. ${q[1]}</h3>`+q[2].map((o,j)=>`<div class="o" data-i="${i}" data-j="${j}"><b>${L[j]}.</b><span>${o}</span></div>`).join("")+`<button onclick="val(${i})">Valider</button><div class="ex" style="display:none"></div>`;
-app.appendChild(d)});
-app.addEventListener("click",e=>{let o=e.target.closest(".o");if(!o)return;let i=+o.dataset.i,j=+o.dataset.j;if(st[i].d)return;st[i].s.has(j)?st[i].s.delete(j):st[i].s.add(j);o.classList.toggle("s")});
-function val(i){let s=st[i];if(s.d)return;s.d=true;let q=Q[i],box=document.getElementById("q"+i);
-box.querySelectorAll(".o").forEach((o,j)=>{let c=q[3].includes(L[j]);o.classList.remove("s");if(c)o.classList.add("ok");else if(s.s.has(j))o.classList.add("ko")});
-s.ok=q[3].split("").sort().join("")==[...s.s].map(j=>L[j]).sort().join("");
-let x=box.querySelector(".ex");x.style.display="block";x.innerHTML=`<b>${s.ok?"✅ Correct":"❌ Incorrect"} – Réponses : ${q[3].split("").join(", ")}</b><br>${q[4]}`;
-let n=st.filter(a=>a.d).length,k=st.filter(a=>a.ok).length;document.getElementById("sc").textContent=`Score : ${k} / ${n} (sur ${Q.length})`}
-function done(){let k=st.filter(a=>a.ok).length,f=document.getElementById("fin");f.style.display="block";f.innerHTML=`<h3>Résultat : ${k} / ${Q.length} (${Math.round(100*k/Q.length)} %)</h3>`;f.scrollIntoView()}
-function cp(){let t="<!DOCTYPE html>\n"+document.documentElement.outerHTML;try{navigator.clipboard.writeText(t).then(()=>alert("Code HTML copié"),()=>alert("Copie impossible"))}catch(e){alert("Copie impossible")}}
+const L=document.getElementById('L'),F=document.getElementById('f'),S=document.getElementById('sc');
+const pages=[...new Set(Q.map(q=>q[0]))];
+F.innerHTML='<option value="0">Toutes les pages du cours</option>'+pages.map(p=>`<option value="${p}">Diapo ${p}</option>`).join('');
+F.onchange=()=>{document.querySelectorAll('.q').forEach(e=>e.style.display=(F.value==0||e.dataset.p==F.value)?'':'none')};
+const done={};
+Q.forEach((q,i)=>{const d=document.createElement('div');d.className='q';d.dataset.p=q[0];
+d.innerHTML=`<div class="tag">Diapo ${q[0]} · Q${i+1}</div><h3>${q[1]} <small>(plusieurs réponses possibles)</small></h3>`+
+q[2].map((t,j)=>`<label class="o" data-l="${'ABCDE'[j]}"><input type="checkbox" value="${'ABCDE'[j]}"><span><b>${'ABCDE'[j]}.</b> ${t}</span></label>`).join('')+
+`<button onclick="v(${i})">Valider</button><div class="r"></div><div class="e"><b>Justification :</b> ${q[4]}<br><b>Réponse(s) :</b> ${q[3].split('').join(', ')}</div>`;L.appendChild(d)});
+function v(i){const d=L.children[i],q=Q[i];if(done[i]!==undefined)return;
+const sel=[...d.querySelectorAll('input:checked')].map(x=>x.value).join('');
+d.querySelectorAll('.o').forEach(o=>{const l=o.dataset.l,c=q[3].includes(l),s=sel.includes(l);o.querySelector('input').disabled=true;
+if(c&&s)o.classList.add('ok');else if(!c&&s)o.classList.add('ko');else if(c)o.classList.add('ms')});
+const ok=sel===q[3];done[i]=ok;d.querySelector('.r').textContent=ok?'✔ Correct':'✘ Incorrect';d.querySelector('.r').style.color=ok?'var(--ok)':'var(--ko)';
+d.querySelector('.e').style.display='block';d.querySelector('button').style.display='none';sc()}
+function sc(){const n=Object.keys(done).length,g=Object.values(done).filter(Boolean).length;S.textContent=`Score : ${g}/${n} (sur ${Q.length})`}
+function allv(){Q.forEach((_,i)=>v(i))}
+function rs(){location.reload()}
+sc();
 </script></body></html>
