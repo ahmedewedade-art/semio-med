@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><title>Quiz – Examens complémentaires en pédiatrie</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--tx:#1c2230;--mu:#667;--bd:#d9deea;--ac:#2f5fd0;--ok:#1f8a4c;--ko:#c93a3a;--okb:#e5f6ec;--kob:#fbe9e9;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12151c;--card:#1c212b;--tx:#e8ebf2;--mu:#9aa3b5;--bd:#333b4b;--ac:#7ea2ff;--ok:#5fd08d;--ko:#ff8a8a;--okb:#16352a;--kob:#3a1d1d}}
+:root[data-theme="dark"]{--bg:#12151c;--card:#1c212b;--tx:#e8ebf2;--mu:#9aa3b5;--bd:#333b4b;--ac:#7ea2ff;--ok:#5fd08d;--ko:#ff8a8a;--okb:#16352a;--kob:#3a1d1d}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.45 system-ui,-apple-system,Segoe UI,sans-serif;padding:12px}
+main{max-width:760px;margin:auto}h1{font-size:1.25rem;margin:.4rem 0}
+.sub{color:var(--mu);font-size:.9rem;margin-bottom:10px}
+.pg{margin:22px 0 8px;font-weight:700;color:var(--ac);border-bottom:2px solid var(--ac);padding-bottom:3px}
+.q{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin:10px 0}
+.q h3{font-size:1rem;margin:0 0 8px}
+.o{display:flex;gap:8px;align-items:flex-start;border:1px solid var(--bd);border-radius:8px;padding:8px;margin:6px 0;cursor:pointer}
+.o.s{border-color:var(--ac);background:rgba(47,95,208,.1)}
+.o.ok{border-color:var(--ok);background:var(--okb)}.o.ko{border-color:var(--ko);background:var(--kob)}
+.o b{min-width:1.2em}
+button{font:inherit;border:0;border-radius:8px;padding:8px 14px;background:var(--ac);color:#fff;cursor:pointer;margin:4px 6px 4px 0}
+button.g{background:var(--mu)}
+.ex{margin-top:8px;font-size:.92rem;color:var(--mu);border-left:3px solid var(--ac);padding-left:8px}
+.sc{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:6px 0;font-weight:700;z-index:5}
+</style></head><body><main>
+<h1>🔬 Quiz – Principaux examens complémentaires en pédiatrie</h1>
+<div class="sub">QCM à réponses multiples (A–E), niveau difficile. Une question est juste uniquement si <b>toutes</b> les bonnes réponses sont cochées et aucune fausse.</div>
+<div class="sc" id="sc">Score : 0 / 0</div>
+<div id="app"></div>
+<div><button onclick="done()">Résultat final</button><button class="g" onclick="location.reload()">Recommencer</button><button class="g" onclick="cp()">Copier le code HTML</button></div>
+<div id="fin" class="q" style="display:none"></div>
+</main>
+<script>
+const T={3:"Page 3 – Spécificités biologiques : introduction (1)",4:"Page 4 – Introduction (2) : règles de prélèvement",5:"Page 5 – Introduction (3) : principaux prélèvements",6:"Pages 6-7 – Hématologie : NFS",8:"Page 8 – NFS : spécificités des premiers mois",9:"Page 9 – Hématologie : autres examens",10:"Pages 10-11 – Hémogrammes : cas 1 et cas 2",12:"Page 12 – Hémostase",13:"Pages 13-14 – Immunologie",15:"Page 15 – Biochimie (1)",16:"Page 16 – Biochimie (2)",17:"Pages 17-18 – Liquide céphalo-rachidien",19:"Pages 19-22 – Cas clinique du nouveau-né Ali K.",24:"Pages 23-24 – Sémiologie radiologique : introduction",26:"Page 26 – Radiographie standard",27:"Page 27 – Imagerie osseuse chez l’enfant",28:"Pages 28-29 – Radiographie avec opacification",30:"Pages 30-31 – Échographie : généralités et indications",32:"Pages 32-33 – Échographie : particularités et SHP",34:"Page 34 – Échographie de l’appareil urinaire",35:"Page 35 – Scanner (TDM)",36:"Page 36 – IRM",37:"Pages 37-38 – Radiologie interventionnelle et autres explorations"};
+const Q=[
+[3,"En pédiatrie, techniques et valeurs normales peuvent varier selon :",["L’âge","Le sexe","Le régime alimentaire","La méthode utilisée","Le groupe sanguin"],"ABCD","Cités : âge, sexe, régime alimentaire, méthode utilisée."],
+[3,"Principes généraux des bilans :",["Ni systématiques ni indispensables","Analyse clinique soigneuse préalable obligatoire","Bénéfice > coût > risque iatrogène","La biologie moléculaire et la génétique fournissent des éléments diagnostiques essentiels","Un bilan systématique à l’admission est recommandé"],"ABCD","Les examens sont guidés par la clinique, jamais systématiques."],
+[4,"Règles de prélèvement :",["Confirmer la nécessité du bilan","Regrouper et identifier les prélèvements","Prélever le plus petit volume de sang possible et le quantifier","Mettre l’enfant et ses parents en confiance","Multiplier les prélèvements séparés"],"ABCD","Il faut regrouper les prélèvements (E faux)."],
+[4,"Températures de conservation et transport :",["37° pour les cultures bactériologiques","20 à 30° pour ionogramme, bilirubinémie et caryotype","4° pour la cytologie","4° pour les cultures bactériologiques","37° pour la cytologie"],"ABC","D et E inversent les températures du cours."],
+[5,"Examens au lit :",["Hémoglobinomètre","Glycémie","Acétonurie","Bilirubinomètre","Médullogramme"],"ABCD","Le médullogramme est un prélèvement de moelle osseuse."],
+[5,"Principaux prélèvements (1) :",["Bronchiques","Amniotiques","Sécrétions digestives et liquide d’ascite","Pleuraux","Péricardiques"],"ABCD","Les prélèvements péricardiques ne figurent pas dans la liste."],
+[5,"Principaux prélèvements (2) :",["Synoviaux","Sueur","Moelle osseuse (médullogramme)","Sang veineux, artériel, capillaire","Biopsie rénale"],"ABCD","La biopsie rénale n’est pas citée."],
+[6,"NFS (hémogramme) :",["Examen quantitatif et qualitatif des éléments figurés du sang","Réalisée sur sang total, tube EDTA","Volume nécessaire de 0,5 à 2,7 ml selon l’âge et le système","Réalisée sur tube sec sans anticoagulant","Technique : automate (cytochimie, fluorométrie…)"],"ABCE","Le tube est un tube EDTA."],
+[6,"Paramètres de la NFS et unités :",["GR, GB, PQ","Hb en g/dl, Hématocrite en %","VGM en μ³","TCMH en pg","CCMH en pg"],"ABCD","La CCMH s’exprime en g/dl."],
+[6,"Autres informations de la NFS :",["Réticulocytes à spécifier sur la demande","Réticulocytes en éléments/mm³ ou % des GR","Formule leucocytaire en % et valeurs absolues","Frottis : étude morphologique GR, GB, PQ","Réticulocytes fournis systématiquement"],"ABCD","Les réticulocytes doivent être demandés."],
+[8,"À la naissance :",["Polyglobulie physiologique","GR 5,5 millions/mm³, Hb 18 g/dl","Macrocytose (VGM = 100 μ³)","Anémie si Hb ≤ 13 g/dl","Microcytose physiologique"],"ABCD","La naissance est marquée par une macrocytose."],
+[8,"Évolution ultérieure :",["Fin du 1er trimestre : anémie fréquente (Hb moyenne 11,5 g/dl)","Valeurs de l’adulte vers 6 ans","1re semaine : hyperleucocytose 9 000-30 000/mm³","Leucocytes > 10 000/mm³ jusqu’à 3 ans","Polyglobulie à la fin du 1er trimestre"],"ABCD","L’anémie, non la polyglobulie, caractérise le 1er trimestre."],
+[8,"Formule leucocytaire entre 1 et 4 ans :",["Inversion de la proportion PNN / lymphocytes","PNN 30-35 %","Lymphocytes 60-65 %","PNN 60-65 %","Inversion à partir de 6 ans"],"ABC","Prédominance lymphocytaire entre 1 et 4 ans."],
+[9,"Bilan étiologique d’une anémie :",["Fer sérique, ferritine, transferrine : valeurs comparables aux normes usuelles","Après 1 an : Hb A2 < 3,5 %","Traces d’Hb fœtale","Majorité d’Hb A1","Hb fœtale majoritaire après 1 an"],"ABCD","L’électrophorèse de l’Hb est un examen clé (+++)."],
+[9,"Enzymes érythrocytaires et test de Coombs :",["Hétérozygotes : taux normaux ou limites (G6PD, pyruvate kinase)","Coombs direct : anticorps fixés sur les GR","Coombs direct : anticorps libres du sérum","Coombs indirect : anticorps du sérum agglutinant les GR in vitro","Coombs indiqué dans la RAI et les auto-anticorps libres"],"ABDE","C est la définition du Coombs indirect."],
+[9,"Myélogramme, biopsie ostéo-médullaire et génétique :",["Ponction des épines iliaques antéro- et postéro-supérieures","Le caryotype médullaire recherche des anomalies chromosomiques prédisposant aux hémopathies malignes","La génétique moléculaire est inutile en hématologie","Ponction sternale systématique","La BOM remplace toujours le myélogramme"],"AB","Les autres propositions sont absentes du cours."],
+[10,"Cas 1 (Hb 6,4 g/dl, GR 2,36, VGM 83, TCMH 27,4, CCMH 33, PLA 564) :",["Anémie sévère","Anémie normocytaire normochrome","Question : hémorragie aiguë ou hémolyse ?","Légère hyperplaquettose","Anémie microcytaire"],"ABCD","VGM et TCMH sont normaux."],
+[10,"Cas 2 (GB 30,89, lymphocytes 20,06, Hb 5,7, VGM 82,4, PLT 22) :",["Anémie","Thrombopénie sévère","Hyperleucocytose avec lymphocytose","VGM dans les normes","Polyglobulie"],"ABCD","Hb et plaquettes sont effondrées."],
+[12,"Hémostase :",["Prélèvement sur anticoagulant","Objectif : évaluer un risque hémorragique ou de thrombose","Chez le nouveau-né : fibrinogène et facteur V similaires à l’adulte","Facteurs vitamine K dépendants (II, VII, IX, X) abaissés","Fibrinogène abaissé"],"ABCD","Le fibrinogène est similaire à l’adulte."],
+[12,"Spécificités chez le nouveau-né :",["Facteurs vit K dépendants d’autant plus bas que le prématuré est immature","TCA allongé","Facteurs XI, XII, prékallicréine, kininogène abaissés","Ils initient la voie endogène","Hémostase mature dès la naissance"],"ABCD","L’hémostase n’est mature qu’après un mois."],
+[13,"Immunologie du nouveau-né :",["Seules IgG maternelles à la naissance (passage placentaire)","Immunisation passive","IgG maternelles disparaissent vers 6-9 mois","Taux adultes atteints en plusieurs années, notamment IgA et IgM","IgM maternelles traversent le placenta"],"ABCD","Seules les IgG traversent le placenta."],
+[13,"Lymphocytes :",["Pourcentages de T et B évoluent","CD4 et CD8 plus élevés chez le nourrisson","Notion importante pour la surveillance du VIH","CD4 plus bas que chez l’adulte","Immunisation active à la naissance"],"ABC","D et E sont faux."],
+[13,"Courbe des immunoglobulines :",["IgG maternelles maximales vers la naissance","Niveau d’IgG transitoirement bas après leur disparition","IgM atteignent plus tôt le niveau adulte que les IgG","IgA : niveau le plus faible","IgG maternelles persistent à l’âge adulte"],"ABCD","Les IgG maternelles disparaissent."],
+[15,"Ionogramme et gaz du sang :",["Prématuré : excrétion accrue de sodium","Risque d’hyponatrémie les premiers jours","Kaliémie surestimée par hémolyse en micro-méthode","Gaz du sang : tenir compte des conditions de prélèvement","Prématuré : hypernatrémie"],"ABCD","Hyponatrémie, non hypernatrémie."],
+[15,"Glycémie à jeun du nouveau-né :",["Plus basse que chez l’adulte","2,8 à 4,4 mmol/l","Soit 0,5 à 1 g/l","2 à 3 g/l","Identique à l’adulte"],"ABC","Normale : 0,5 à 1 g/l."],
+[16,"Métabolisme phosphocalcique :",["Calcémie totale plus basse la 1re année","Phosphorémie souvent élevée","Phosphatases alcalines élevées (croissance intense)","Calcémie plus haute que chez l’adulte","Phosphatases alcalines basses"],"ABC","Croissance intense = PAL élevées."],
+[16,"Filtration glomérulaire, protéinurie, lipides :",["FG calculée par la clairance de la créatinine","FG de l’adulte vers 6 ans","Adapter les aminosides","Protéinurie jusqu’à 0,5 g/L les premiers jours","Cholestérol en hausse avec l’âge, < 4,5 mmol/l avant 5 ans"],"ACDE","La FG atteint l’adulte vers 2 ans."],
+[17,"LCR du nouveau-né :",["Plus riche en protéines et en cellules","Glycorachie = moitié de la glycémie à tout âge","Glycorachie égale à la glycémie","Après 1 mois : protides 0,10-0,40 g/l","Prématuré : ≤ 50 éléments/mm³"],"ABDE","La glycorachie est la moitié de la glycémie."],
+[17,"Valeurs du LCR :",["Nouveau-né : protides 0,20-1,20 g/l","Nouveau-né : glucose 0,20-0,40 g/l","Nouveau-né : ≤ 30 éléments/mm³","Prématuré : glucose 0,35-0,54 g/l","Après 1 mois : glucose 0,35-0,54 g/l"],"ABCE","Prématuré : glucose 0,25-0,40."],
+[17,"Prématuré et limites :",["> 50 éléments/mm³ : méningite","Protides 0,25-1,30 g/l","Glucose 0,25-0,40 g/l","Après 1 mois : protides plus élevées que chez le nouveau-né","≤ 5 éléments/mm³"],"ABC","Après 1 mois, les protides baissent."],
+[17,"LCR d’un nourrisson de 3 mois (> 1000 leucocytes, PNN 85 %, protéines 2,10 g/l, glycorachie 0,02 g/l) :",["Méningite bactérienne","LCR trouble","Hyperprotéinorachie","Hypoglycorachie majeure","LCR normal"],"ABCD","Pléiocytose à PNN, protéines hautes, glucose effondré."],
+[19,"Cas Ali K. (9 jours, saignement ombilical, rectorragies, pâleur, hypotonie) :",["TP à 30 %","Maladie hémorragique du nouveau-né (MHNN)","Vitamine K IV à dose curative","CRP à 6 mg/l normale","Infection bactérienne retenue"],"ABCD","CRP normale, hémoculture stérile, LCR non infecté."],
+[19,"NFS du cas (Hb 10, VGM 102, GB 20 000, PQ 270 000) :",["Hb 10 g/dl : anémie (≤ 13)","Macrocytose normale pour l’âge","PQ 270 000 : thrombopénie","CRP normale","LCR : GB 28/mm³, protéines 1 g/l dans les normes du nouveau-né"],"ABDE","Les plaquettes sont normales."],
+[19,"Éliminer une infection :",["Glycorachie 0,3 g/l = 60 % de la glycémie (0,5 g/l)","GB 28/mm³ ≤ 30","Bactériologie négative","Hémoculture stérile","Méningite bactérienne"],"ABCD","Pas de signe d’infection."],
+[19,"Signes neurologiques (hypotonie, réflexes faibles, hyporéactivité) :",["ETF puis scanner cérébral : hématome sous-dural","Cause : déficit en vitamine K","Enfant opéré, évolution favorable","Méningite","Encéphalite"],"ABC","La cause est hémorragique."],
+[24,"Introduction à la radiologie pédiatrique :",["Techniques plus performantes et nombreuses","Dialogue avec le radiologue important","Choix des modalités fiables et moins invasives","Spécificités pédiatriques sur presque tous les organes","Spécificités limitées à l’os"],"ABCD","Les spécificités concernent presque tous les organes."],
+[26,"Radiographie standard :",["Débrouillage rapide, possible au lit","Disponible et peu coûteuse","Crâne, rachis, membres, thorax, abdomen (ASP)","Fracture, atteinte pleuro-pulmonaire, occlusion, péritonite, calcul, matériel étranger","Examen de référence des tumeurs abdominales"],"ABCD","Le scanner est l’examen de choix pour les tumeurs."],
+[27,"Âge osseux :",["Radiographie du poignet et de la main gauche","Atlas de Greulich et Pyle","Étude du nombre et de la dimension des points d’ossification","Radiographie du genou droit","Radiographie du rachis"],"ABC","On utilise le poignet et la main gauche."],
+[27,"Squelette en croissance :",["Un des 3 paramètres de la croissance staturale (AO, AC, AS)","Cartilages de conjonction, épiphyses, sutures ouvertes","Interprétation selon âge, maturation osseuse et clinique","Les os du carpe sont des os longs","L’AO est un index de maturation du cartilage de conjugaison"],"ABCE","Le carpe = os courts."],
+[28,"Produits de contraste :",["Barytée : tube digestif seulement, CI en cas de perforation","PC iodés hydrosolubles","Lipidiol huileux : radiologie interventionnelle, embolisation","Barytée pour l’arbre urinaire","PC iodés : allergie plus fréquente chez l’enfant"],"ABC","L’allergie est réelle mais moins fréquente chez l’enfant."],
+[28,"Précautions avec les PC iodés :",["Risque allergique réel","Adrénaline à portée de main","Extravasation : inflammation et nécrose cutanée","Suivi dynamique en salle de RX avec amplificateur de brillance","Extravasation sans risque"],"ABCD","L’extravasation est dangereuse."],
+[30,"Échographie :",["De plus en plus fiable, disponible, mobile","Sans effets secondaires","Bonne qualité chez l’enfant (absence de graisse)","Opérateur-dépendante","Informations morphologiques seulement"],"ABCD","Aussi des informations hémodynamiques (Doppler)."],
+[30,"Indications de l’échographie :",["Organes pleins (foie, reins)","Masses","Dilatations urinaires et digestives","Thromboses (Doppler)","Épanchements : pleuraux, péricardiques, abdominaux"],"ABCDE","Toutes sont citées au cours."],
+[32,"Particularités pédiatriques :",["Sténose hypertrophique du pylore","Invagination intestinale aiguë","Hydrocéphalies et hémorragies intracrâniennes (ETF)","Épanchements liquides séreux","Fractures complexes du crâne"],"ABCD","Les fractures du crâne ne sont pas citées."],
+[32,"Échographie de la SHP :",["Normal : L = 10 mm, e = 2 mm","SHP : L ≥ 15 mm, e ≥ 4 mm","Le canal pylorique ne s’ouvre pas","Passages rares ou absents","Les ondes péristaltiques franchissent l’obstacle"],"ABCD","Les ondes viennent buter contre l’obstacle."],
+[34,"Échographie rénale :",["Reins plus globuleux que chez l’adulte","Largeur : 4-4,5 cm à la naissance, 6 cm à 1 an, 8 cm à 5 ans, 10 cm à 10 ans","6 cm à la naissance","Analyse de la taille, du cortex, de l’échogénicité, de la différenciation cortico-médullaire","Recherche de kyste, dilatation, calcification, tumeur"],"ABDE","À la naissance : 4 à 4,5 cm."],
+[34,"Surrénales :",["Bien visibles à la naissance","Rapport surrénale/rein = 1/3","Médullo-surrénale plus échogène que la cortico-surrénale","Chez l’enfant, en général non visibles","Cortico-surrénale plus échogène"],"ABCD","La médullaire est plus échogène."],
+[35,"Scanner (TDM) :",["Reconstruction 3D","Transport du malade indispensable","Irradiation importante, PC souvent utile","Sédation parfois obligatoire","Sans irradiation"],"ABCD","Examen irradiant."],
+[35,"Indications de choix du scanner :",["Pathologie neurologique d’urgence","Pathologie thoracique","Tumeurs abdominales","Traumatismes abdominaux","Sténose hypertrophique du pylore"],"ABCD","La SHP relève de l’échographie."],
+[36,"IRM :",["Immobilité prolongée nécessaire","Prémédication ou anesthésie obligatoires","Pathologies cérébrales et de la moelle épinière","Angio-RM : trombophlébites et malformations vasculaires","Irradiante"],"ABCD","L’IRM n’est pas irradiante."],
+[37,"Radiologie interventionnelle :",["Traitement endovasculaire ou percutané guidé par l’imagerie","Peut éviter la chirurgie","Embolisation de lésions vasculaires","Dilatation de sténoses congénitales ou chirurgicales","Drainage percutané d’abcès du foie ou du rein"],"ABCDE","Elle nécessite une équipe expérimentée."],
+[37,"Autres explorations fonctionnelles spécialisées :",["EEG","ECG","Manométrie","Endoscopies","Scintigraphie"],"ABCD","La scintigraphie n’y figure pas."]
+];
+const L="ABCDE",st=Q.map(()=>({s:new Set(),d:false,ok:false}));let lp=0,app=document.getElementById("app");
+Q.forEach((q,i)=>{if(q[0]!=lp){lp=q[0];app.insertAdjacentHTML("beforeend",`<div class="pg">${T[lp]}</div>`)}
+let d=document.createElement("div");d.className="q";d.id="q"+i;
+d.innerHTML=`<h3>${i+1}. ${q[1]}</h3>`+q[2].map((o,j)=>`<div class="o" data-i="${i}" data-j="${j}"><b>${L[j]}.</b><span>${o}</span></div>`).join("")+`<button onclick="val(${i})">Valider</button><div class="ex" style="display:none"></div>`;
+app.appendChild(d)});
+app.addEventListener("click",e=>{let o=e.target.closest(".o");if(!o)return;let i=+o.dataset.i,j=+o.dataset.j;if(st[i].d)return;st[i].s.has(j)?st[i].s.delete(j):st[i].s.add(j);o.classList.toggle("s")});
+function val(i){let s=st[i];if(s.d)return;s.d=true;let q=Q[i],box=document.getElementById("q"+i);
+box.querySelectorAll(".o").forEach((o,j)=>{let c=q[3].includes(L[j]);o.classList.remove("s");if(c)o.classList.add("ok");else if(s.s.has(j))o.classList.add("ko")});
+s.ok=q[3].split("").sort().join("")==[...s.s].map(j=>L[j]).sort().join("");
+let x=box.querySelector(".ex");x.style.display="block";x.innerHTML=`<b>${s.ok?"✅ Correct":"❌ Incorrect"} – Réponses : ${q[3].split("").join(", ")}</b><br>${q[4]}`;
+let n=st.filter(a=>a.d).length,k=st.filter(a=>a.ok).length;document.getElementById("sc").textContent=`Score : ${k} / ${n} (sur ${Q.length})`}
+function done(){let k=st.filter(a=>a.ok).length,f=document.getElementById("fin");f.style.display="block";f.innerHTML=`<h3>Résultat : ${k} / ${Q.length} (${Math.round(100*k/Q.length)} %)</h3>`;f.scrollIntoView()}
+function cp(){let t="<!DOCTYPE html>\n"+document.documentElement.outerHTML;try{navigator.clipboard.writeText(t).then(()=>alert("Code HTML copié"),()=>alert("Copie impossible"))}catch(e){alert("Copie impossible")}}
+</script></body></html>
