@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QCM – Développement psychomoteur</title>
+<style>
+:root{--bg:#f6f7f9;--c:#fff;--t:#1a1d21;--m:#5c6670;--b:#d8dde3;--ok:#1b8a4b;--okb:#e3f5ea;--ko:#c0392b;--kob:#fbe5e2;--ms:#b9770e;--msb:#fdf1dc;--ac:#2456c7}
+@media(prefers-color-scheme:dark){:root{--bg:#14171b;--c:#1d2127;--t:#e8eaed;--m:#9aa4af;--b:#333a43;--ok:#4cc783;--okb:#17301f;--ko:#f07a6c;--kob:#37201d;--ms:#e8b04a;--msb:#34290f;--ac:#7aa2ff}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font:16px/1.5 system-ui,sans-serif;padding:12px;max-width:820px;margin:auto}
+h1{font-size:1.3rem;margin:8px 0}.bar{position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:5;display:flex;flex-wrap:wrap;gap:8px;align-items:center;border-bottom:1px solid var(--b)}
+select,button{font:inherit;padding:8px 12px;border-radius:8px;border:1px solid var(--b);background:var(--c);color:var(--t)}button{cursor:pointer;background:var(--ac);color:#fff;border:0}button.g{background:var(--c);color:var(--t);border:1px solid var(--b)}
+#sc{margin-left:auto;font-weight:600}
+.q{background:var(--c);border:1px solid var(--b);border-radius:12px;padding:14px;margin:14px 0}
+.tag{font-size:.75rem;color:var(--m);text-transform:uppercase;letter-spacing:.04em}
+.q h3{font-size:1rem;margin:4px 0 10px}
+.o{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border:1px solid var(--b);border-radius:8px;margin:6px 0;cursor:pointer}
+.o input{margin-top:5px}.o.ok{background:var(--okb);border-color:var(--ok)}.o.ko{background:var(--kob);border-color:var(--ko)}.o.ms{background:var(--msb);border-color:var(--ms)}
+.e{display:none;margin-top:10px;padding:10px;border-left:4px solid var(--ac);background:var(--bg);border-radius:6px;font-size:.93rem}
+.r{font-weight:600;margin-top:8px}
+</style></head><body>
+<h1>QCM difficile – Le développement psychomoteur du nourrisson et de l’enfant</h1>
+<div class="bar"><select id="f"></select><button onclick="allv()">Tout valider</button><button class="g" onclick="rs()">Recommencer</button><span id="sc"></span></div>
+<div id="L"></div>
+<script>
+// [page, énoncé, [A,B,C,D,E], bonnes réponses, justification]
+const Q=[
+[2,'À propos des généralités du DPM, quelles propositions sont exactes ?',['Il est programmé génétiquement pour chaque espèce','L’environnement n’a aucune influence : seul le programme génétique décide','Il existe une grande variabilité interindividuelle','Les acquisitions de l’enfant sont notées sur le carnet de santé','Tous les enfants acquièrent chaque étape exactement au même âge'],'ACD','A, C, D : exacts (cours). B faux : les interactions avec l’environnement modulent le déroulement de manière déterminante. E faux : la variabilité interindividuelle est grande.'],
+[2,'Concernant l’influence de l’environnement sur le DPM :',['Les interactions du nourrisson avec son entourage modulent son déroulement','Cette modulation est qualifiée de déterminante','La variabilité interindividuelle est nulle si l’environnement est identique','Le carnet de santé sert à consigner les acquisitions','Le DPM est indépendant de toute programmation génétique'],'ABD','A, B, D conformes au cours. C faux : la variabilité interindividuelle reste grande. E faux : le DPM est programmé génétiquement pour chaque espèce.'],
+[3,'Les deux facteurs qui interviennent dans la physiopathologie du DPM sont :',['La maturation neurologique','L’apprentissage','Le seul facteur nutritionnel','Le seul facteur hormonal','Un facteur unique : le programme génétique'],'AB','Le cours retient deux facteurs : la maturation neurologique et l’apprentissage. C, D, E ne sont pas les facteurs retenus ; il y a bien deux facteurs, pas un seul.'],
+[4,'Le développement céphalo-caudal (myélinisation du cerveau vers le bas) :',['La myélinisation progresse du cerveau vers le bas de la colonne','L’ordre est : muscles oculaires, cou, dos, membres inférieurs','La tenue assise précède le redressement de la tête','La station debout puis la marche sont les dernières étapes','La poursuite oculaire est la dernière étape de cette séquence'],'ABD','A, B, D exacts : yeux (poursuite) → cou (redressement de la tête) → dos (tenue assise) → membres inférieurs (debout puis marche). C faux : la tête est tenue avant l’assise. E faux : la poursuite oculaire est la première.'],
+[4,'Le développement proximo-distal (de la moelle vers la périphérie) :',['La myélinisation va de la moelle épinière vers ce qui est plus éloigné','Contrôle d’abord des petits muscles puis des grands','Contrôle d’abord des grands muscles puis des plus petits','Il permet des gestes de plus en plus précis et minutieux','Il est strictement identique à la loi céphalo-caudale'],'ACD','A, C, D exacts. B inversé : grands muscles d’abord. E faux : ce sont deux lois distinctes (l’une cérébro-bas du corps, l’autre axe vers périphérie).'],
+[4,'Concernant l’évolution du tonus et de la posture :',['Ils sont étroitement liés','Le tonus axial augmente','Le tonus des fléchisseurs diminue','Le tonus axial diminue','Le tonus des fléchisseurs augmente'],'ABC','Cours : augmentation du tonus axial et diminution du tonus des fléchisseurs (passage de l’hypotonie axiale/hypertonie des membres du nouveau-né à la tenue de tête, assise, etc.). D et E inversés.'],
+[5,'L’apprentissage dépend de :',['L’entourage familial','Le contexte socio-culturel','Les interactions psychoaffectives','L’éducation','La myélinisation des fibres nerveuses'],'ABCD','A à D : composantes de l’apprentissage (cours). E relève de la maturation neurologique.'],
+[5,'Lesquels relèvent de l’apprentissage et non de la maturation neurologique ?',['La myélinisation céphalo-caudale','Le contexte socio-culturel','Les interactions psychoaffectives','Le développement proximo-distal','L’éducation'],'BCE','B, C, E = apprentissage. A et D = maturation neurologique.'],
+[6,'Le nouveau-né (0–28 jours) présente :',['Une gesticulation spontanée asymétrique','Une gesticulation anarchique','Une hypotonie axiale','Une hypertonie des membres','Une hypertonie axiale avec hypotonie des membres'],'ABCD','A à D conformes. E inversé : hypotonie axiale et hypertonie des membres.'],
+[6,'La gesticulation spontanée du nouveau-né :',['Alterne flexion et extension','Comporte ouverture et fermeture des mains','Est harmonieuse et symétrique','Est asymétrique et anarchique','Se limite à des mains fermées en permanence'],'ABD','A, B, D conformes. C faux (asymétrique et anarchique). E faux : les mains s’ouvrent et se ferment en alternance.'],
+[7,'Réflexes archaïques selon le cours :',['Succion / déglutition','Moro','Points cardinaux','Grasping','Poursuite oculaire'],'ABCD','A–D sont cités. E est une acquisition (poursuite oculaire à 3 mois), pas un réflexe archaïque.'],
+[7,'À propos des réflexes archaïques :',['Ils existent dès la naissance','Ils disparaissent vers 3–5 mois','Ils persistent normalement jusqu’à 12 mois','Ils n’apparaissent qu’à 3 mois','La marche automatique en fait partie'],'ABE','A, B, E exacts (existent de la naissance à 3–5 mois). C et D faux.'],
+[8,'Acquisitions à 3 mois :',['Soulève la tête en décubitus ventral','Tient assis avec soutien','Sourire réponse','Poursuite oculaire à 180°','Babillage « da-da, ba-ba »'],'ACD','A, C, D à 3 mois. B et E = 6 mois.'],
+[8,'Acquisitions à 6 mois :',['Tient assis avec soutien','Demande les bras','Babillage « da-da, ba-ba »','Passe un objet d’une main à l’autre','Tient assis sans appui'],'ABCD','A à D = 6 mois. E = 9 mois.'],
+[8,'Acquisitions à 9 mois :',['Tient assis sans appui','Marche à 4 pattes','Tient debout avec appui','Pince pouce-index','Marche sans aide'],'ABCD','A à D = 9 mois. E = 12 mois.'],
+[8,'Parmi ces items, lesquels sont acquis à 9 mois ?',['Reconnaît son nom','Peur de l’étranger','Sourire réponse','Premiers mots','Demande les bras'],'AB','A, B = 9 mois. C = 3 mois ; D = 12 mois ; E = 6 mois.'],
+[8,'Acquisitions à 12 mois :',['Debout sans appui et marche','Lâche volontairement les objets','Boit au verre','Premiers mots','Court et monte les escaliers'],'ABCD','A à D = 12 mois. E = 2 ans (page performances motrices).'],
+[9,'Performances motrices (partie 1) :',['1 mois : soulève la tête en vacillant','2 mois : se retourne côté-dos','3 mois : tenue de tête','6 mois : assis sans soutien','12 mois : debout sans appui'],'ABCE','D faux : à 6 mois, assis AVEC soutien ; assis seul à 8–9 mois.'],
+[9,'Performances motrices (partie 2) :',['8–9 mois : rampe, assis seul','9–10 mois : debout avec appui','12–18 mois : marche','2 ans : court, monte les escaliers','3 ans : saute sur un pied'],'ABCD','E faux : 3 ans = pédale en tricycle ; saute sur 1 pied = 4 ans.'],
+[9,'Performances motrices (partie 3) :',['3 ans : pédale en tricycle','4 ans : saute sur 1 pied','2 ans : pédale en tricycle','4 ans : pédale en tricycle','3 ans : saute sur 1 pied'],'AB','A, B conformes. C, D, E sont des âges décalés.'],
+[9,'Préhension (chronologie) :',['2–3 mois : approche et suivi des objets','3–4 mois : préhension involontaire au contact','4–5 mois : préhension cubito-palmaire','6–7 mois : porte à la bouche, passe d’une main à l’autre','8 mois : pince supérieure'],'ABCD','E faux : à 8 mois = pince inférieure ; pince supérieure à 9–12 mois.'],
+[9,'Pinces et fin de première année :',['8 mois : pince inférieure (pouce-auriculaire selon le cours)','9–12 mois : pince supérieure (pouce-index)','1 an : lâcher volontaire, donne sur ordre','La pince supérieure précède la pince inférieure','4–5 mois : pince pouce-index'],'ABC','A, B, C conformes au cours. D inversé. E faux (4–5 mois = cubito-palmaire).'],
+[10,'Langage (naissance à 12 mois) :',['0–3 mois : réagit aux bruits, sursaute, vocalise','4 mois : gazouille','6 mois : babille, imite l’intonation','12 mois : comprend « non », réagit au prénom, 5–10 mots, dit papa/maman','6 mois : dit « papa » et « maman » compréhensibles'],'ABCD','E faux : papa/maman vers 12 mois.'],
+[10,'Langage à 18 mois :',['Comprend les phrases courtes','20 à 50 mots','Associe les mots','200 mots','Dit son prénom'],'ABC','A, B, C = 18 mois. D et E = 24 mois.'],
+[10,'Langage à 24 mois :',['Comprend les ordres complexes','Environ 200 mots','Dit son prénom','S’exprime en phrases sujet-verbe-complément','Apparition du « je »'],'ABC','A, B, C = 2 ans. D et E = 3 ans.'],
+[10,'Langage à 3 ans :',['Comprend les histoires','Phrases sujet-verbe-complément','Pose des questions','Apparition du « je »','Ne comprend que les ordres simples'],'ABCD','A–D conformes. E faux : dès 24 mois il comprend les ordres complexes.'],
+[11,'Sociabilité (1 à 9 mois) :',['1–2 mois : sourire réponse','3 mois : suit latéralement à 180°','6 mois : orientation au son, sourit au miroir','9 mois : peur de l’étranger, détresse au départ de la mère','3 mois : peur de l’étranger'],'ABCD','E faux : la peur de l’étranger apparaît à 9 mois.'],
+[11,'Sociabilité (1 an à 2 ans) :',['1 an : donne, boit au verre','15 mois : montre du doigt ce qu’il désire','18 mois : imite sa mère dans les tâches courantes','2 ans : obéit aux ordres simples','3 ans : jeux collectifs'],'ABCD','E faux : jeux collectifs à 4 ans (3 ans : s’habille sans aide, joue avec les autres).'],
+[11,'Sociabilité (3–4 ans) :',['3 ans : s’habille sans aide, joue avec les autres','4 ans : jeux collectifs','2 ans : s’habille sans aide','18 mois : montre du doigt ce qu’il désire','2 ans : jeux collectifs'],'AB','C, E décalés. D faux : montre du doigt = 15 mois.'],
+[12,'Autonomie des repas (9 mois à 3 ans) :',['9 mois : tient son biberon ou sa tasse','1 an : mange avec ses doigts','2 ans : mange avec une cuillère','3 ans : cuillère et fourchette tout seul','4 ans : coupe la viande'],'ABCD','E faux : coupe la viande à 6 ans.'],
+[12,'Autonomie des repas (4 à 6 ans) :',['4 ans : mange normalement et se sert seul','5 ans : coupe des tranches fines','6 ans : coupe la viande et se sert à boire','5 ans : coupe la viande','3 ans : se sert seul'],'ABC','D faux (6 ans). E faux (4 ans).'],
+[12,'À propos du tableau d’autonomie des repas :',['Il est à adapter au contexte','Il s’applique sans aucune adaptation culturelle','2 ans : cuillère','1 an : cuillère','9 mois : mange avec les doigts'],'AC','B faux (« à adapter au contexte »). D faux (1 an : doigts). E faux (9 mois : tient biberon/tasse).'],
+[13,'Contrôle sphinctérien normal :',['~18 mois : propreté diurne','~2–3 ans : propreté nocturne','Après 4 ans : contrôle total','~2–3 ans : propreté diurne','~18 mois : propreté nocturne'],'ABC','D et E inversés : diurne ≈ 18 mois, nocturne ≈ 2–3 ans.'],
+[13,'Énurésie :',['Miction active et complète, involontaire et inconsciente','Primaire : contrôle jamais acquis','Secondaire : contrôle perdu après avoir été acquis','Défécation dans la culotte','Peut être diagnostiquée dès 2 ans'],'ABC','D = encoprésie. E faux : le contrôle doit être total après 4 ans.'],
+[13,'Encoprésie :',['Défécation dans la culotte en l’absence de toute atteinte organique','Peut être primaire ou secondaire','Elle suppose une atteinte organique','Miction active involontaire','On en parle si le contrôle n’est pas total après 4 ans'],'ABE','C faux (absence d’atteinte organique). D = énurésie.']
+];
+const L=document.getElementById('L'),F=document.getElementById('f'),S=document.getElementById('sc');
+const pages=[...new Set(Q.map(q=>q[0]))];
+F.innerHTML='<option value="0">Toutes les pages du cours</option>'+pages.map(p=>`<option value="${p}">Diapo ${p}</option>`).join('');
+F.onchange=()=>{document.querySelectorAll('.q').forEach(e=>e.style.display=(F.value==0||e.dataset.p==F.value)?'':'none')};
+const done={};
+Q.forEach((q,i)=>{const d=document.createElement('div');d.className='q';d.dataset.p=q[0];
+d.innerHTML=`<div class="tag">Diapo ${q[0]} · Q${i+1}</div><h3>${q[1]} <small>(plusieurs réponses possibles)</small></h3>`+
+q[2].map((t,j)=>`<label class="o" data-l="${'ABCDE'[j]}"><input type="checkbox" value="${'ABCDE'[j]}"><span><b>${'ABCDE'[j]}.</b> ${t}</span></label>`).join('')+
+`<button onclick="v(${i})">Valider</button><div class="r"></div><div class="e"><b>Justification :</b> ${q[4]}<br><b>Réponse(s) :</b> ${q[3].split('').join(', ')}</div>`;L.appendChild(d)});
+function v(i){const d=L.children[i],q=Q[i];if(done[i]!==undefined)return;
+const sel=[...d.querySelectorAll('input:checked')].map(x=>x.value).join('');
+d.querySelectorAll('.o').forEach(o=>{const l=o.dataset.l,c=q[3].includes(l),s=sel.includes(l);o.querySelector('input').disabled=true;
+if(c&&s)o.classList.add('ok');else if(!c&&s)o.classList.add('ko');else if(c)o.classList.add('ms')});
+const ok=sel===q[3];done[i]=ok;d.querySelector('.r').textContent=ok?'✔ Correct':'✘ Incorrect';d.querySelector('.r').style.color=ok?'var(--ok)':'var(--ko)';
+d.querySelector('.e').style.display='block';d.querySelector('button').style.display='none';sc()}
+function sc(){const n=Object.keys(done).length,g=Object.values(done).filter(Boolean).length;S.textContent=`Score : ${g}/${n} (sur ${Q.length})`}
+function allv(){Q.forEach((_,i)=>v(i))}
+function rs(){location.reload()}
+sc();
+</script></body></html>

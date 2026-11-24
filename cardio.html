@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardiologie - SémioMed QCM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Plus Jakarta Sans', sans-serif; }</style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between selection:bg-rose-500 selection:text-white">
+
+    <!-- Header -->
+    <header class="border-b border-slate-200 bg-white/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <a href="index.html" class="h-10 w-10 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition-colors">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+                <div>
+                    <h1 class="font-bold text-lg text-slate-900 tracking-tight">Cardiologie</h1>
+                    <p class="text-xs text-slate-500">Sélectionnez un quiz thématique</p>
+                </div>
+            </div>
+            <span class="text-xs font-semibold px-3 py-1.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200">
+                Module Cardio
+            </span>
+        </div>
+    </header>
+
+    <!-- Main Section: قائمة العناوين الستة -->
+    <main class="max-w-6xl mx-auto px-4 py-16 flex-grow w-full">
+        <div class="text-center mb-12">
+            <span class="text-xs font-semibold uppercase tracking-widest text-rose-600 bg-rose-50 px-3 py-1 rounded-full border border-rose-100 mb-3 inline-block">Sémiologie Cardiovasculaire</span>
+            <h2 class="text-3xl font-bold text-slate-900 mt-2 mb-3">Quiz et Évaluations en Cardiologie</h2>
+            <p class="text-slate-500 text-sm">Choisissez un chapitre pour accéder à son fichier de questions dédié.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <!-- 1. Interrogatoire -->
+            <a href="cardio-interrogatoire.html" class="group bg-white hover:bg-rose-50/40 border border-slate-200 hover:border-rose-300 rounded-2xl p-6 transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="h-12 w-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-xl group-hover:bg-rose-600 group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-comments"></i>
+                        </div>
+                        <span class="text-xs font-mono font-semibold px-2.5 py-1 rounded-md bg-slate-100 text-slate-500 group-hover:bg-rose-100 group-hover:text-rose-700">HTML</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 group-hover:text-rose-700 transition-colors mb-2">Interrogatoire</h3>
+                    <p class="text-slate-500 text-xs leading-relaxed">Antécédents, facteurs de risque et analyse des symptômes d'appel.</p>
+                </div>
+                <div class="mt-6 flex items-center text-xs font-semibold text-rose-600 group-hover:translate-x-1.5 transition-transform">
+                    <span>Ouvrir le quiz</span>
+                    <i class="fa-solid fa-arrow-right ml-2"></i>
+                </div>
+            </a>
+
+            <!-- 2. Sémio cardiovasculaire -->
+            <a href="cardio-semiovasculaire.html" class="group bg-white hover:bg-rose-50/40 border border-slate-200 hover:border-rose-300 rounded-2xl p-6 transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="h-12 w-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-xl group-hover:bg-rose-600 group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                        </div>
+                        <span class="text-xs font-mono font-semibold px-2.5 py-1 rounded-md bg-slate-100 text-slate-500 group-hover:bg-rose-100 group-hover:text-rose-700">HTML</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 group-hover:text-rose-700 transition-colors mb-2">Sémio cardiovasculaire</h3>
+                    <p class="text-slate-500 text-xs leading-relaxed">Inspection, palpation, auscultation des bruits et des souffles.</p>
+                </div>
+                <div class="mt-6 flex items-center text-xs font-semibold text-rose-600 group-hover:translate-x-1.5 transition-transform">
+                    <span>Ouvrir le quiz</span>
+                    <i class="fa-solid fa-arrow-right ml-2"></i>
+                </div>
+            </a>
+
+            <!-- 3. Valvulopathies (الخانة الجديدة المضافة) -->
+            <a href="cardio-valvulopathies.html" class="group bg-white hover:bg-rose-50/40 border border-slate-200 hover:border-rose-300 rounded-2xl p-6 transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="h-12 w-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-xl group-hover:bg-rose-600 group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-stethoscope"></i>
+                        </div>
+                        <span class="text-xs font-mono font-semibold px-2.5 py-1 rounded-md bg-slate-100 text-slate-500 group-hover:bg-rose-100 group-hover:text-rose-700">HTML</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 group-hover:text-rose-700 transition-colors mb-2">Valvulopathies</h3>
+                    <p class="text-slate-500 text-xs leading-relaxed">Sténoses et insuffisances valvulaires, sémiologie auscultatoire.</p>
+                </div>
+                <div class="mt-6 flex items-center text-xs font-semibold text-rose-600 group-hover:translate-x-1.5 transition-transform">
+                    <span>Ouvrir le quiz</span>
+                    <i class="fa-solid fa-arrow-right ml-2"></i>
+                </div>
+            </a>
+
+            <!-- 4. Insuffisance coronaire -->
+            <a href="cardio-coronaires.html" class="group bg-white hover:bg-rose-50/40 border border-slate-200 hover:border-rose-300 rounded-2xl p-6 transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="h-12 w-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-xl group-hover:bg-rose-600 group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-fire"></i>
+                        </div>
+                        <span class="text-xs font-mono font-semibold px-2.5 py-1 rounded-md bg-slate-100 text-slate-500 group-hover:bg-rose-100 group-hover:text-rose-700">HTML</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 group-hover:text-rose-700 transition-colors mb-2">Insuffisance coronaire</h3>
+                    <p class="text-slate-500 text-xs leading-relaxed">Angor stable, syndrome coronarien aigu (SCA) et sémiologie de la douleur.</p>
+                </div>
+                <div class="mt-6 flex items-center text-xs font-semibold text-rose-600 group-hover:translate-x-1.5 transition-transform">
+                    <span>Ouvrir le quiz</span>
+                    <i class="fa-solid fa-arrow-right ml-2"></i>
+                </div>
+            </a>
+
+            <!-- 5. ECG normal -->
+            <a href="cardio-ecg-normal.html" class="group bg-white hover:bg-rose-50/40 border border-slate-200 hover:border-rose-300 rounded-2xl p-6 transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="h-12 w-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-xl group-hover:bg-rose-600 group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-wave-square"></i>
+                        </div>
+                        <span class="text-xs font-mono font-semibold px-2.5 py-1 rounded-md bg-slate-100 text-slate-500 group-hover:bg-rose-100 group-hover:text-rose-700">HTML</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 group-hover:text-rose-700 transition-colors mb-2">ECG normal</h3>
+                    <p class="text-slate-500 text-xs leading-relaxed">Ondes, segments, intervalles, axes et repères électrocardiographiques.</p>
+                </div>
+                <div class="mt-6 flex items-center text-xs font-semibold text-rose-600 group-hover:translate-x-1.5 transition-transform">
+                    <span>Ouvrir le quiz</span>
+                    <i class="fa-solid fa-arrow-right ml-2"></i>
+                </div>
+            </a>
+
+            <!-- 6. ECG pathologique -->
+            <a href="cardio-ecg-pathologique.html" class="group bg-white hover:bg-rose-50/40 border border-slate-200 hover:border-rose-300 rounded-2xl p-6 transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="h-12 w-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-xl group-hover:bg-rose-600 group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <span class="text-xs font-mono font-semibold px-2.5 py-1 rounded-md bg-slate-100 text-slate-500 group-hover:bg-rose-100 group-hover:text-rose-700">HTML</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 group-hover:text-rose-700 transition-colors mb-2">ECG pathologique</h3>
+                    <p class="text-slate-500 text-xs leading-relaxed">Troubles du rythme, conduction, hypertrophies et ischémie.</p>
+                </div>
+                <div class="mt-6 flex items-center text-xs font-semibold text-rose-600 group-hover:translate-x-1.5 transition-transform">
+                    <span>Ouvrir le quiz</span>
+                    <i class="fa-solid fa-arrow-right ml-2"></i>
+                </div>
+            </a>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 bg-white py-6 text-center text-xs text-slate-400">
+        <p>SémioMed Portal &copy; 2026</p>
+    </footer>
+
+</body>
+</html>

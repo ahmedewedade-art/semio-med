@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>QCM – Pathologie corticosurrénalienne</title>
+<style>
+:root{--bg:#f6f7f9;--c:#fff;--t:#1d2430;--m:#5d6675;--b:#d5d9e0;--ok:#157347;--okb:#e3f4ea;--ko:#b3261e;--kob:#fbe7e5;--ac:#2456c8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14171c;--c:#1d222a;--t:#e8ebf0;--m:#9aa3b2;--b:#343b47;--ok:#6fd39a;--okb:#16301f;--ko:#ff8a80;--kob:#3a1c1a;--ac:#7aa2ff}}
+body{margin:0;background:var(--bg);color:var(--t);font:16px/1.45 system-ui,sans-serif;padding:12px;max-width:760px;margin:auto}
+h1{font-size:1.25rem}.card{background:var(--c);border:1px solid var(--b);border-radius:12px;padding:14px;margin:12px 0}
+.pg{font-size:.75rem;color:var(--m)}.q{font-weight:600;margin:4px 0 8px}
+label{display:block;padding:8px;border:1px solid var(--b);border-radius:8px;margin:6px 0;cursor:pointer}
+label.ok{background:var(--okb);border-color:var(--ok)}label.ko{background:var(--kob);border-color:var(--ko)}
+.why{font-size:.85rem;color:var(--m);margin-top:4px}button{background:var(--ac);color:#fff;border:0;border-radius:8px;padding:9px 14px;font-size:1rem;margin-top:6px}
+#sc{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:6px 0;font-weight:600;z-index:5}
+</style></head><body>
+<h1>QCM difficile – La pathologie corticosurrénalienne</h1>
+<div id="sc">Score : 0 / 0</div><div id="app"></div>
+<button onclick="all_()">Tout corriger</button> <button onclick="location.reload()">Recommencer</button>
+<script>
+const D=[
+[2,"Anatomie des surrénales : propositions exactes ?",[["Situées au pôle supérieur des deux reins",1,"Vrai : pôle supérieur des 2 reins."],["La médullosurrénale représente 80 % de la glande",0,"Faux : c'est la corticosurrénale (80 %)."],["La médullosurrénale est un tissu nerveux lié au SN sympathique",1,"Vrai."],["Ce sont deux glandes endocrines distinctes",1,"Vrai : médullo- et corticosurrénale."],["La corticosurrénale est un tissu nerveux",0,"Faux : c'est la médullosurrénale."]]],
+[4,"Glucocorticoïdes :",[["Cortisol et 17-OH cortisone",1,"Vrai."],["Sécrétion stimulée par l'ACTH hypophysaire",1,"Vrai."],["Rétrocontrôle négatif sur l'ACTH",1,"Vrai."],["Rétrocontrôle positif sur l'ACTH",0,"Faux : négatif."],["Sécrétion réglée par l'angiotensine",0,"Faux : c'est l'aldostérone."]]],
+[5,"Aldostérone et androgéno-corticoïdes :",[["Action rénale anti-natriurique et kaliurique",1,"Vrai : rétention sodée, excrétion de K⁺."],["Sécrétion de l'aldostérone réglée par l'ACTH",0,"Faux : par l'angiotensine."],["Aldostérone préservée en ICS haute (manque d'ACTH)",1,"Vrai : car indépendante de l'ACTH."],["Les 17-CS favorisent l'anabolisme protidique et les caractères sexuels secondaires masculins",1,"Vrai."],["Sécrétion des androgènes réglée par l'angiotensine",0,"Faux : par l'ACTH."]]],
+[7,"Médullosurrénale :",[["L'adrénaline est le précurseur de la noradrénaline",0,"Faux : c'est l'inverse."],["La noradrénaline est le précurseur de l'adrénaline",1,"Vrai."],["Sécrétion réglée surtout par le système sympathique",1,"Vrai : pas hormonale."],["Sécrétion réglée par l'ACTH",0,"Faux."],["Glande de l'adaptation aux états d'urgence et d'alarme",1,"Vrai."]]],
+[8,"Maladie d'Addison – asthénie :",[["Triade : asthénie, mélanodermie, hypotension",1,"Vrai."],["L'asthénie musculaire est le maître symptôme (fatigabilité surtout le soir)",1,"Vrai."],["Elle s'accompagne de paralysie et d'atrophie musculaire",0,"Faux : ni paralysie ni atrophie."],["L'EMG est normal",1,"Vrai."],["L'ergographe met en évidence l'atteinte musculaire",1,"Vrai."]]],
+[10,"Mélanodermie addisonienne :",[["D'apparition tardive",1,"Vrai."],["Touche les zones découvertes et normalement pigmentées (face, cou, mains, plis, OGE)",1,"Vrai."],["Taches ardoisées de la gencive, des joues et du palais",1,"Vrai."],["Se généralise par poussées",1,"Vrai."],["Prurit constant",0,"Faux : absence de prurit."]]],
+[11,"Autres signes de l'ICS lente :",[["Amaigrissement rapide avec fonte musculaire",1,"Vrai."],["Hypotension toujours présente",0,"Faux : inconstante et relative."],["Pouls faible mais régulier",1,"Vrai."],["Troubles digestifs dominés par l'anorexie",1,"Vrai."],["Nausées, vomissements, diarrhée sont rassurants",0,"Faux : font craindre une crise aiguë."]]],
+[12,"Signes génitaux et divers de l'ICS :",[["Impuissance chez l'homme",1,"Vrai."],["Frigidité et aménorrhée chez la femme",1,"Vrai."],["Frilosité",1,"Vrai."],["Dépilation axillaire et pubienne",1,"Vrai."],["Hirsutisme franc",0,"Faux : dépilation."]]],
+[13,"Biologie de l'ICS lente :",[["Cortisolémie de 8 h basse",1,"Vrai."],["ACTH élevée",1,"Vrai : primitive, perte du rétrocontrôle."],["Hyperkaliémie et hyponatrémie",1,"Vrai."],["Hypoglycémie",1,"Vrai."],["17-OHCS et 17-CS urinaires élevés",0,"Faux : effondrés."]]],
+[13,"Test de Thorn (stimulation par ACTH) :",[["Négatif dans la forme primitive (addisonienne)",1,"Vrai."],["Peut être dangereux",1,"Vrai."],["Positif dans la forme centrale hypophysaire",1,"Vrai : la surrénale répond."],["Positif dans la maladie d'Addison tuberculeuse",0,"Faux : négatif."],["Test sans lien avec l'ACTH",0,"Faux : c'est une stimulation par ACTH / synacthène."]]],
+[14,"Évolution de l'ICS lente :",[["Spontanément mortelle en 6 à 24 mois",1,"Vrai."],["Rémissions alternant avec des poussées",1,"Vrai."],["Un stress peut déclencher une poussée aiguë",1,"Vrai."],["Favorable sous corticothérapie à vie + traitement de la TB évolutive",1,"Vrai."],["Corticothérapie transitoire suffisante",0,"Faux : à vie."]]],
+[15,"Formes centrales et causes :",[["Noyées dans un tableau de panhypopituitarisme",1,"Vrai."],["Pas de mélanodermie",1,"Vrai."],["L'excès d'ACTH stimule des récepteurs cutanés → mélanine",1,"Vrai : explique la mélanodermie primitive."],["Tuberculose caséeuse (calcifications lombaires) et rétraction corticale : causes primitives",1,"Vrai."],["ACTH élevée dans la forme hypophysaire",0,"Faux : basse."]]],
+[18,"Forme aiguë – clinique :",[["Urgence médicale dominée par les troubles hydro-électrolytiques",1,"Vrai."],["Vomissements incoercibles pouvant simuler une urgence chirurgicale",1,"Vrai."],["Collapsus cardiovasculaire possible",1,"Vrai."],["Hypertension artérielle sévère",0,"Faux : hypotension."],["Signes neurologiques : céphalée, délire, convulsions, agitation",1,"Vrai."]]],
+[19,"Forme aiguë – biologie et causes :",[["Na sanguin bas, K sanguin élevé",1,"Vrai."],["Na urinaire abaissé et K urinaire augmenté",0,"Faux : Na urinaire augmenté, K abaissé."],["Hypoglycémie",1,"Vrai."],["Méningococcie avec hémorragie surrénalienne",1,"Vrai."],["ICS lente décompensée par un stress ou non traitée",1,"Vrai."]]],
+[21,"Syndrome de Conn :",[["Polyuro-polydipsie (3–5 L) insensible à l'ADH",1,"Vrai : diurèse osmotique."],["HTA permanente systolo-diastolique modérée",1,"Vrai."],["Paralysies transitoires et tétanie vraie",1,"Vrai."],["Hyperkaliémie",0,"Faux : hypokaliémie."],["Cause : excès d'aldostérone primaire",1,"Vrai."]]],
+[22,"Conn – biologie, évolution :",[["Hyperaldostéronurie",1,"Vrai."],["Hypokaliémie et alcalose métabolique",1,"Vrai."],["Activité rénine-angiotensine augmentée",0,"Faux : diminuée."],["Mort par complications de l'HTA ou de l'hypokaliémie",1,"Vrai."],["Traitement chirurgical",1,"Vrai."]]],
+[23,"Cushing – clinique (1) :",[["Obésité facio-tronculaire avec « buffalo neck »",1,"Vrai."],["Amyotrophie des membres",1,"Vrai."],["Vergetures pourpres abdominales et des flancs",1,"Vrai."],["Ostéoporose avec douleurs calmées par le repos",1,"Vrai."],["Vergetures blanches nacrées",0,"Faux : pourpres."]]],
+[24,"Cushing – clinique (2) :",[["Hirsutisme et acné",1,"Vrai."],["Diabète peu sensible à l'insuline",1,"Vrai."],["Asthénie et crampes musculaires",1,"Vrai."],["Troubles psychiques et génitaux (impuissance, frigidité)",1,"Vrai."],["HTA instable et intermittente",0,"Faux : stable et permanente."]]],
+[25,"Cushing – biologie :",[["Cortisol plasmatique augmenté",1,"Vrai."],["17-OHCS et 17-CS urinaires augmentés",1,"Vrai."],["Hypokaliémie et hyperglycémie",1,"Vrai."],["Freination à la dexaméthasone positive (selon le cours)",1,"Vrai."],["Hypoglycémie",0,"Faux : hyperglycémie."]]],
+[26,"Cushing – évolution et causes :",[["Menacée par complications du diabète, ostéoporose, HTA, HIC",1,"Vrai."],["Traitement chirurgical",1,"Vrai."],["Cause paranéoplasique possible",1,"Vrai."],["Possible dans une atteinte endocrinienne associée",1,"Vrai."],["Traitement médical seul de choix",0,"Faux : chirurgical."]]],
+[27,"Syndromes génito-surrénaux :",[["Acquis : virilisation chez la femme",1,"Vrai."],["Acquis : féminisation chez l'homme (excès d'œstrogènes)",1,"Vrai."],["Congénital : pseudo-hermaphrodisme chez la fillette",1,"Vrai."],["Congénital : puberté précoce et macrogénitosomie chez le garçon",1,"Vrai."],["Élimination des 17-CS diminuée",0,"Faux : excessive."]]],
+[28,"Phéochromocytome :",[["Tumeur chromaffine sécrétant des catécholamines, le plus souvent médullosurrénalienne",1,"Vrai."],["HTA paroxystique ou permanente avec sudation profuse",1,"Vrai."],["Amaigrissement ; diabète chez un malade sur deux",1,"Vrai."],["Hypotension orthostatique constante",0,"Faux : HTA."],["Traitement médical exclusif",0,"Faux : chirurgical."]]],
+[28,"Diagnostic du phéochromocytome :",[["UIV",1,"Vrai."],["TDM",1,"Vrai."],["Dosage adrénaline et précurseurs (VMA)",1,"Vrai."],["Scintigraphie à la MIBG",1,"Vrai."],["Test de freination à la dexaméthasone",0,"Faux : test du Cushing."]]]
+];
+const L="ABCDE";let done={};
+const app=document.getElementById("app");
+D.forEach((q,i)=>{const d=document.createElement("div");d.className="card";
+d.innerHTML=`<div class="pg">Q${i+1} · page ${q[0]}</div><div class="q">${q[1]}</div>`+
+q[2].map((o,j)=>`<label id="l${i}_${j}"><input type="checkbox" id="c${i}_${j}"> <b>${L[j]}.</b> ${o[0]}<div class="why" id="w${i}_${j}" hidden>${o[2]}</div></label>`).join("")+
+`<button onclick="chk(${i})">Valider</button><div id="r${i}" class="why"></div>`;app.appendChild(d)});
+function chk(i){if(done[i]!==undefined)return;let ok=true;
+D[i][2].forEach((o,j)=>{const c=document.getElementById(`c${i}_${j}`),l=document.getElementById(`l${i}_${j}`);
+const g=c.checked===!!o[1];if(!g)ok=false;l.classList.add(o[1]?"ok":"ko");c.disabled=true;document.getElementById(`w${i}_${j}`).hidden=false});
+done[i]=ok;document.getElementById(`r${i}`).textContent=ok?"✔ Réponse exacte":"✘ Réponse incomplète ou erronée (vert = vrai, rouge = faux)";sc()}
+function all_(){D.forEach((_,i)=>chk(i))}
+function sc(){const n=Object.keys(done).length,s=Object.values(done).filter(Boolean).length;document.getElementById("sc").textContent=`Score : ${s} / ${n} (sur ${D.length})`}
+</script></body></html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quiz ECG normal – DCEM1</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f6f7fb;--card:#fff;--tx:#1c2333;--mu:#5d6781;--bd:#d9deea;--ac:#c0392b;--ok:#1e8e4e;--okb:#e3f6ea;--ko:#c0392b;--kob:#fde8e6;--mi:#b7791f;--mib:#fff4dc}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12151d;--card:#1b2030;--tx:#e8ecf5;--mu:#98a2bd;--bd:#2f3750;--okb:#12301f;--kob:#3a1a17;--mib:#3a2d12;--ok:#4cd08a;--ko:#ff7b6e;--mi:#f0b44c}}
+*{box-sizing:border-box}html{scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+header{position:sticky;top:env(safe-area-inset-top,0px);background:var(--card);border-bottom:1px solid var(--bd);padding:10px 14px;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:8px}
+h1{font-size:1.05rem;margin:0}#sc{font-weight:700;color:var(--ac);white-space:nowrap}
+main{max-width:760px;margin:0 auto;padding:12px}
+.intro{color:var(--mu);font-size:.92rem;margin:4px 0 12px}
+.q{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:14px}
+.q h2{font-size:1rem;margin:0 0 4px}.q .t{font-size:.78rem;color:var(--ac);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.o{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--bd);border-radius:8px;padding:9px 10px;margin-top:8px;cursor:pointer}
+.o input{margin-top:4px;width:18px;height:18px;flex:none}.o b{flex:none}
+.o.ok{background:var(--okb);border-color:var(--ok)}.o.ko{background:var(--kob);border-color:var(--ko)}.o.mi{background:var(--mib);border-color:var(--mi)}
+button{background:var(--ac);color:#fff;border:0;border-radius:8px;padding:10px 16px;font-size:1rem;margin-top:12px;cursor:pointer}
+button:disabled{opacity:.5}
+.e{display:none;margin-top:12px;padding:10px 12px;border-left:4px solid var(--ac);background:var(--bg);border-radius:6px;font-size:.93rem}
+.e .r{font-weight:700;margin-bottom:4px}
+#fin{display:none;text-align:center;font-size:1.1rem}
+.bar{height:6px;background:var(--bd);border-radius:4px;margin-top:6px;overflow:hidden}.bar i{display:block;height:100%;background:var(--ac);width:0}
+</style></head><body>
+<header><h1>🫀 Quiz ECG normal</h1><div id="sc">0 / 30</div></header>
+<main>
+<p class="intro">30 QCM très difficiles : chaque proposition (A à E) peut être vraie ou fausse, plusieurs réponses sont possibles. Une question n’est comptée juste que si toutes les bonnes réponses, et elles seules, sont cochées. Les valeurs suivent le cours du Pr S. Camara.</p>
+<div class="bar"><i id="pb"></i></div><br>
+<div id="qs"></div>
+<div class="q" id="fin"></div>
+</main>
+<script>
+const Q=[
+["Définition et intérêt",
+"À propos de l’électrocardiogramme (ECG) standard :",
+["Enregistrement de surface de l’activité électrique du cœur","Enregistrement endocavitaire de l’activité mécanique","Examen de base en cardiologie, facile à réaliser","Il recueille l’activité par des électrodes reliées à un électrocardiographe","Il remplace l’échocardiographie pour l’étude des valves"],"ACD",
+"L’ECG est un enregistrement de SURFACE (non endocavitaire) de l’activité ÉLECTRIQUE (non mécanique) par des électrodes reliées à un électrocardiographe. C’est l’examen de base en cardiologie (conclusion du cours). Il ne remplace pas l’écho, qui étudie la morphologie et la fonction."],
+["Anatomie : système nerveux intrinsèque",
+"Le tissu nodal comprend :",
+["Le nœud sinusal de Keith et Flack, pace-maker physiologique","Le nœud auriculo-ventriculaire d’Aschoff-Tawara","Le faisceau de His, dont le tronc se divise en 2 branches","Une branche droite qui se divise en 2 rameaux","Une branche gauche avec un rameau antéro-supérieur et un rameau postéro-inférieur"],"ABCE",
+"La branche DROITE est unique (destinée au VD) ; c’est la branche GAUCHE qui se subdivise en 2 rameaux (antérieur/antéro-supérieur et postérieur/postéro-inférieur). Le nœud sinusal est le pace-maker physiologique."],
+["Système nerveux extrinsèque",
+"Concernant l’innervation extrinsèque du cœur :",
+["Le sympathique est cardio-accélérateur","Le parasympathique passe par le nerf vague (X)","Le nerf vague est cardio-modérateur","Le sympathique a une origine médullaire (C3 à C7 selon le cours)","Le nerf vague est cardio-accélérateur"],"ABCD",
+"Sympathique = accélérateur ; parasympathique (nerf X) = modérateur. Donc E est faux : le vague ralentit le cœur."],
+["Physiologie",
+"Les 3 propriétés du muscle cardiaque citées dans le cours sont :",
+["L’excitabilité","La conductibilité","La contractilité","L’élasticité","La tonicité"],"ABC",
+"Le cours cite l’excitabilité, la conductibilité et la contractilité. Élasticité et tonicité ne figurent pas dans cette liste."],
+["Dérivations standards",
+"À propos des dérivations standards (bipolaires) :",
+["DI relie le bras droit au bras gauche","DII relie le bras droit à la jambe gauche","DIII relie le bras gauche à la jambe gauche","Elles forment les côtés du triangle d’Einthoven","Ce sont des dérivations unipolaires"],"ABCD",
+"DI, DII, DIII sont BIPOLAIRES (E faux) et forment les côtés du triangle d’Einthoven."],
+["Dérivations unipolaires des membres",
+"Parmi les propositions suivantes :",
+["aVR relie le bras droit à la borne centrale","aVL relie le bras gauche à la borne centrale","aVF relie la jambe gauche à la borne centrale","Le triangle d’Einthoven est formé par aVR, aVL et aVF","En théorie, le triangle d’Einthoven est équilatéral avec le cœur en son centre"],"ABCE",
+"Le triangle d’Einthoven est formé par DI, DII et DIII (pas par les unipolaires). Il y a 3 + 3 = 6 dérivations périphériques."],
+["Dérivations précordiales",
+"Localisation des électrodes précordiales :",
+["V1 : 4e EIC droit, bord droit du sternum","V2 : 4e EIC gauche, bord gauche du sternum","V4 : 5e EIC gauche, ligne médio-claviculaire","V5 : ligne axillaire moyenne","V6 : ligne axillaire moyenne"],"ABCE",
+"V5 est sur la ligne axillaire ANTÉRIEURE ; V6 sur l’axillaire MOYENNE. V3 est située entre V2 et V4."],
+["Dérivations extrêmes",
+"À propos des dérivations extrêmes :",
+["V7 : ligne axillaire postérieure","V8 : ligne scapulaire gauche, à la même hauteur","V9 : pré-rachis","V3R et V4R sont situées à gauche","VE est xiphoïdienne"],"ABCE",
+"V3R et V4R sont à DROITE, en position symétrique de V3 et V4 (dérivations extrêmes droites). V7, V8, V9 sont les extrêmes gauches (postérieures)."],
+["Critères de validité",
+"Un ECG valide doit comporter :",
+["L’identité du patient","La date et l’heure d’enregistrement","Au moins 12 dérivations","Les données cliniques et le traitement suivi","Un étalonnage de 1 mV = 5 mm"],"ABCD",
+"L’étalonnage standard est 1 mV = 10 mm (et non 5 mm)."],
+["Étalonnage et vitesse",
+"Réglages standards du papier :",
+["1 mV = 10 mm","1/10 mV = 1 mm","Vitesse de déroulement : 25 mm/s","1 mm = 4/100 s","1 mm = 0,4 s"],"ABCD",
+"À 25 mm/s : 1 mm = 1/25 s = 0,04 s = 4/100 s. 0,4 s correspond à 10 mm."],
+["Onde P",
+"À propos de l’onde P :",
+["Dépolarisation auriculaire","Amplitude maximale en D2","Durée : 6 à 10/100 s","Axe : +60°","Morphologie triangulaire à sommet supérieur"],"ABCD",
+"La morphologie de l’onde P est ARRONDIE ; « triangulaire à sommet supérieur » décrit le QRS."],
+["Conversions sur le papier",
+"Papier à 25 mm/s, 10 mm/mV :",
+["Amplitude de P 0,5 à 2,5/10 mV = 0,5 à 2,5 mm","Durée de P 6 à 10/100 s = 1,5 à 2,5 petits carreaux","Un grand carreau (5 mm) = 0,20 s","Un grand carreau = 0,04 s","PR 12 à 21/100 s = 3 à 5,25 petits carreaux"],"ABCE",
+"Petit carreau = 0,04 s ; grand carreau = 5 petits = 0,20 s. 0,06/0,04 = 1,5 ; 0,10/0,04 = 2,5 ; 0,12/0,04 = 3 ; 0,21/0,04 = 5,25."],
+["Complexe QRS",
+"À propos du complexe QRS :",
+["Dépolarisation ventriculaire","Il détermine l’axe électrique du cœur","Durée : 6 à 10/100 s","Morphologie triangulaire à sommet supérieur","Il traduit la répolarisation ventriculaire"],"ABCD",
+"La répolarisation ventriculaire correspond à l’onde T, pas au QRS."],
+["Onde T",
+"À propos de l’onde T :",
+["Répolarisation ventriculaire","Amplitude d’environ 25 % du QRS précédent","Durée d’environ 20/100 s","Axe : +30°","Morphologie parfaitement symétrique"],"ABCD",
+"L’onde T est asymétrique : pente douce, sommet arrondi, puis pente raide."],
+["Onde U",
+"À propos de l’onde U :",
+["Répolarisation tardive des ventricules","Survient le plus souvent 4/100 s après l’onde T","Elle précède l’onde P","Elle traduit la dépolarisation auriculaire","Son délai après T correspond environ à 1 petit carreau"],"ABE",
+"L’onde U suit l’onde T (≈ 0,04 s = 1 mm). Elle ne précède pas P et n’est pas auriculaire."],
+["Intervalle PR",
+"À propos de l’intervalle PR :",
+["Reflète la conduction auriculo-ventriculaire","Va du début de P au début du QRS","Valeur normale : 12 à 21/100 s","PR < 12/100 s : évoque une pré-excitation","PR > 21/100 s : BAV du 3e degré"],"ABCD",
+"PR > 21/100 s = BAV du 1er degré (le cours). Un BAV 3 est une dissociation complète auriculo-ventriculaire."],
+["Intervalle QT",
+"À propos de l’intervalle QT :",
+["C’est la systole électrique","Du début de Q à la fin de T","Inclut dépolarisation et répolarisation ventriculaires","Varie avec le sexe et la fréquence cardiaque","Va de la fin de S au début de T"],"ABCD",
+"De la fin de S au début de T = segment ST, pas QT."],
+["Formule de Bazett",
+"Concernant la correction de Bazett selon le cours :",
+["QTc = QT / √RR","K = 0,37 chez l’homme","K = 0,40 chez la femme","Normes : 350 à 440 ms","QTc = QT × √RR"],"ABCD",
+"La correction de Bazett divise le QT par la racine carrée de RR (E faux). La formule QTc = K × √RR donne la valeur NORMALE attendue selon le sexe."],
+["Calcul du QTc",
+"Un patient a un QT = 360 ms et une FC = 75/min. Donc :",
+["RR = 0,8 s","QTc ≈ 402 ms","Le QTc est dans les normes (350–440 ms)","QTc = 360 × √0,8 ≈ 322 ms","Il existe un QT long"],"ABC",
+"RR = 60/75 = 0,8 s ; √0,8 ≈ 0,894 ; QTc = 0,36/0,894 ≈ 0,402 s = 402 ms, donc normal."],
+["Segment PQ",
+"À propos du segment PQ et du segment ST :",
+["Le segment PQ va de la fin de P au début de Q","Un sous-décalage de PQ est un signe précoce de péricardite avec épanchement","Le segment ST va de la fin de S au début de T","Le segment ST est normalement isoélectrique","Un sous-décalage de ST traduit une lésion sous-épicardique"],"ABCD",
+"Sous-décalage de ST = lésion sous-ENDOCARDIQUE ; sus-décalage = lésion sous-ÉPICARDIQUE."],
+["Interprétation du ST",
+"Lésions et segment ST :",
+["Sous-décalage de ST : lésion sous-endocardique","Sus-décalage de ST : lésion sous-épicardique","Sus-décalage de ST : lésion sous-endocardique","Un ST normal est isoélectrique","Un sous-décalage de PQ évoque une péricardite avec épanchement"],"ABDE",
+"C est faux : sus-décalage = sous-épicardique."],
+["Rythme sinusal",
+"Les critères du rythme sinusal sont :",
+["Onde P positive en DII, DIII, aVF","Onde P négative en aVR","PR normal","Une onde P précède chaque QRS","Onde P négative en DII"],"ABCD",
+"Rythme sinusal : P+ en DII, DIII, aVF, P− en aVR, PR normal, P devant chaque QRS."],
+["Fréquence cardiaque",
+"Calcul de la fréquence (25 mm/s) :",
+["FC = 1500 / RR (RR en mm)","FC = 300 / nombre de grands carreaux entre deux R","RR = 20 mm correspond à 75/min","RR = 25 mm correspond à 100/min","Un rythme régulier a des RR équidistants"],"ABCE",
+"1500/20 = 75/min. 1500/25 = 60/min (D faux)."],
+["Application : fréquence",
+"Deux QRS sont séparés de 3 grands carreaux :",
+["FC = 100/min","RR = 15 mm","1500/15 = 100","RR = 0,6 s","C’est une bradycardie"],"ABCD",
+"3 grands carreaux = 15 mm = 0,6 s ; FC = 300/3 = 100/min, donc pas une bradycardie (< 60/min), limite supérieure du normal."],
+["Axe du QRS",
+"Triaxe de Bailey et axe :",
+["Axe normal du QRS : de −10° à +110°","DI = 0°","aVL = −30°","DII = +60°","DIII = +90°"],"ABCD",
+"DIII = +120° ; aVF = +90°."],
+["Application : axe",
+"QRS positif en DI et en aVF :",
+["L’axe est entre 0° et +90°","L’axe est normal","L’axe est gauche (déviation axiale gauche)","L’axe peut valoir +60° si le QRS est maximal en DII","Il se situe dans la plage normale −10° à +110°"],"ABDE",
+"DI+ (côté 0° ± 90°) et aVF+ (+90° ± 90°) : l’axe est entre 0° et +90°, donc normal."],
+["Indices de surcharge (1)",
+"Indices d’hypertrophie ventriculaire gauche :",
+["Sokolov-Lyon, âge > 25 ans : SV1 + RV5 ou V6 < 35 mm","Heller-Blondeau, âge < 25 ans : SV2 + RV7 < 40 mm","Sokolov-Lyon s’applique aux < 25 ans","Heller-Blondeau : SV1 + RV5","Ces indices servent à rechercher une surcharge ventriculaire"],"ABE",
+"Sokolov-Lyon = sujets > 25 ans ; Heller-Blondeau = < 25 ans (SV2 + RV7)."],
+["Indices de surcharge (2)",
+"Lewis et Cornell :",
+["Lewis : −14 mm < (R1−R3) + (S3−S1) < +17 mm","Cornell : SV3 + RaVL","Seuil de Cornell chez l’homme : 28 mm","Seuil de Cornell chez la femme : 24 mm","Seuil de Cornell : 24 mm homme, 28 mm femme"],"ABCD",
+"Cornell : 28 mm chez l’homme, 24 mm chez la femme (E inversé)."],
+["Application : Sokolov-Lyon",
+"Patient de 40 ans : SV1 = 22 mm, RV5 = 18 mm.",
+["SV1 + RV5 = 40 mm","L’indice adapté est Sokolov-Lyon (âge > 25 ans)","40 mm dépasse 35 mm : surcharge ventriculaire","L’indice est normal","Heller-Blondeau est l’indice adapté"],"ABC",
+"22 + 18 = 40 mm ≥ 35 mm, donc positif ; Heller-Blondeau concerne les < 25 ans."],
+["Application : Cornell",
+"Femme : SV3 = 14 mm, RaVL = 12 mm.",
+["SV3 + RaVL = 26 mm","Supérieur à 24 mm : indice positif chez la femme","Mêmes valeurs chez l’homme (seuil 28 mm) : négatif","Positif aussi chez l’homme","La somme vaut 24 mm"],"ABC",
+"14 + 12 = 26 mm : > 24 mm (femme) donc positif ; < 28 mm (homme) donc négatif."]
+];
+const L="ABCDE",box=document.getElementById("qs");let score=0,done=0;
+Q.forEach((q,i)=>{const d=document.createElement("div");d.className="q";
+d.innerHTML=`<div class="t">Q${i+1} / 30 · ${q[0]}</div><h2>${q[1]}</h2>`+q[2].map((o,k)=>`<label class="o"><input type="checkbox" data-k="${L[k]}"><b>${L[k]}.</b><span>${o}</span></label>`).join("")+`<button>Valider</button><div class="e"></div>`;
+const b=d.querySelector("button");
+b.onclick=()=>{const s=[...d.querySelectorAll("input")].filter(x=>x.checked).map(x=>x.dataset.k).join("");
+const ok=s===q[3];
+d.querySelectorAll(".o").forEach(l=>{const k=l.querySelector("input").dataset.k,c=q[3].includes(k),p=s.includes(k);
+l.classList.add(c&&p?"ok":!c&&p?"ko":c?"mi":"x");l.querySelector("input").disabled=true;});
+const e=d.querySelector(".e");e.style.display="block";
+e.innerHTML=`<div class="r" style="color:var(${ok?"--ok":"--ko"})">${ok?"✓ Correct":"✗ Incorrect"} — Bonnes réponses : ${q[3].split("").join(", ")}</div>${q[4]}`;
+b.disabled=true;if(ok)score++;done++;
+document.getElementById("sc").textContent=score+" / 30";
+document.getElementById("pb").style.width=done/30*100+"%";
+if(done===30){const f=document.getElementById("fin");f.style.display="block";f.innerHTML=`<b>Score final : ${score} / 30</b><br>${score>=24?"Excellent !":score>=18?"Bien, à consolider.":"Revoyez le cours puis recommencez."}<br><button onclick="location.reload()">Recommencer</button>`;f.scrollIntoView({behavior:"smooth"});}};
+box.appendChild(d);});
+</script></body></html>

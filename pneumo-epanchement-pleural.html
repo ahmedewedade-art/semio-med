@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QCM – Épanchement pleural</title>
+<style>
+:root{--bg:#f6f7fb;--c:#fff;--t:#1d2433;--m:#6b7385;--b:#d9dde8;--ok:#1e9e5a;--ko:#d6403a;--ac:#3b5bdb}
+@media(prefers-color-scheme:dark){:root{--bg:#12151c;--c:#1b1f2a;--t:#e8ebf3;--m:#9aa3b8;--b:#2e3446;--ok:#46c37f;--ko:#ef6a64;--ac:#7c93f5}}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,sans-serif;background:var(--bg);color:var(--t);padding:12px;max-width:760px;margin:auto}
+h1{font-size:1.2rem}select,button{font:inherit;padding:8px 12px;border-radius:8px;border:1px solid var(--b);background:var(--c);color:var(--t)}
+button.p{background:var(--ac);color:#fff;border:0}
+.q{background:var(--c);border:1px solid var(--b);border-radius:12px;padding:12px;margin:12px 0}
+.pg{font-size:.75rem;color:var(--m)}.q h3{font-size:1rem;margin:4px 0 8px}
+label{display:flex;gap:8px;padding:8px;border:1px solid var(--b);border-radius:8px;margin:5px 0;cursor:pointer}
+label.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 15%,transparent)}
+label.ko{border-color:var(--ko);background:color-mix(in srgb,var(--ko) 15%,transparent)}
+.ex{display:none;margin-top:8px;font-size:.9rem;color:var(--m)}.ex b{color:var(--t)}
+#sc{position:sticky;top:0;background:var(--bg);padding:8px 0;font-weight:600}
+</style>
+</head>
+<body>
+<h1>QCM difficile – Épanchement pleural (liquidien et gazeux)</h1>
+<p class="pg">Chaque question (A à E) peut avoir plusieurs réponses justes. Barème : exact = 1, une erreur = 0,5, sinon 0.</p>
+<div><select id="f"></select> <button id="rs">Recommencer</button></div>
+<div id="sc"></div>
+<div id="L"></div>
+<script>
+const Q=[
+[1,"Définition de l'épanchement pleural :",["Présence de liquide ou d'air dans la cavité pleurale","Le liquide est toujours clair","Le liquide peut être citrin ou séro-hématique","Un liquide hématique définit l'hémothorax","Il est toujours unilatéral"],"ACD","A, C, D exacts. B faux : clair, purulent, citrin, séro-hématique ou hématique. E faux : unilatéral ou bilatéral."],
+[2,"Aspect du liquide et latéralité :",["Le liquide peut être purulent","L'épanchement hématique s'appelle hémothorax","L'épanchement peut être bilatéral","Épanchement gazeux = hémothorax","Citrin signifie rouge franc"],"ABC","D faux : gazeux = pneumothorax. E faux : citrin = jaune citron."],
+[3,"Signes fonctionnels de l'épanchement liquidien :",["Douleur pleurale progressive selon le mode d'installation","Toux sèche positionnelle","Dyspnée dépendant uniquement de l'abondance","Toux productive purulente constante","Douleur brutale en coup de poignard"],"AB","C faux : dépend aussi de l'altération du parenchyme. E décrit le PNO."],
+[3,"Dyspnée et toux dans l'épanchement liquidien :",["Dépend de l'abondance de l'épanchement","Dépend de l'altération du parenchyme pulmonaire","Est indépendante de l'état du poumon","La toux est sèche et positionnelle","Un effort à glotte fermée est le facteur déclenchant habituel"],"ABD","C faux (cf. B). E faux : facteur déclenchant du PNO, et rare."],
+[4,"Syndrome d'épanchement liquidien pleural :",["Abolition des vibrations vocales","Matité déclive","Tympanisme","Abolition du murmure vésiculaire","Hypersonorité"],"ABD","C et E sont des signes du pneumothorax."],
+[4,"Autres anomalies auscultatoires possibles (liquide) :",["Frottement pleural","Souffle pleurétique","Souffle amphorique","Emphysème sous-cutané","Vibrations vocales augmentées"],"AB","C et D appartiennent au PNO. E faux : les VV sont abolies."],
+[5,"Radiographie thoracique, épanchement liquidien :",["Opacité homogène déclive","Sommet axillaire","Raccordement progressif à la plèvre (ligne de Damoiseau)","Niveau hydro-aérique systématique","Hyperclarté sans vaisseaux"],"ABC","D faux : le niveau hydro-aérique n'apparaît qu'en cas d'hémothorax associé à un PNO. E = PNO."],
+[5,"Autres aspects radiologiques :",["Comblement du cul-de-sac costodiaphragmatique latéral","Épanchement minime isolé de la scissure horizontale","La scissure horizontale concerne le poumon gauche","La ligne de Damoiseau est la plèvre viscérale rétractée","Limite supérieure horizontale rectiligne"],"AB","C faux : poumon droit. D faux : c'est la limite courbe de l'opacité. E faux : courbe, concave en haut."],
+[6,"Imagerie et ponction de l'épanchement liquidien :",["Le scanner confirme le diagnostic","L'échographie thoracique en fait partie","Le scanner n'a aucune place","Ponction pleurale systématique si fièvre","Ponction contre-indiquée si cause non évidente"],"ABD","C faux. E faux : la ponction est systématique si cause non évidente."],
+[6,"Étiologies de l'épanchement liquidien :",["Insuffisance cardiaque","Pneumopathie","Tuberculose","Néoplasies","Bulles pleurales du sujet jeune tabagique"],"ABCD","E est l'étiologie du pneumothorax idiopathique."],
+[6,"Conduite à tenir :",["Le drainage dépend de l'importance et de l'étiologie","Le drainage est identique pour tous","Ponction systématique si cause non évidente","Un traumatisme peut causer un hémothorax","Le drainage est contre-indiqué dans l'hémothorax"],"ACD","B faux : fonction de l'abondance et de l'étiologie. E faux."],
+[7,"Pneumothorax (définition) :",["Air dans la cavité pleurale","Épanchement gazeux","Un décollement pleural peut créer une plaie","S'il est important, compression des cavités cardiaques","Toujours bénin"],"ABCD","E faux : le PNO compressif est une urgence."],
+[7,"Hémopneumothorax :",["Association d'air et de sang pleuraux","Dû à une plaie créée par le décollement pleural","Niveau hydro-aérique à la radiographie","Matité de la base thoracique","Tympanisme de toute la base"],"ABCD","E faux : la base est mate (sang), le tympanisme concerne la partie aérique."],
+[8,"Facteurs déclenchants du PNO :",["Ils sont rares","Effort à glotte fermée","Port de charge lourde, plongée","Obligatoirement un effort","Douleur progressive"],"ABC","D faux : le PNO est souvent idiopathique. E faux : douleur brutale."],
+[8,"Signes fonctionnels du PNO :",["Douleur unilatérale brutale en coup de poignard","Toux positionnelle","Dyspnée variable selon l'importance","Douleur bilatérale progressive","Dyspnée toujours majeure"],"ABC","D, E faux : unilatérale, brutale ; dyspnée variable."],
+[9,"Syndrome d'épanchement gazeux pleural :",["Abolition des VV","Tympanisme","Abolition du MV","Matité déclive","Auscultation normale si faible abondance"],"ABCE","D = épanchement liquidien."],
+[9,"Autres signes du PNO :",["Souffle amphorique possible","Matité de la base si hémothorax associé","Emphysème sous-cutané possible","Frottement pleural pathognomonique","Souffle pleurétique typique"],"ABC","D et E : signes de l'épanchement liquidien."],
+[10,"Radiographie du PNO :",["Hyperclarté sans vaisseaux, périphérique","Limitée par une ligne fine (plèvre viscérale)","Entre paroi thoracique et poumon","Opacité homogène déclive","Ligne de Damoiseau"],"ABC","D et E : épanchement liquidien."],
+[10,"Radiographie du PNO (suite) :",["Poumon rétracté vers le hile","Niveau hydro-aérique si hémothorax associé","Médiastin refoulé si PNO compressif","Médiastin attiré si PNO compressif","Scanner contre-indiqué"],"ABC","D faux : refoulé du côté opposé. E faux : le scanner est un examen possible."],
+[10,"Comparaison liquide/gaz :",["Opacité homogène → liquide","Hyperclarté avasculaire → gaz","Tympanisme + VV abolies → gaz","Matité + VV abolies → gaz","L'abolition du MV distingue liquide et gaz"],"ABC","D faux : matité = liquide. E faux : MV et VV abolis dans les deux."],
+[11,"Étiologies du PNO :",["Le plus souvent idiopathique","Sujet jeune","Bulles pleurales favorisées par le tabagisme","Le plus souvent traumatique du sujet âgé","Endoscopie bronchique"],"ABCE","D faux : idiopathique du sujet jeune."],
+[11,"Autres causes du PNO :",["Traumatisme","Endoscopie bronchique","BPCO","Asthme sévère","Insuffisance cardiaque"],"ABCD","E : cause d'épanchement liquidien."],
+[11,"Jeune fumeur, douleur brutale en coup de poignard, hémithorax tympanique :",["PNO suspecté","Bulles pleurales probables","VV abolies","Matité déclive","Opacité homogène déclive"],"ABC","D et E : liquide."],
+[6,"Patient fébrile avec opacité déclive de l'hémithorax :",["Ponction systématique","Pneumopathie à évoquer","Ponction inutile s'il y a fièvre","Tuberculose possible","Drainage identique pour tous"],"ABD","C faux : fièvre = ponction systématique. E faux."],
+[7,"Hémothorax :",["Épanchement hématique","Peut être traumatique","Peut s'associer à un PNO","Matité de la base si associé","Liquide citrin"],"ABCD","E faux : citrin = jaune."]
+];
+const L=document.getElementById('L'),F=document.getElementById('f'),S=document.getElementById('sc');
+let st={};
+F.innerHTML='<option value="0">Toutes les pages</option>'+[...Array(11)].map((_,i)=>`<option value="${i+1}">Page ${i+1}</option>`).join('');
+function render(){
+ const p=+F.value;L.innerHTML='';
+ Q.forEach((q,i)=>{if(p&&q[0]!==p)return;
+  const d=document.createElement('div');d.className='q';
+  d.innerHTML=`<div class="pg">Page ${q[0]} · Q${i+1}</div><h3>${q[1]}</h3>`+
+  q[2].map((o,j)=>`<label data-j="${j}"><input type="checkbox"> <span><b>${'ABCDE'[j]}.</b> ${o}</span></label>`).join('')+
+  `<button class="p">Valider</button><div class="ex"></div>`;
+  d.querySelector('button').onclick=()=>check(d,i);L.appendChild(d);});
+ upd();}
+function check(d,i){
+ const q=Q[i],ls=[...d.querySelectorAll('label')];let err=0;
+ ls.forEach((l,j)=>{const c=l.firstElementChild.checked,r=q[3].includes('ABCDE'[j]);
+  l.firstElementChild.disabled=true;if(r)l.classList.add('ok');else if(c)l.classList.add('ko');if(c!==r)err++;});
+ st[i]=err==0?1:err==1?.5:0;
+ const e=d.querySelector('.ex');e.style.display='block';e.innerHTML=`<b>Réponses : ${q[3].split('').join(', ')}</b><br>${q[4]}`;
+ d.querySelector('button').disabled=true;upd();}
+function upd(){const n=Object.keys(st).length;S.textContent=`Score : ${Object.values(st).reduce((a,b)=>a+b,0)} / ${n} répondues (total ${Q.length})`;}
+F.onchange=render;document.getElementById('rs').onclick=()=>{st={};render();};
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>QCM – Insuffisance coronaire</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#fff;--fg:#1a1a1a;--card:#f4f4f6;--bd:#d0d0d6;--ok:#1e8e3e;--ko:#d93025;--ac:#b00020}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#16161a;--fg:#ececec;--card:#232329;--bd:#3a3a44;--ok:#4cc16b;--ko:#ff6b60;--ac:#ff8a98}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,Segoe UI,sans-serif;padding:14px}
+.w{max-width:680px;margin:auto}
+h1{font-size:19px;margin:0 0 6px;color:var(--ac)}
+.bar{height:6px;background:var(--card);border-radius:3px;margin:8px 0 12px}
+.bar i{display:block;height:100%;background:var(--ac);border-radius:3px;transition:width .3s}
+.meta{font-size:13px;opacity:.75;display:flex;justify-content:space-between}
+.q{font-weight:600;margin:10px 0}
+.o{display:flex;gap:10px;width:100%;text-align:left;background:var(--card);color:var(--fg);border:2px solid var(--bd);border-radius:10px;padding:10px;margin:6px 0;font:inherit;cursor:pointer}
+.o b{min-width:1.2em}
+.o.s{border-color:var(--ac)}
+.o.ok{border-color:var(--ok)}.o.ko{border-color:var(--ko)}.o.miss{border-color:var(--ok);border-style:dashed}
+.e{background:var(--card);border-left:4px solid var(--ac);padding:10px;border-radius:6px;margin:10px 0;font-size:14px}
+.btn{background:var(--ac);color:#fff;border:0;border-radius:10px;padding:12px 18px;font:inherit;font-weight:600;cursor:pointer;margin-top:6px}
+.btn:disabled{opacity:.4}
+.big{font-size:40px;font-weight:700;text-align:center;margin:20px 0}
+</style></head>
+<body><div class="w">
+<h1>QCM – Insuffisance coronaire</h1>
+<div class="meta"><span id="pg"></span><span id="sc"></span></div>
+<div class="bar"><i id="pb"></i></div>
+<div id="app"></div>
+</div>
+<script>
+// o: 5 propositions A–E ; a: lettres exactes ; e: justification
+const Q=[
+{p:"p.4",q:"À propos de la définition de l’insuffisance coronaire :",o:["Déséquilibre entre besoins et apports en O2 du myocarde","L’angor stable résulte d’une diminution des apports","Le SCA résulte d’une diminution des apports","L’angor stable résulte d’une augmentation des besoins","Elle est toujours d’origine athéromateuse"],a:"ACD",e:"Angor stable = ↑ besoins (effort) ; SCA = ↓ apports (thrombus). B est inversée ; E est fausse (spasme, coronarites, causes fonctionnelles…)."},
+{p:"p.5",q:"À propos des formes de l’insuffisance coronaire :",o:["L’IC chronique correspond au syndrome coronaire chronique","Les NSTEMI sont moins fréquents que les STEMI","L’angor instable fait partie des SCA sans sus-décalage ST","Un IDM sans onde Q s’accompagne d’une élévation de la troponine","STEMI = IDM classique"],a:"ACDE",e:"Les SCA ST– (NSTEMI) sont les plus fréquents : B est fausse."},
+{p:"p.6-7",q:"Parmi ces facteurs de risque, lesquels sont MODIFIABLES ?",o:["Stress","Âge","Sédentarité","Hérédité","Dyslipidémie"],a:"ACE",e:"Âge, sexe, hérédité = non modifiables. Tabac, HTA, diabète, cholestérol, stress, sédentarité = modifiables."},
+{p:"p.8-11",q:"Anatomie coronaire :",o:["Le tronc coronaire gauche se divise en IVA et circonflexe","L’IVA donne les diagonales et les septales","La circonflexe donne les marginales","L’IVA donne les marginales","La coronaire droite donne l’inter-ventriculaire postérieure"],a:"ABCE",e:"Les marginales naissent de la circonflexe, pas de l’IVA. La CD (segments 1-3) donne la rétro-ventriculaire gauche et l’IVP."},
+{p:"p.12",q:"Consommation myocardique d’O2 et réserve coronaire :",o:["Dépend de la fréquence cardiaque","Dépend de la contractilité (inotropisme)","Dépend de la tension pariétale intra-VG","La circulation non athéromateuse peut multiplier son débit par 4 à 5","Dépend surtout de la PA diastolique seule"],a:"ABCD",e:"Les 3 déterminants sont FC, inotropisme et tension pariétale. La réserve coronaire (×4-5) repose sur la vasomotricité."},
+{p:"p.13-14",q:"Ischémie myocardique :",o:["Apparaît quand l’apport d’O2 est insuffisant pour les besoins","Altération de la relaxation et ↓ compliance du VG","Production de lactates","Trouble de la repolarisation à l’ECG","↑ de la compliance ventriculaire"],a:"ABCD",e:"Conséquences hémodynamiques, métaboliques, ECG et cliniques (angor, IC). La compliance diminue, elle n’augmente pas."},
+{p:"p.17",q:"Angor (SCC) :",o:["Syndrome douloureux thoracique par hypoperfusion coronaire","Dit stable si inchangé depuis au moins 3 mois","Dit stable si inchangé depuis 1 mois","Doit être contrôlé pour éviter un SCA","Résulte d’une ↓ brutale des apports"],a:"ABD",e:"Stabilité ≥ 3 mois. L’angor d’effort résulte d’une ↑ des besoins ; la ↓ brutale des apports caractérise le SCA."},
+{p:"p.19",q:"Athérosclérose coronaire :",o:["Responsable de 90 % des cardiopathies ischémiques","Plaque située dans l’intima (et la média)","La plaque peut s’ulcérer, se rompre, se thromboser ou se calcifier","Le risque est plus élevé avec plusieurs FDR (risque global)","Cause de 95 % des angors vasospastiques"],a:"ABCD",e:"L’angor vasospastique n’est pas athéromateux (vasoconstriction brutale, sévère, intermittente)."},
+{p:"p.20",q:"Autres causes d’angor :",o:["Angor vasospastique : vasoconstriction brutale, sévère et intermittente","Coronarites : Behçet, lupus, Takayasu, Horton","Syndrome X : angor à coronaires saines, souvent chez la femme","RAo, HVG (CMH), anémie, hypoxie : insuffisance coronaire fonctionnelle","Syndrome X : sténoses athéroscléreuses serrées"],a:"ABCD",e:"Le syndrome X est un angor à coronaires angiographiquement saines."},
+{p:"p.21",q:"Douleur angineuse typique :",o:["Médiane, rétrosternale, large, désignée du plat de la main","Irradie au membre sup. gauche, bilatéral, mâchoire, nuque, dos","Déclenchée par marche rapide, froid, émotion, escalier","Cède à la trinitrine en moins d’une minute","Dure plus de 30 min et persiste malgré l’arrêt de l’effort"],a:"ABCD",e:"Elle impose l’arrêt de l’effort et disparaît en 5-10 min : E est fausse."},
+{p:"p.22",q:"Gestes décrivant la douleur :",o:["Poing serré sur le sternum","Main à plat sur la poitrine","Si l’un des 3 gestes est utilisé : probabilité d’origine cardiaque 77 %","Un doigt désignant un point précis est typique","Les 2 mains sur le thorax sont possibles"],a:"ABCE",e:"Les 3 gestes (poing, main à plat, deux mains) → 77 % d’origine cardiaque (BMJ 1995). Un point localisé au doigt est plutôt non angineux."},
+{p:"p.23",q:"Classification CCS :",o:["Stade II : marche en côte ou rapide","Stade III : efforts quotidiens peu importants (marche lente)","Stade I : gêne dans la vie quotidienne","Stade IV : douleur de repos","Stade I : efforts importants ou inhabituels"],a:"ABDE",e:"Le stade I n’entraîne PAS de gêne quotidienne."},
+{p:"p.24",q:"Examen clinique dans l’angor stable :",o:["Souvent normal","Recherche le niveau de PA et les diagnostics différentiels","Recherche d’autres localisations de l’athérosclérose","Peut montrer xanthomes/xanthélasma","Retrouve toujours un souffle systolique"],a:"ABCD",e:"Un souffle n’est pas constant (sauf cause associée type RAo)."},
+{p:"p.25",q:"Classification ESC 2019 des symptômes :",o:["Angor typique : les 3 critères réunis","Angor atypique : 2 critères","Douleur non angineuse : 1 critère ou aucun","Critères : constrictive, à l’effort, soulagée par repos/nitrés en 5 min","L’émotion est obligatoire pour parler d’angor typique"],a:"ABCD",e:"Le facteur déclenchant exigé est l’effort physique, pas l’émotion."},
+{p:"p.26",q:"ECG intercritique dans l’angor :",o:["Normal dans environ 75 % des cas","Ischémie sous-endocardique : T positives, pointues, symétriques","Ischémie sous-épicardique : T négatives, pointues, symétriques","Lésion sous-endocardique : sous-décalage ST horizontal ou descendant","Les ondes Q témoignent d’une nécrose récente"],a:"ABCD",e:"Les ondes Q sont des séquelles de nécrose ANCIENNE."},
+{p:"p.27",q:"Examens paracliniques de l’angor :",o:["ECG d’effort : 1re intention pour le diagnostic","Échocardiographie : troubles de la cinétique, autres diagnostics","Scintigraphie d’effort, écho dobutamine, IRM de stress","Coroscanner et coronarographie","Dosage systématique de la troponine"],a:"ABCD",e:"La troponine est l’outil du SCA, pas du SCC."},
+{p:"p.28",q:"Complications de l’angor stable :",o:["SCA","Troubles du rythme","Insuffisance cardiaque","Mort subite","Syndrome de Dressler"],a:"ABCD",e:"Le Dressler est une complication tardive de l’IDM."},
+{p:"p.36",q:"Définition du SCA :",o:["Ischémie myocardique aiguë","Occlusion complète par thrombus : ST+","Occlusion incomplète : ST–","Thrombus sur rupture de plaque d’athérome","Vasospasme = mécanisme principal"],a:"ABCD",e:"La rupture de plaque avec thrombus est le mécanisme principal (athérosclérose 95 %)."},
+{p:"p.39-41",q:"Physiopathologie du SCA :",o:["Athérosclérose coronaire : 95 %","SCA ST+ : troponine élevée","SCA ST– : troponine élevée ou normale","Autres mécanismes : spasme (tabac), embolie (FA), dissection","SCA ST– = occlusion complète"],a:"ABCD",e:"ST– = occlusion incomplète ; ST+ = occlusion complète."},
+{p:"p.40",q:"Diagnostic final après un SCA :",o:["SCA ST– sans troponine élevée = angor instable","SCA ST– avec troponine élevée = IDM sans onde Q (NSTEMI)","SCA ST+ évolue le plus souvent vers un IDM Q+","L’ECG initial sépare ST+ et ST–","Angor instable = troponine élevée"],a:"ABCD",e:"Angor instable = troponine NÉGATIVE."},
+{p:"p.42-43",q:"Douleur du SCA :",o:["Douleur de repos > 20 min","Angor de novo ≥ classe III CCS","Angor crescendo ≥ classe III CCS","Angor post-IDM","Cède aux dérivés nitrés sublinguaux"],a:"ABCD",e:"Elle est résistante aux dérivés nitrés sublinguaux."},
+{p:"p.44-45",q:"Formes atypiques et examen dans le SCA :",o:["Douleur épigastrique","Dyspnée","Indigestion","Examen souvent normal ; chercher ↓TA, OAP","Un examen normal élimine le SCA"],a:"ABCD",e:"Éliminer aussi DAo, péricardite, PNO, EP."},
+{p:"p.46",q:"ECG du SCA :",o:["À faire en moins de 10 min","18 dérivations (V7, V8, V9, V3r, V4r, VE)","ST+ : sus-décalage persistant ≥ 2 dérivations contiguës ou BBG récent","Un ECG normal n’élimine pas un SCA ST–","Sous-décalage ST ≥ 2 mm exigé pour SCA ST–"],a:"ABCD",e:"Le seuil du sous-décalage est ≥ 0,5 mm."},
+{p:"p.46",q:"Anomalies possibles d’un SCA ST– :",o:["Sus-décalage transitoire de ST","Sous-décalage ST ≥ 0,5 mm","Négativation T > 1 mm (R prédominante)","Ondes T positives amples et pointues","Sus-décalage ST persistant"],a:"ABCD",e:"Un sus-décalage persistant = SCA ST+."},
+{p:"p.47-48",q:"Biologie et imagerie du SCA :",o:["Troponine : marqueur de référence","CK-MB et myoglobine","Échocardiographie transthoracique systématique (classe Ic)","Échocardiographie : FE, cinétique, diagnostics différentiels","L’échographie est inutile"],a:"ABCD",e:"L’écho évalue la FE et la cinétique et élimine péricardite, EP, DAo, CMH, RAo."},
+{p:"p.51",q:"Causes d’élévation de la troponine NON liées à un SCA :",o:["Insuffisance rénale","Sepsis, insuffisance respiratoire","Hypothyroïdie","Amylose, hémochromatose, sarcoïdose","Hypokaliémie isolée"],a:"ABCD",e:"Aussi : myocardite, Tako-Tsubo, EP, rhabdomyolyse, brûlures > 30 %, AVC."},
+{p:"p.52",q:"Sus-décalage ST non lié à un SCA :",o:["Anévrysme du VG (fixe)","Repolarisation précoce (fixe)","Hyperkaliémie (dynamique)","Digoxine","Péricardite / myocardite aiguë"],a:"ABCE",e:"La digoxine donne un SOUS-décalage de ST."},
+{p:"p.53",q:"Complications précoces du SCA :",o:["RIVA = TV lente à 60-100/min","Évolution d’un SCA ST– vers ST+","BAV, bradycardie","Syndrome de Dressler (3e semaine)","Anévrysme du VG si ST+ persistant au-delà d’une semaine"],a:"ABC",e:"Dressler = tardif (3e semaine). Anévrysme : ST+ persistant au-delà de la 3e semaine."},
+{p:"p.54-55",q:"Complications mécaniques et tardives :",o:["Rupture septale ou de la paroi libre","IM par rupture de pilier","IDM du VD : extension d’un IDM inférieur","Péricardite précoce","Syndrome épaule-main avant le 1er mois"],a:"ABCD",e:"Le syndrome épaule-main (algodystrophie) survient au-delà du 1er mois. Tardifs : Dressler, angor résiduel, anévrysme, TV/FV (DAI)."},
+{p:"p.68-70",q:"Homme de 58 ans, douleur thoracique depuis 2 h. Causes CARDIAQUES à évoquer :",o:["Péricardite","Insuffisance coronaire","Embolie pulmonaire","Dissection aortique","Cardiomyopathie de Tako-Tsubo"],a:"ABE",e:"L’EP est pulmonaire et la dissection aortique est vasculaire (tableau du diagnostic différentiel)."},
+{p:"p.71-74",q:"Même patient : DNID, dyslipidémie, tabagisme ; barre rétrosternale irradiant au bras G ; TA 140/80, FC 84, SpO2 92 %, crépitants bilatéraux ; ECG avec sus-décalage de ST en V2-V6, DI, aVL :",o:["SCA ST+","Avec signes d’OAP","Territoire antérieur étendu","Péricardite aiguë","Dissection aortique"],a:"ABC",e:"Sus-décalage ST de V2 à V6, DI, aVL, tableau d’IDM antérieur étendu avec OAP (crépitants, SpO2 basse). Pas de frottement ni de souffle."},
+{p:"p.75-78",q:"Femme de 50 ans, diabétique, hypertendue, tabagique : angor d’effort depuis des mois, puis douleur intense de repos depuis 2 h. ECG : sus-décalage V1-V4, sous-décalage inférieur (flèches) :",o:["SCA ST+ antérieur","Image en miroir inférieure","Péricardite virale","Douleur de repos > 20 min sur angor ancien","Embolie pulmonaire"],a:"ABD",e:"Sus-décalage convexe antérieur avec miroir inférieur : SCA ST+. Péricardite : sus-décalage diffus concave sans miroir."}
+];
+let i=0,s=0,sel=new Set(),done=false;
+const L="ABCDE",$=id=>document.getElementById(id);
+function draw(){
+ if(i>=Q.length){$("pb").style.width="100%";$("pg").textContent="Terminé";
+  $("app").innerHTML='<div class="big">'+s+' / '+Q.length+'</div><p style="text-align:center">Une question n’est comptée juste que si toutes les bonnes réponses (et seulement elles) sont cochées.</p><button class="btn" onclick="i=0;s=0;draw()">Recommencer</button>';return}
+ const q=Q[i];sel=new Set();done=false;
+ $("pb").style.width=(i/Q.length*100)+"%";$("pg").textContent="Q"+(i+1)+"/"+Q.length+" · "+q.p;$("sc").textContent="Score : "+s;
+ $("app").innerHTML='<div class="q">'+q.q+'</div>'+q.o.map((t,k)=>'<button class="o" id="o'+k+'" onclick="tg('+k+')"><b>'+L[k]+'</b><span>'+t+'</span></button>').join("")+'<div id="ex"></div><button class="btn" id="bt" onclick="go()">Valider</button>';
+}
+function tg(k){if(done)return;sel.has(k)?sel.delete(k):sel.add(k);$("o"+k).classList.toggle("s")}
+function go(){
+ const q=Q[i];
+ if(done){i++;draw();return}
+ done=true;let ok=true;
+ q.o.forEach((_,k)=>{const c=q.a.includes(L[k]),el=$("o"+k);el.classList.remove("s");
+  if(sel.has(k)&&c)el.classList.add("ok");else if(sel.has(k)&&!c){el.classList.add("ko");ok=false}else if(c){el.classList.add("miss");ok=false}});
+ if(ok)s++;$("sc").textContent="Score : "+s;
+ $("ex").innerHTML='<div class="e"><b>'+(ok?"Correct ✔":"Incorrect ✘")+' – Réponses : '+q.a.split("").join(", ")+'</b><br>'+q.e+'</div>';
+ $("bt").textContent=i==Q.length-1?"Résultat":"Suivant";
+}
+draw();
+</script></body></html>

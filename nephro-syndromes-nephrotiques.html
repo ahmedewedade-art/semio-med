@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QCM – Grands syndromes en néphrologie</title>
+<style>
+:root{--ink:#1d2b33;--bg:#f3f6f4;--card:#fff;--line:#d5dedb;--amb:#b7791f;--teal:#0f6b6b;--ok:#1e7b4a;--bad:#b3261e}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,sans-serif}
+header{background:var(--teal);color:#fff;padding:22px 16px 18px;text-align:center}
+h1{font:700 24px/1.25 Georgia,serif;margin:0 0 4px}
+header p{margin:0;opacity:.9;font-size:14px}
+#bar{position:sticky;top:0;background:var(--ink);color:#fff;padding:8px 16px;display:flex;justify-content:space-between;font-size:14px;z-index:5}
+main{max-width:760px;margin:0 auto;padding:14px 12px 60px}
+.q{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--amb);border-radius:8px;padding:14px;margin:14px 0}
+.q h3{font:700 16px/1.4 Georgia,serif;margin:0 0 10px}
+.q label{display:flex;gap:10px;padding:8px 10px;border:1px solid var(--line);border-radius:6px;margin:6px 0;cursor:pointer}
+.q label b{min-width:16px;color:var(--teal)}
+.q input{margin-top:5px;accent-color:var(--teal)}
+.q label.ok{background:#e4f3ea;border-color:var(--ok)}
+.q label.bad{background:#fbe6e4;border-color:var(--bad)}
+.q label.miss{border:2px dashed var(--ok)}
+button{background:var(--teal);color:#fff;border:0;border-radius:6px;padding:9px 16px;font:600 15px system-ui;cursor:pointer;margin-top:6px}
+button:focus-visible,input:focus-visible{outline:3px solid var(--amb);outline-offset:2px}
+.ex{display:none;margin-top:10px;padding:10px 12px;background:#faf3e3;border-radius:6px;font-size:14.5px}
+.ex.on{display:block}
+.ex strong{color:var(--ok)}
+#end{display:none;text-align:center;font:700 20px Georgia,serif;margin:20px 0}
+#end button{background:var(--amb)}
+</style></head><body>
+<header><h1>Les grands syndromes en néphrologie</h1><p>30 QCM difficiles · 5 propositions · une ou plusieurs réponses exactes</p></header>
+<div id="bar"><span id="prog">0 / 30 validées</span><span id="sc">Score : 0</span></div>
+<main id="m"></main>
+<div id="end"></div>
+<script>
+// [énoncé, [A,B,C,D,E], réponses exactes, explication]
+const Q=[
+["À propos du rein :",["Organe rétropéritonéal pair qui sécrète l'urine","Mesure environ 12 cm de long, 6 cm de large et 3 cm d'épaisseur","Pèse environ 150 g","Compte environ 10 millions de néphrons par rein","L'artère rénale naît de la veine cave inférieure"],"ABC","D faux : environ 1 million de néphrons par rein. E faux : l'artère rénale naît de l'aorte ; la veine rénale se jette dans la VCI."],
+["Coupe du rein (1 calice, 2 bassinet, 3 graisse du sinus, 4 artère interlobaire, 5 pyramide de Malpighi, 6 cortex, 7 rayon médullaire, 8 colonne de Bertin) :",["La pyramide de Malpighi correspond à la médulla","La colonne de Bertin (colonne rénale) se situe entre les pyramides","Le cortex est la partie périphérique du rein","La graisse du sinus est située dans le cortex","La papille rénale est le sommet de la pyramide"],"ABCE","D faux : la graisse du sinus occupe le sinus rénal (centre), pas le cortex."],
+["À propos du néphron et de la structure du rein :",["Le néphron comprend glomérule, tube proximal, anse de Henlé, tube distal et tube collecteur","Un rein compte environ 1 million de néphrons","Le rein comporte 4 éléments essentiels : glomérules, tubules, interstitium, vaisseaux","Le tube collecteur est un segment de l'anse de Henlé","L'interstitium est un tissu de soutien intimement lié aux tubules"],"ABCE","D faux : le tube collecteur est un segment distinct de l'anse de Henlé."],
+["Composition du glomérule :",["Les cellules mésangiales maintiennent les anses capillaires","La BFG comprend, de dedans en dehors : endothélium fenêtré, MBG, podocytes","Le cytoplasme des cellules endothéliales est chargé négativement","Les diaphragmes de fente sont faits de protéines chargées positivement","Les podocytes sont des cellules endothéliales"],"ABC","D faux : protéines chargées négativement (barrière de charge). E faux : les podocytes sont des cellules épithéliales à pédicelles."],
+["Fonction du glomérule :",["Le DFG est d'environ 125 mL/min, soit 180 L/j","L'ultrafiltrat est dépourvu d'éléments figurés du sang et des protéines de PM élevé (> 70 kD)","L'ultrafiltrat normal contient des hématies","Dans l'atteinte glomérulaire, glomérules enflammés et gorgés de sang : la perméabilité laisse passer cellules sanguines et protéines","La MBG comporte des pores d'environ 40 nm (noté « 40 mm » sur la diapo)"],"ABDE","C faux : un ultrafiltrat normal ne contient pas d'hématies ; leur passage traduit une atteinte glomérulaire."],
+["Réabsorption tubulaire :",["Le TCP réabsorbe 100 % du glucose, des HCO3⁻ et des acides aminés","Le TCP réabsorbe 60-70 % de l'eau, du Na⁺, Cl⁻, Ca⁺⁺, phosphates, Mg","Les grosses molécules sont réabsorbées par endocytose","La branche descendante de l'anse de Henlé est imperméable à l'eau et perméable au Na","La branche ascendante est imperméable à l'eau et perméable au Na"],"ABCE","D faux : la branche descendante est perméable à l'eau et imperméable au Na (concentration des urines)."],
+["Fonctions du tube urinaire :",["99 % du filtrat sont réabsorbés","La réabsorption permet de conserver la plupart des nutriments","La sécrétion tubulaire concerne H⁺, K⁺, ammoniac, créatinine, pénicilline, PAH","Le tube collecteur élabore à lui seul l'urine terminale","La sécrétion tubulaire participe à la régulation du pH"],"ABCE","D faux : la partie distale du TCD élabore l'urine terminale ; le tube collecteur ajuste la réabsorption."],
+["Classification des syndromes :",["Il y a 6 grands syndromes : glomérulaire, tubulaire aigu, interstitiel aigu, tubulo-interstitiel chronique, vasculaire, urémie","Le SNG est chronique si la durée est > 3 mois","Le SNG est aigu si la durée est < 3 mois","Le SNG est dit aigu si la durée dépasse 3 mois","Le syndrome tubulaire aigu évolue en plus de 3 mois"],"ABC","D faux : aigu = < 3 mois. E faux : tubulaire aigu = évolution < 3 mois."],
+["Œdèmes de type rénal :",["Début : prise de poids, bagues serrées, bouffissure du visage","Bilatéraux, symétriques, mous, blancs, indolores, prenant le godet","Déclives : paupières et lombes au réveil, membres inférieurs en position debout","Douloureux, rouges et chauds","Possible atteinte des séreuses (anasarque) et du poumon (OAP)"],"ABCE","D faux : œdème rénal blanc et indolore."],
+["Éléments cliniques du SNG :",["HTA de grade variable","Hématurie macroscopique totale, indolore, non caillotante","Diurèse variable, parfois oligurie ou anurie","Bandelette : protéinurie de 2 à 4 croix","Hématurie douloureuse et caillotante"],"ABCD","E faux : l'hématurie glomérulaire est indolore et non caillotante."],
+["Biologie du SNG :",["Protéinurie glomérulaire > 0,5 g/24 h","Protéinurie glomérulaire à plus de 50 % d'albumine","Protéinurie sélective si > 80 % d'albumine","Sédiment : hématies dysmorphiques et cylindres hématiques","Une insuffisance rénale peut être associée"],"BCDE","A faux : seuil de la diapo : > 2 g/24 h."],
+["Syndromes de néphropathie glomérulaire :",["Cinq formes : néphrotique, néphritique aigu, GNRP, hématurie macroscopique récidivante, GNC au stade d'IRT","Le syndrome néphrotique est un syndrome tubulaire","La GNRP est un syndrome glomérulaire","La maladie de Berger est une cause du syndrome d'hématurie récidivante","Le syndrome d'urémie fait partie des syndromes glomérulaires"],"ACD","B faux : néphrotique = glomérulaire. E faux : l'urémie est un syndrome distinct (6e grand syndrome)."],
+["Définition biologique du syndrome néphrotique :",["Protéinurie > 3 g/24 h (ou > 50 mg/kg/24 h chez l'enfant)","Albuminémie < 30 g/L","Protidémie < 60 g/L (inconstante)","Protéinurie > 2 g/24 h suffisante","Albuminémie < 40 g/L"],"ABC","D faux : le seuil est 3 g/24 h. E faux : albuminémie < 30 g/L."],
+["Un syndrome néphrotique est « impur » s'il existe :",["Une HTA","Une hématurie macroscopique ou microscopique","Une insuffisance rénale aiguë organique","Une protéinurie non sélective","Des œdèmes"],"ABCD","E faux : les œdèmes font partie du tableau habituel et ne rendent pas le SN impur."],
+["Causes primitives (idiopathiques) du syndrome néphrotique :",["Hyalinose segmentaire et focale","Lupus érythémateux disséminé","Glomérulonéphrite membrano-proliférative","Glomérulonéphrite à lésions minimes (GNLM)","Amylose"],"ACD","B et E : causes secondaires. Autres causes primitives : GN extra-membraneuse, dépôts mésangiaux d'IgA (Berger)."],
+["Causes secondaires du syndrome néphrotique :",["Diabète","Polyarthrite rhumatoïde","Hépatite A","Bilharziose","AINS et cancers"],"ABDE","C faux : la diapo cite les hépatites B et C (avec VIH, EBV, CMV)."],
+["Syndrome néphritique aigu :",["Début brutal","Urines « coca-cola » ou « bouillon sale »","Protéinurie glomérulaire le plus souvent non néphrotique","HTA souvent sévère voire maligne","Polyurie"],"ABCD","E faux : oligurie (avec insuffisance rénale)."],
+["Syndrome de GNRP :",["Début rapidement progressif","Hématurie inconstante, absente dans la moitié des cas","Créatininémie rapidement croissante sans rémission spontanée","Absence d'HTA et d'œdèmes dans 50 % des cas","Ponction-biopsie rénale et corticoïdes/immunosuppresseurs en urgence absolue si suspicion"],"ACDE","B faux : hématurie constante (macro- ou microscopique glomérulaire)."],
+["Syndrome d'hématurie macroscopique récidivante :",["Épisodes répétés, macro- ou microscopiques","Concomitants d'une infection des voies aériennes supérieures","Urines colorées en permanence entre les crises","Cause principale : néphropathie à IgA (dépôts d'IgA mésangiaux)","Autres causes : syndrome d'Alport, purpura de Henoch-Schönlein"],"ABDE","C faux : urines de couleur normale entre les crises."],
+["GNC au stade d'insuffisance rénale terminale :",["Dégradation irréversible évoluant vers dialyse ou transplantation","Protéinurie glomérulaire, HTA, œdèmes de type rénal","Syndrome urémique","Atrophie symétrique des reins à l'échographie","Gros reins à l'échographie"],"ABCD","E faux : atrophie symétrique des reins."],
+["Syndrome de néphropathie tubulaire aiguë :",["Évolution < 3 mois","Anurie le plus souvent, diurèse parfois conservée","Absence d'œdèmes des membres inférieurs","Absence d'HTA","Hématurie macroscopique fréquente"],"ABCD","E faux : pas d'hématurie macroscopique ; BU : protéinurie (+) ou (−), sans hématurie ni leucocyturie. Sémiologie pauvre : signes négatifs."],
+["Syndrome de néphropathie interstitielle aiguë :",["Atteinte exclusive ou prédominante de l'interstitium, < 3 mois","Diurèse conservée, parfois polyurie > 3 L/24 h","Hématurie macroscopique possible","BU : leucocyturie, protéinurie +/-, parfois hématurie","Protéinurie > 3 g/24 h"],"ABCD","E faux : protéinurie faible débit < 1 g/24 h."],
+["Protéinurie tubulaire :",["Faible débit (< 1 g/24 h)","Moins de 50 % d'albumine","Protéines de bas PM : β2-microglobuline, α1-microglobuline, RBP, Tamm-Horsfall, chaînes légères libres","Majoritairement faite d'albumine","Supérieure à 2 g/24 h"],"ABC","D et E faux : protéinurie tubulaire = faible débit, peu d'albumine."],
+["Néphropathie tubulo-interstitielle chronique :",["Évolution > 3 mois","Polyurie précoce, progressive et modérée","Nycturie (pollakiurie nocturne)","BU : leucocyturie, glycosurie normoglycémique, protéinurie +/-, sans hématurie","HTA précoce et sévère"],"ABCD","E faux : absence d'HTA (peut apparaître au stade avancé)."],
+["Syndrome de néphropathie vasculaire :",["HTA au premier plan","Absence d'œdèmes des membres inférieurs","BU : protéinurie +/-, sans hématurie ni leucocyturie","Protéinurie > 3 g/24 h","Forme aiguë : hématurie macroscopique parfois"],"ABCE","D faux : protéinurie < 2 g/24 h."],
+["Syndrome d'urémie :",["Altération sévère de la fonction rénale ; aigu si < 3 mois","Accumulation de toxines urémiques dans le sang","Nausées, vomissements incoercibles, hoquet, haleine urémique","OAP et frottement péricardique","Aigu si l'évolution dépasse 3 mois"],"ABCD","E faux : aigu = < 3 mois."],
+["Absence habituelle d'œdèmes des membres inférieurs dans :",["La néphropathie tubulaire aiguë","La néphropathie interstitielle aiguë","La néphropathie tubulo-interstitielle chronique","La néphropathie vasculaire","Le syndrome néphritique aigu"],"ABCD","E faux : œdèmes de type rénal, anasarque, parfois OAP."],
+["Enfant de 6 ans : œdèmes palpébraux matinaux, anasarque, protéinurie 4 g/24 h (> 80 % d'albumine), albuminémie 22 g/L, sans HTA ni hématurie.",["Syndrome néphrotique pur","Protéinurie sélective","Syndrome néphritique aigu","Définition biologique du syndrome néphrotique remplie","Une insuffisance rénale aiguë organique ferait parler de SN impur"],"ABDE","C faux : pas d'hématurie, d'HTA ni d'oligurie."],
+["Homme de 25 ans : début brutal il y a 5 jours, urines « coca-cola », œdèmes, HTA sévère, oligurie, protéinurie 1,5 g/24 h, créatinine élevée.",["Syndrome néphritique aigu","Syndrome néphrotique","Protéinurie non néphrotique cohérente","Syndrome de néphropathie glomérulaire aigu (< 3 mois)","Néphropathie tubulaire aiguë"],"ACD","B faux : protéinurie < 3 g/24 h. E faux : œdèmes, HTA et hématurie excluent une atteinte tubulaire."],
+["Femme de 40 ans : créatinine doublée en 3 semaines, hématurie microscopique glomérulaire, protéinurie 1 g/24 h, sans HTA ni œdèmes, signes extra-rénaux.",["GNRP","Absence d'HTA et d'œdèmes compatible (50 % des cas)","On attend une rémission spontanée","Biopsie rénale et traitement en urgence","Syndrome néphrotique"],"ABD","C faux : aucune tendance à la rémission spontanée. E faux : protéinurie non néphrotique."]
+];
+const m=document.getElementById("m"),L="ABCDE";let done=0,score=0;
+function h(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+Q.forEach((q,i)=>{
+ const s=h("section","q");s.appendChild(h("h3",0,(i+1)+". "+q[0]));
+ const labs=q[1].map((t,j)=>{const l=h("label");const c=document.createElement("input");c.type="checkbox";l.append(c,h("b",0,L[j]),h("span",0,t));s.appendChild(l);return[l,c]});
+ const b=h("button",0,"Valider");const ex=h("div","ex");
+ b.onclick=()=>{
+  let all=true;
+  labs.forEach(([l,c],j)=>{const ok=q[2].includes(L[j]);c.disabled=true;
+   if(ok&&c.checked)l.classList.add("ok");else if(!ok&&c.checked){l.classList.add("bad");all=false}else if(ok){l.classList.add("miss");all=false}});
+  const st=h("strong",0,(all?"Exact · ":"Inexact · ")+"Réponses : "+q[2].split("").join(", "));
+  ex.append(st,document.createElement("br"),document.createTextNode(q[3]));ex.classList.add("on");
+  b.remove();done++;if(all)score++;
+  document.getElementById("prog").textContent=done+" / "+Q.length+" validées";
+  document.getElementById("sc").textContent="Score : "+score;
+  if(done===Q.length){const e=document.getElementById("end");e.style.display="block";e.textContent="Score final : "+score+" / "+Q.length+" ";const r=h("button",0,"Recommencer");r.onclick=()=>location.reload();e.appendChild(r)}
+ };
+ s.append(b,ex);m.appendChild(s);
+});
+</script></body></html>

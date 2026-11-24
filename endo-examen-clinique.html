@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quiz – Examen clinique en endocrinologie</title>
+<style>
+:root{--bg:#f3f6f4;--card:#fff;--ink:#17262b;--mut:#5b6b70;--line:#d3dcd8;--acc:#0e6b6b;--ok:#1b7f4b;--okb:#dff3e8;--ko:#b3261e;--kob:#fbe3e1;--miss:#fff3d6;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101a1c;--card:#172427;--ink:#e6efee;--mut:#9db0b3;--line:#2c3f43;--acc:#5cc4c0;--ok:#6fd49b;--okb:#17372a;--ko:#ff8f86;--kob:#3d1c1a;--miss:#3a3216}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Georgia,"Times New Roman",serif}
+header{padding:22px 16px 10px;max-width:760px;margin:auto}
+h1{font-size:1.5rem;margin:0 0 6px;line-height:1.2}
+header p{margin:0;color:var(--mut);font:0.9rem/1.4 system-ui,sans-serif}
+#bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);font:600 .9rem system-ui,sans-serif}
+#bar div{max-width:760px;margin:auto;padding:8px 16px;display:flex;justify-content:space-between;gap:8px;align-items:center}
+main{max-width:760px;margin:auto;padding:8px 16px 60px}
+h2{font:700 1rem system-ui,sans-serif;color:var(--acc);margin:26px 0 8px;border-bottom:2px solid var(--acc);padding-bottom:4px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin:0 0 14px}
+.q .t{font-weight:700;margin:0 0 10px}
+.o{display:flex;gap:10px;width:100%;text-align:left;background:transparent;color:inherit;border:1px solid var(--line);border-radius:8px;padding:9px 10px;margin:0 0 6px;font:inherit;cursor:pointer}
+.o b{font-family:system-ui,sans-serif;min-width:1.4em;color:var(--acc)}
+.o.sel{border-color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc)}
+.o.ok{background:var(--okb);border-color:var(--ok)}
+.o.ko{background:var(--kob);border-color:var(--ko)}
+.o.miss{background:var(--miss);border-color:#c79a1b}
+.o:focus-visible,.v:focus-visible,.r:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.v,.r{font:600 .9rem system-ui,sans-serif;padding:8px 14px;border-radius:8px;border:1px solid var(--acc);cursor:pointer}
+.v{background:var(--acc);color:var(--bg)}
+.r{background:transparent;color:var(--acc)}
+.e{display:none;margin-top:10px;padding:10px;border-left:4px solid var(--acc);background:var(--bg);font-size:.93rem}
+.e.on{display:block}
+.res{font:600 .85rem system-ui,sans-serif;margin-left:10px}
+#fin{display:none;background:var(--card);border:2px solid var(--acc);border-radius:10px;padding:16px;text-align:center;font:600 1.05rem system-ui,sans-serif}
+</style>
+</head>
+<body>
+<header>
+<h1>Examen clinique du malade en endocrinologie</h1>
+<p>Quiz de niveau avancé · chaque question propose 5 propositions (A à E) avec une ou plusieurs réponses exactes. Question réussie seulement si toutes les bonnes réponses, et uniquement elles, sont cochées.</p>
+</header>
+<div id="bar"><div><span id="sc">Score : 0 / 0</span><span id="pg"></span><button class="r" onclick="resetAll()">Recommencer</button></div></div>
+<main id="m"></main>
+<main><div id="fin"></div></main>
+<script>
+const Q=[
+// p.2
+{p:"Page 2 – Généralités : les glandes",q:"À propos des glandes endocrines :",o:["Leurs hormones sont déversées dans les vaisseaux capillaires.","Elles possèdent un canal excréteur qui déverse la sécrétion vers l’extérieur.","Les gonades (ovaires et testicules) en font partie.","Le thymus figure dans la liste des glandes du cours.","Le pancréas figure parmi les glandes citées."],a:"ACE",e:"A vrai : sécrétion interne dans les capillaires. B faux : c’est la définition d’une glande exocrine. C vrai. D faux : la liste du cours = hypophyse, thyroïde, parathyroïdes, surrénales, pancréas, gonades. E vrai."},
+// p.3
+{p:"Page 3 – Généralités : classification",q:"Les pathologies endocriniennes peuvent être classées en :",o:["Syndromes d’hyper ou d’hypofonctionnement, ou de dysfonctionnement d’une glande.","Syndromes associant les troubles de plusieurs glandes endocriniennes.","Trois groupes distincts : hyper, hypo et tumeurs.","Uniquement des syndromes tumoraux.","Un groupe spécifique « dysfonctionnement » séparé du groupe hyper/hypofonctionnement."],a:"AB",e:"Le cours définit 2 groupes : (1) atteinte d’une seule glande (hyper, hypo ou dysfonctionnement) ; (2) atteinte de plusieurs glandes (polyendocrinopathies). C, D, E contredisent cette classification en 2 groupes."},
+// p.4
+{p:"Page 4 – Interrogatoire : antécédents personnels",q:"Les antécédents personnels à rechercher comprennent :",o:["Les antécédents médicaux : autres maladies quelles qu’elles soient.","Les antécédents gynéco-obstétricaux.","Les troubles psychiques : nervosité, bouffées d’excitabilité, chocs émotifs.","Les troubles de la croissance et de la puberté.","Les antécédents chirurgicaux sont exclus de l’interrogatoire endocrinien."],a:"ABCD",e:"A, B, C, D figurent dans la diapositive. E est faux : les antécédents chirurgicaux sont listés (ex. chirurgie thyroïdienne, surrénalienne, hypophysaire)."},
+{p:"Page 4 – Interrogatoire : gynéco-obstétrical",q:"Parmi les éléments gynéco-obstétricaux à préciser :",o:["La date des premières règles.","Le nombre d’enfants.","Les fausses couches.","Le poids des enfants à la naissance.","Le groupe sanguin du conjoint."],a:"ABCD",e:"Ménarche (puberté), parité, fausses couches (stérilité/avortements) et poids de naissance (ex. macrosomie → diabète) sont cités. E n’est pas évoqué et n’a pas de valeur endocrinienne."},
+// p.5
+{p:"Page 5 – Interrogatoire : antécédents familiaux",q:"Pour les antécédents familiaux :",o:["On recherche l’arbre généalogique le plus complet possible.","On recherche des malformations (squelettiques et autres).","Les maladies métaboliques à rechercher incluent diabète, hyperlipidémies, hémochromatose, goutte.","L’obésité familiale est appréciée par l’IMC.","Seuls les antécédents endocriniens sont recherchés."],a:"ABCD",e:"A à D correspondent à la diapositive (affections hématologiques également citées). E est faux : malformations et maladies métaboliques sont aussi recherchées."},
+// p.6
+{p:"Page 6 – Interrogatoire : troubles endocriniens familiaux",q:"Les troubles endocriniens à rechercher (famille et grossesse) comprennent :",o:["Nanisme et gigantisme.","Goitre et stérilité.","Grossesse anormale (avortements spontanés).","Médicaments pris pendant la grossesse.","Hémochromatose, classée par le cours parmi les troubles endocriniens."],a:"ABCD",e:"A–D sont dans la diapositive (+ dysmorphies). E est faux : l’hémochromatose est citée parmi les maladies métaboliques (p. 5), pas parmi les troubles endocriniens."},
+// p.7
+{p:"Page 7 – Histoire de la maladie : signes généraux",q:"Parmi les signes généraux de l’histoire de la maladie :",o:["Amaigrissement avec ou sans anorexie.","Asthénie globale (physique, psychique, génitale) ou élective.","Fièvre.","Sueurs nocturnes.","Hémoptysie."],a:"ABCD",e:"Signes généraux cités : amaigrissement, prise de poids, asthénie (globale ou élective), anorexie, fièvre, sueurs nocturnes. L’hémoptysie n’y figure pas."},
+// p.8
+{p:"Page 8 – Histoire de la maladie : signes fonctionnels",q:"Associez correctement signe et appareil (signes fonctionnels) :",o:["Crampes → musculaire.","Dérobement des jambes → osseux.","Soif, sueurs, moiteur des mains → sympathique.","Palpitations, douleurs → cardiaque.","Douleurs rhumatismales → musculaire."],a:"ACD",e:"B faux : dérobement des jambes = signe musculaire (avec crampes, fatigabilité). E faux : les douleurs rhumatismales sont des signes osseux. Digestifs = diarrhées, constipation."},
+// p.9
+{p:"Page 9 – Syndrome tumoral : céphalées",q:"Les céphalées du syndrome tumoral (hypophysaire) :",o:["Sont non spécifiques et rares.","Sont évocatrices lorsqu’elles sont bitemporales et médio-frontales.","Peuvent avoir un aspect pseudo-migraineux.","Sont constantes, pulsatiles et très spécifiques.","Sont évocatrices lorsqu’elles sont exclusivement occipitales."],a:"ABC",e:"Selon le cours : non spécifiques, rares, évocatrices si bitemporales/médio-frontales ou d’aspect pseudo-migraineux. D et E sont faux."},
+{p:"Page 9 – Syndrome tumoral : signes ophtalmologiques",q:"Les signes ophtalmologiques du syndrome tumoral comprennent :",o:["Acuité visuelle normale ou diminuée.","Achromatopsie, premier signe du déficit.","Amputation du champ visuel.","Évolution possible vers la cécité.","Diplopie constante comme premier signe."],a:"ABCD",e:"A–D sont textuels (l’achromatopsie est le premier signe du déficit). E n’est pas cité."},
+{p:"Page 9 – Syndrome tumoral : autres signes",q:"Concernant les autres manifestations du syndrome tumoral :",o:["L’HTIC est exceptionnelle.","L’hémiparésie est rare.","Épilepsie et syndrome frontal peuvent s’observer.","Rhinorrhée et épistaxis sont exceptionnelles.","L’HTIC est le mode de révélation habituel."],a:"ABCD",e:"A–D reprennent la diapositive (l’HTIC se manifeste par vomissements, mais reste exceptionnelle). E est faux."},
+// p.10
+{p:"Page 10 – Signes métaboliques et gonadiques",q:"À propos des signes métaboliques et gonadiques :",o:["Frilosité et thermophobie sont des signes métaboliques.","La thermophobie oriente vers l’hypothyroïdie.","La frilosité oriente plutôt vers un hypométabolisme.","Chez l’homme on explore l’érection et l’éjaculation.","Chez la femme on explore règles, douleurs et hémorragies."],a:"ACDE",e:"B faux : thermophobie = hypermétabolisme (hyperthyroïdie) ; frilosité = hypométabolisme (hypothyroïdie)."},
+// p.11
+{p:"Page 11 – Modifications corporelles",q:"L’interrogatoire recherche des modifications de :",o:["La silhouette (face, extrémités, tronc), en comparant avec des photos antérieures.","Les goitres et les yeux.","Les organes génitaux externes et des seins.","La peau et des phanères (cheveux, poils, ongles).","Uniquement les dents."],a:"ABCD",e:"A–D figurent à la diapositive (photos antérieures utiles pour dater l’acromégalie, Cushing…). E est faux."},
+// p.12
+{p:"Page 12 – Mode de début et évolution",q:"Que doit-on toujours préciser ?",o:["Le mode de début.","Un début brutal, avec recherche de facteurs déclenchants.","Un début progressif.","L’allure évolutive.","Seul le début brutal a un intérêt."],a:"ABCD",e:"Le mode de début (brutal avec facteurs déclenchants, ou progressif) et l’allure évolutive sont toujours précisés. E est faux."},
+// p.13
+{p:"Page 13 – Bilan de l’interrogatoire",q:"Au terme de l’interrogatoire, on est en général en mesure de :",o:["Guider vers la glande ou l’axe endocrinien en cause.","Orienter vers hyper-, hypofonctionnement pur ou dysfonctionnement.","Citer comme axes : hypophyse, thyroïde, surrénale, gonades, pancréas.","Poser un diagnostic de certitude sans examen.","Se dispenser de l’examen clinique."],a:"ABC",e:"L’interrogatoire est une orientation, pas une certitude : D et E sont faux."},
+// p.14
+{p:"Page 14 – Principes de l’examen",q:"En endocrinologie, l’examen doit :",o:["Explorer toutes les fonctions glandulaires.","Préciser le premier trouble en date.","Apprécier son retentissement éventuel.","Se limiter à la glande suspectée.","Ignorer l’ordre chronologique des troubles."],a:"ABC",e:"Toutes les fonctions glandulaires sont explorées (atteintes multiples possibles), le premier trouble est daté et le retentissement apprécié. D et E sont faux."},
+// p.15
+{p:"Page 15 – Inspection (1)",q:"À l’inspection, on recherche :",o:["Une pâleur marquée du visage ou une érythrose.","Une infiltration cutanéo-muqueuse ou une atrophie cutanée.","Une pigmentation, une dépilation ou un hirsutisme.","Des modifications grossières de la silhouette, de la face ou des mains.","Une tuméfaction du cou, visible uniquement à la palpation."],a:"ABCD",e:"A–D sont textuels. E est contradictoire : une tuméfaction cervicale (goitre) est visible à l’inspection."},
+// p.16
+{p:"Page 16 – Inspection (2)",q:"Concernant la fin de l’inspection :",o:["Une saillie des yeux est recherchée.","Une tuméfaction du cou est recherchée.","L’attitude et le comportement (agité, instable ou apathique, figé) sont des éléments majeurs.","Il n’est pas rare de poser un diagnostic dès l’inspection.","L’inspection n’a jamais de valeur diagnostique."],a:"ABCD",e:"A–D correspondent au cours (exophtalmie, goitre, hyperthyroïdie agitée vs myxœdème apathique). E est faux."},
+// p.17
+{p:"Page 17 – Morphologie générale",q:"L’examen méthodique de la morphologie comporte :",o:["La taille et le poids.","Le diamètre bi-huméral et bitrochantérien.","Une consignation sur un morphogramme.","Le périmètre crânien comme mesure obligatoire.","Le périmètre thoracique et la hauteur du grand trochanter."],a:"ABCE",e:"D faux : le périmètre crânien n’est pas cité. On cite le rapport des segments, bi-huméral, bitrochantérien, périmètre thoracique, hauteur du grand trochanter, notés sur un morphogramme."},
+// p.18
+{p:"Page 18 – Examen thyroïdien (1)",q:"L’examen de la thyroïde doit être :",o:["Inspecté à jour frisant.","Palpé en faisant avaler le malade.","Noter volume, consistance, nodule, sensibilité.","Ausculté à la recherche d’un souffle.","Un trill est recherché à l’auscultation."],a:"ABCD",e:"E faux : le trill se perçoit à la palpation, le souffle à l’auscultation."},
+// p.19
+{p:"Page 19 – Examen thyroïdien (2)",q:"L’examen thyroïdien comporte aussi l’appréciation de :",o:["Les yeux.","Le cœur (rythme).","Le système nerveux.","La peau : infiltration, sécheresse, moiteur.","Les reins."],a:"ABCD",e:"Yeux, cœur, système nerveux, peau, muscles. Les reins ne sont pas cités (E faux)."},
+// p.20
+{p:"Page 20 – Examen des surrénales (1)",q:"À propos de l’examen des surrénales :",o:["Elles ne sont pas palpables.","Hyper ou hypofonctionnement se traduit par des signes indirects.","La peau : acné, vergetures, pilosités, pigmentation.","Les muqueuses : couleur, taches foncées.","La tension artérielle est basse ou élevée."],a:"ABCDE",e:"Toutes les propositions sont textuelles : surrénales non palpables, d’où l’importance des signes indirects (peau, muqueuses, TA)."},
+{p:"Page 20 – Examen des surrénales (2)",q:"Parmi les points importants de l’examen surrénalien :",o:["Atrophie musculaire à la racine des membres.","Répartition faciotronculaire de la graisse.","Boule graisseuse sur la nuque.","Morphologie générale.","Atrophie musculaire à prédominance distale."],a:"ABCD",e:"E faux : l’atrophie musculaire de type Cushing est proximale (racine des membres)."},
+// p.21
+{p:"Page 21 – Appareil génital",q:"Examen de l’appareil génital :",o:["Chez l’homme : testicule, verge, scrotum, prostate (TR).","Chez la femme : examen complet (TV, TR, spéculum).","Chez l’homme : spéculum systématique.","Chez la femme : inspection seule.","Les caractères sexuels secondaires sont examinés."],a:"ABE",e:"C et D faux. Le spéculum concerne la femme, et l’examen féminin est complet."},
+{p:"Page 21 – Examen des seins",q:"L’examen des seins comprend :",o:["Mamelon et aréole (taille, pigmentation).","Peau, tissu adipeux, glande.","Fermeté, mobilité, sensibilité.","Recherche d’une galactorrhée.","Inspection seule, sans palpation."],a:"ABCD",e:"Examen visuel ET palpation (E faux)."},
+// p.22
+{p:"Page 22 – Pilosité",q:"À propos de la pilosité :",o:["On note la répartition : pubis, aisselles, thorax, visage, membres.","L’abondance est cotée de P0 (pas de poils) à P5.","P0 correspond à une pilosité normale.","Le poil sexuel est gros, raide, brillant ; le duvet est fin et soyeux.","P5 correspond à une pilosité normale."],a:"ABDE",e:"C faux : P0 = absence de poils ; P5 = pilosité normale."},
+{p:"Page 22 – Musculature, graisse, voix",q:"Sont examinés :",o:["La musculature.","Répartition féminine de la graisse : hanches, fesses.","Répartition masculine : facio-tronculaire.","La voix et les cartilages du larynx.","Répartition masculine : hanches et fesses."],a:"ABCD",e:"E faux : hanches/fesses = type féminin ; masculin = facio-tronculaire."},
+// p.23
+{p:"Page 23 – Examen parathyroïdien",q:"Dans l’examen parathyroïdien, on recherche :",o:["Une hyperréflectivité.","Le signe de Chvostek.","L’épreuve de Trousseau, éventuellement.","Une altération des ongles, des dents, une cataracte.","Une hyporéflectivité."],a:"ABCD",e:"Signes d’hypocalcémie (hyperexcitabilité neuro-musculaire) : E faux."},
+{p:"Page 23 – Examen hypophysaire",q:"L’examen hypophysaire :",o:["L’hypophyse n’est pas palpable.","Endocrinien : association de divers déficits glandulaires.","Tumoral : troubles de la vision.","Exceptionnellement, une hémiparésie.","L’hypophyse est accessible au toucher rectal."],a:"ABCD",e:"A–D textuels. E absurde : la glande est intracrânienne (selle turcique)."},
+// p.24
+{p:"Page 24 – Examen général",q:"Les appareils les plus importants à examiner :",o:["Cardio-vasculaire.","Ostéo-articulaire.","Système nerveux avec fond d’œil.","Reins et voies urinaires.","Appareil respiratoire exclusivement."],a:"ABCD",e:"Les quatre premiers sont cités comme très importants. E faux."},
+// p.25
+{p:"Page 25 – Conclusion",q:"L’examen clinique permet en général :",o:["De diagnostiquer le ou les troubles glandulaires en cause.","De préciser le retentissement sur l’état général.","D’orienter vers la demande d’examens biologiques.","De se passer de tout examen biologique.","De conclure sur le pronostic seul."],a:"ABC",e:"L’examen clinique ne remplace pas les examens biologiques, utiles au diagnostic, au pronostic et à la thérapeutique."},
+{p:"Page 25 – Bilan systématique",q:"Le bilan systématique comprend :",o:["NFS et VS.","Glycémie à jeun.","Radiographie du thorax.","Électrocardiogramme (ECG).","IRM hypophysaire."],a:"ABCD",e:"NFS, VS, glycémie à jeun, radiographie du thorax, ECG. E faux : l’IRM n’est pas systématique, mais orientée."}
+];
+const L="ABCDE";let done={},score=0;
+const m=document.getElementById("m");
+function build(){
+ m.innerHTML="";let last="";
+ Q.forEach((x,i)=>{
+  if(x.p.split(" – ")[0]!==last){last=x.p.split(" – ")[0];const h=document.createElement("h2");h.textContent=x.p.split(" – ")[1]?x.p:x.p;h.id="h"+i;m.appendChild(h);}
+  const d=document.createElement("div");d.className="q";d.id="q"+i;
+  d.innerHTML='<p class="t">Q'+(i+1)+'. '+x.q+'</p>'+x.o.map((t,j)=>'<button class="o" data-j="'+j+'"><b>'+L[j]+'</b><span>'+t+'</span></button>').join("")+'<div><button class="v">Valider</button><span class="res"></span></div><div class="e"></div>';
+  d.querySelectorAll(".o").forEach(b=>b.onclick=()=>{if(!done[i])b.classList.toggle("sel")});
+  d.querySelector(".v").onclick=()=>check(i);
+  m.appendChild(d);
+ });
+ upd();
+}
+function check(i){
+ if(done[i])return;
+ const x=Q[i],d=document.getElementById("q"+i),bs=d.querySelectorAll(".o");let good=true;
+ bs.forEach((b,j)=>{const s=b.classList.contains("sel"),c=x.a.includes(L[j]);
+  b.classList.remove("sel");
+  if(s&&c)b.classList.add("ok");else if(s&&!c){b.classList.add("ko");good=false}else if(!s&&c){b.classList.add("miss");good=false}});
+ done[i]=1;if(good)score++;
+ d.querySelector(".res").textContent=good?"✔ Réponse exacte":"✘ Bonnes réponses : "+x.a.split("").join(", ");
+ const e=d.querySelector(".e");e.classList.add("on");e.textContent="Justification : "+x.e;
+ d.querySelector(".v").disabled=true;upd();
+}
+function upd(){
+ const n=Object.keys(done).length;
+ document.getElementById("sc").textContent="Score : "+score+" / "+n;
+ document.getElementById("pg").textContent=n+"/"+Q.length+" questions";
+ const f=document.getElementById("fin");
+ if(n===Q.length){f.style.display="block";f.textContent="Terminé : "+score+" / "+Q.length+" ("+Math.round(100*score/Q.length)+" %)";}else f.style.display="none";
+}
+function resetAll(){done={};score=0;build();window.scrollTo(0,0)}
+build();
+</script>
+</body>
+</html>

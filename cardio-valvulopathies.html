@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quiz – Valvulopathies mitrales</title>
+<style>
+:root{--bg:#f4f6f5;--card:#fff;--ink:#17252b;--mute:#5d6e74;--line:#d3dcdc;--acc:#0e6b66;--ok:#17703f;--okb:#e1f3e8;--ko:#a8222b;--kob:#fbe6e7;--miss:#b7791f;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121b1e;--card:#1a2629;--ink:#e6eeee;--mute:#9bb0b3;--line:#2c3d41;--acc:#4cc0b6;--ok:#5fd08b;--okb:#17332355;--ko:#ff8087;--kob:#3a181b88;--miss:#e8b04f;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121b1e;--card:#1a2629;--ink:#e6eeee;--mute:#9bb0b3;--line:#2c3d41;--acc:#4cc0b6;--ok:#5fd08b;--okb:#17332355;--ko:#ff8087;--kob:#3a181b88;--miss:#e8b04f;color-scheme:dark}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.5 "Source Sans 3",system-ui,sans-serif}
+main{max-width:720px;margin:0 auto;padding:16px 16px 48px}
+h1{font:700 1.5rem/1.2 "Source Serif 4",Georgia,serif;margin:8px 0 4px}
+.sub{color:var(--mute);margin:0 0 16px;font-size:.95rem}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:8px 0 4px}
+.bar i{display:block;height:100%;background:var(--acc);transition:width .3s}
+.meta{display:flex;justify-content:space-between;color:var(--mute);font-size:.9rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;margin-top:14px}
+.q{font:600 1.15rem/1.4 "Source Serif 4",Georgia,serif;margin:0 0 6px}
+.hint{color:var(--mute);font-size:.88rem;margin:0 0 12px}
+.opt{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;background:transparent;color:inherit;font:inherit;border:1.5px solid var(--line);border-radius:8px;padding:10px 12px;margin:8px 0;cursor:pointer}
+.opt b{flex:none;width:1.5em;color:var(--acc)}
+.opt.sel{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 12%,transparent)}
+.opt.ok{border-color:var(--ok);background:var(--okb)}
+.opt.ko{border-color:var(--ko);background:var(--kob)}
+.opt.miss{border-color:var(--miss);border-style:dashed}
+.opt:disabled{cursor:default;color:inherit}
+.opt:focus-visible,.btn:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.expl{margin-top:14px;padding:12px 14px;border-left:4px solid var(--acc);background:color-mix(in srgb,var(--acc) 8%,transparent);border-radius:0 8px 8px 0;font-size:.97rem}
+.res{font-weight:700;margin:12px 0 0}
+.btn{font:inherit;font-weight:600;background:var(--acc);color:#fff;border:0;border-radius:8px;padding:11px 20px;margin-top:14px;cursor:pointer}
+:root[data-theme="dark"] .btn,.btn.dk{color:#06201e}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn{color:#06201e}}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.ghost{background:transparent;color:var(--acc);border:1.5px solid var(--acc);margin-left:8px}
+.score{font:700 2.6rem/1 "Source Serif 4",Georgia,serif;color:var(--acc)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:8px;margin-top:14px}
+.grid button{font:inherit;font-weight:600;padding:8px 0;border-radius:8px;border:1.5px solid var(--line);background:transparent;color:inherit;cursor:pointer}
+.grid .g1{border-color:var(--ok);background:var(--okb)}.grid .g0{border-color:var(--ko);background:var(--kob)}
+.sec{color:var(--acc);font-weight:600;font-size:.9rem}
+</style></head><body><main>
+<h1>Valvulopathies mitrales : quiz difficile</h1>
+<p class="sub">30 QCM, DCEM1. Une ou plusieurs réponses exactes. Un point si votre sélection est exactement la bonne.</p>
+<div class="bar"><i id="pb"></i></div><div class="meta"><span id="pn"></span><span id="ps"></span></div>
+<div id="app"></div>
+</main>
+<script>
+const Q=[
+["Appareil mitral",
+"Concernant l’appareil valvulaire mitral :",
+["L’anneau est fibreux, en « selle », support des valves.","La grande valve est antérieure (septale) ; la petite, postérieure, a trois festons P1-P2-P3.","Les deux commissures sont antéro-latérale et postéro-médiane.","Les cordages relient la face auriculaire des valves à l’anneau.","La surface normale de l’orifice est de 1,5 à 2 cm²."],"ABC",
+"D faux : les cordages relient le bord libre des valves aux piliers (antéro-latéral et postéro-médian, solidaires du VG). E faux : la normale est 4–6 cm² ; 1,5 cm² est le seuil du RM serré."],
+["Bruits du cœur",
+"Concernant B1, B2 et le cycle cardiaque :",
+["B1 : fermeture mitrale et tricuspide, maximal à l’apex, synchrone du choc de pointe.","B2 : fermeture aortique (A2) et pulmonaire (P2), maximal à la base, début de la diastole.","La systole est toujours plus longue que la diastole.","Le pouls carotidien palpé pendant l’auscultation identifie la systole : B1 le précède immédiatement.","Le dédoublement physiologique de B2 (P2 puis A2) se voit en expiration."],"ABD",
+"C faux : la systole est plus courte que la diastole, sauf en tachycardie. E faux : il se voit à l’inspiration, dans l’ordre A2 puis P2, au foyer pulmonaire."],
+["Technique d’auscultation",
+"Concernant les foyers et la technique :",
+["Le foyer mitral s’ausculte en décubitus latéral gauche ; la base, assis penché en avant.","Membrane : sons aigus (B1, B2, COM, souffle d’IM) ; cloche légère : sons graves (roulement, B3).","On ausculte en apnée inspiratoire, car l’inspiration majore les bruits du cœur gauche.","Mitral : apex, 5e EIC G ; aortique : 2e EIC D ; pulmonaire : 2e EIC G ; tricuspide : xiphoïde.","Quelques flexions avant l’auscultation peuvent majorer un roulement de RM."],"ABDE",
+"C faux : apnée en expiration ; l’inspiration majore les bruits du cœur droit (signe de Carvallo)."],
+["Description d’un souffle",
+"Concernant la grille de description et l’échelle de Levine :",
+["La grille : temps, siège, irradiation, intensité, timbre, forme, variations.","3/6 : modéré, net, sans frémissement.","4/6 : intense, avec frémissement palpable.","5/6 : perçu seulement stéthoscope décollé de la paroi.","Irradiation : aisselle (IM), vaisseaux du cou (RAo), bord sternal (IAo)."],"ABCE",
+"D faux : 5/6 = perçu avec le bord du stéthoscope ; 6/6 = perçu stéthoscope décollé."],
+["Deux mécanismes",
+"Rétrécissement et insuffisance valvulaires :",
+["Le rétrécissement est un obstacle à l’ouverture : gradient de pression, surcharge de pression en amont.","L’insuffisance est un défaut d’étanchéité à la fermeture : reflux, surcharge de volume.","Le rétrécissement mitral crée un gradient OG-VG en systole.","Une valve normale ouverte ne gêne pas l’écoulement ; fermée, elle ne laisse aucun reflux.","L’IM entraîne avant tout une surcharge de pression de l’OG."],"ABD",
+"C faux : le gradient du RM est diastolique (valve ouverte). E faux : l’IM = surcharge de volume (OG et VG)."],
+["Physiopathologie de l’IM",
+"Concernant la physiopathologie de l’IM :",
+["Reflux systolique VG → OG par défaut d’étanchéité de l’appareil mitral.","L’onde v géante sur la courbe de pression de l’OG est la signature du reflux.","Surcharge de volume de l’OG et du VG, avec dilatation des cavités gauches.","L’IM aiguë est bien tolérée (OG grande et compliante) ; l’IM chronique donne un OAP brutal.","↑ pression OG → HTAP post-capillaire → VD → IC droite ; la dilatation de l’OG favorise la FA."],"ABCE",
+"D faux : c’est l’inverse. IM aiguë (rupture de cordage ou de pilier) : OG petite et peu compliante → OAP brutal. IM chronique : longtemps bien tolérée."],
+["Étiologies de l’IM",
+"Concernant les étiologies de l’IM :",
+["Prolapsus, maladie de Barlow, rupture de cordage : IM primaire dégénérative.","RAA : IM primaire, sujet jeune, fréquente en Afrique.","IM ischémique (remodelage post-infarctus, dysfonction de pilier) : IM secondaire, valves saines.","CMD et FA ancienne (dilatation de l’anneau) : IM primaire.","Endocardite (perforation, rupture de cordage, végétations) et fente mitrale (canal AV) : IM primaires."],"ABCE",
+"D faux : CMD et FA ancienne donnent une IM secondaire (fonctionnelle). Autres causes primaires : calcifications de l’anneau, lupus, médicaments."],
+["Classification de Carpentier",
+"Concernant la classification de Carpentier :",
+["Type I : mouvement normal (dilatation de l’anneau, perforation).","Type II : mouvement excessif (prolapsus) : Barlow, rupture de cordage.","Type IIIa : restreint en systole seulement, ischémique.","Type IIIb : restreint en systole, ischémique ou CMD.","Le RAA correspond au type II."],"ABD",
+"C faux : IIIa = restreint en systole et en diastole (rhumatismale). E faux : le RAA est de type IIIa."],
+["Signes fonctionnels de l’IM",
+"Concernant les signes fonctionnels de l’IM et la classification NYHA :",
+["L’IM est longtemps asymptomatique ; souffle découvert à l’examen systématique.","La dyspnée d’effort est le maître symptôme, puis orthopnée, DPN, OAP.","NYHA II : limitation légère, gêne pour les efforts ordinaires.","NYHA III : symptômes au moindre effort et au repos.","Hépatalgie d’effort et OMI sont des signes droits précoces."],"ABC",
+"D faux : symptômes au repos = NYHA IV ; NYHA III = gêne pour des efforts inférieurs à l’ordinaire. E faux : signes droits tardifs. Palpitations (FA, extrasystoles), asthénie (bas débit) ; révélation possible par OAP brutal, endocardite, embolie."],
+["IM : inspection et palpation",
+"Dans l’IM :",
+["Choc de pointe dévié en bas et en dehors (6e EIC, hors LMC), étalé, hyperdynamique.","Un frémissement systolique apexien correspond à un souffle ≥ 4/6.","Un choc de pointe dévié témoigne d’un VG dilaté (IM volumineuse ou ancienne).","Choc de pointe normal et signe de Harzer sont typiques de l’IM.","Un soulèvement parasternal gauche traduit une expansion de l’OG ou une HVD."],"ABCE",
+"D faux : ce contraste (choc normal, signes droits) est typique du RM."],
+["IM : signes associés",
+"Concernant sévérité et retentissement de l’IM :",
+["B3 (galop protodiastolique) : remplissage rapide d’un VG surchargé, IM volumineuse.","Roulement mésodiastolique : hyperdébit diastolique, IM sévère.","Éclat de B2 pulmonaire ± dédoublement : HTAP, retentissement d’amont.","Souffle d’IT fonctionnelle (xiphoïdien, Carvallo +) : dilatation du VD et de l’anneau, IM évoluée avec HTAP.","L’intensité du souffle reflète directement la sévérité."],"ABCD",
+"E faux : intensité ≠ sévérité. La sévérité se juge sur B3, roulement, HTAP, insuffisance cardiaque, et se quantifie à l’écho."],
+["Souffles systoliques",
+"Diagnostic différentiel d’un souffle systolique :",
+["IM : apex → aisselle, holosystolique en plateau, doux, B1 diminué, pas de renforcement post-pause.","RAo : foyer aortique → carotides, éjectionnel losangique, râpeux, B2 diminué, renforcé après diastole longue.","CIV : mésocardiaque (3e-4e EIC G), « en rayon de roue », holosystolique, rude, frémissant, contexte congénital.","IT : xiphoïde/endapex, holosystolique doux, Carvallo +, onde v jugulaire, foie expansif.","CMO : éjectionnel mésosystolique du bord gauche du sternum, diminué par Valsalva et l’orthostatisme."],"ABCD",
+"E faux : le souffle de la CMO est majoré par Valsalva et l’orthostatisme."],
+["Cas : enfant fébrile",
+"Enfant de 6 ans fébrile : souffle protosystolique bref, doux, 2/6, à la base, sans irradiation ; échocardiographie normale.",
+["Souffle fonctionnel (anorganique).","Cardiomyopathie obstructive, car le souffle est systolique.","Protosystolique, bref, doux, ≤ 2/6, basal, sans irradiation : en faveur d’un souffle fonctionnel.","Enfant, fièvre, anémie, grossesse : contextes classiques de souffle fonctionnel.","Tout souffle systolique est organique : l’IM est certaine."],"ACD",
+"B faux : la CMO donne un souffle éjectionnel mésosystolique du bord gauche du sternum, majoré par Valsalva. E faux : l’IM donne un souffle holosystolique apexien irradiant à l’aisselle, B1 diminué."],
+["ECG dans l’IM",
+"Concernant l’ECG de l’IM :",
+["HAG : P ≥ 0,12 s, bifide en DII ; P biphasique en V1 avec composante négative ≥ 1 mm × 40 ms.","HVG : Sokolow-Lyon (SV1 + RV5 ou RV6) > 35 mm.","FA fréquente quand l’OG se dilate.","HVD dans les IM évoluées avec HTAP sévère ; ECG normal si IM minime.","P mitrale : P < 0,08 s, négative en DII."],"ABCD",
+"E faux : la P mitrale est large (≥ 0,12 s) et bifide en DII."],
+["Radiographie dans l’IM",
+"Radiographie thoracique dans l’IM :",
+["Silhouette normale si IM minime ou modérée.","Cardiomégalie (ICT > 0,5), pointe plongeante.","OG : arc moyen convexe, double contour droit.","Redistribution vers les sommets, lignes de Kerley B, œdème alvéolaire, artères pulmonaires dilatées.","Une IM importante donne un cœur de volume normal avec double bosse."],"ABCD",
+"E faux : cœur normal + double bosse = aspect du RM."],
+["Écho de l’IM (ESC 2021)",
+"IM primaire sévère à l’écho-Doppler :",
+["Vena contracta ≥ 7 mm.","Surface de l’orifice régurgitant (SOR) ≥ 40 cm².","Volume régurgité ≥ 60 mL et fraction régurgitée ≥ 50 %.","Trois diagnostics (positif, étiologique, sévérité) ; retentissement : dilatation et FEVG du VG, dilatation de l’OG, PAPS.","L’écho-Doppler remplace l’examen clinique."],"ACD",
+"B faux : SOR ≥ 40 mm² (et non cm²). E faux : elle confirme, précise l’étiologie et quantifie, mais ne remplace pas l’examen clinique."],
+["Physiopathologie du RM",
+"Concernant le RM :",
+["Obstacle OG → VG en diastole par réduction de la surface mitrale.","RM serré : ≤ 2,5 cm² ; très serré : < 1,5 cm².","Le VG est « protégé » : normal ou petit.","La tachycardie (effort, FA, grossesse, fièvre) décompense en raccourcissant la diastole.","↑ pression OG → FA, thrombus, emboles ; ↑ pression capillaire → dyspnée, OAP, hémoptysies ; HTAP post- puis pré-capillaire → VD."],"ACDE",
+"B faux : RM serré ≤ 1,5 cm², très serré < 1 cm² (normale 4–6 cm²)."],
+["Étiologies du RM",
+"Concernant les étiologies du RM :",
+["RAA : cause de loin la plus fréquente, surtout en Afrique ; lésion clé = fusion des commissures.","Terrain : jeune femme ; formes juvéniles serrées en pays d’endémie ; souvent associé à une IM ou une atteinte aortique.","Forme dégénérative (calcification de l’anneau, sujet âgé, insuffisance rénale) : sans fusion commissurale.","Congénitales rares : valve en parachute (pilier unique), syndrome de Lutembacher (RM + CIA).","Myxome et thrombus de l’OG sont des causes valvulaires de RM."],"ABCD",
+"E faux : ce sont des obstacles non valvulaires (diagnostic différentiel). Autres causes rares : lupus, syndrome carcinoïde, radiothérapie, végétation obstructive."],
+["Signes fonctionnels du RM",
+"Dans le RM :",
+["Dyspnée d’effort = maître symptôme, progressive ; OAP souvent déclenché par une tachycardie.","Hémoptysies : crachats striés, OAP (mousseuses rosées), rupture de varices bronchiques, infarctus pulmonaire.","Accidents emboliques (AVC, ischémie aiguë de membre) parfois révélateurs.","Compression par l’OG : dysphonie (syndrome d’Ortner), dysphagie, toux.","La grossesse révèle surtout le RM au premier trimestre."],"ABCD",
+"E faux : circonstance révélatrice fréquente aux 2e-3e trimestres. Signes droits, asthénie, prise de poids, œdèmes aux stades évolués."],
+["RM : inspection et palpation",
+"Dans le RM :",
+["Faciès mitral : pommettes érythro-cyanosées, cyanose des lèvres.","Choc de pointe normal, peu ou pas déplacé (VG normal).","Le frémissement caractéristique est un thrill systolique apexien.","Signe de Harzer : battement du VD sous l’appendice xiphoïde.","Contraste typique : choc de pointe normal (VG protégé) mais signes droits marqués."],"ABDE",
+"C faux : le frémissement du RM est diastolique apexien (« cataire »), roulement palpable (DLG, expiration). Éclat de B1 parfois palpable ; soulèvement parasternal gauche, B2 palpable au foyer pulmonaire, hépatomégalie, RHJ, OMI."],
+["Rythme de Duroziez",
+"Concernant l’auscultation du RM :",
+["Éclat de B1 : fermeture brutale de valves épaissies mais souples ; maximal à l’apex.","COM : bruit sec, aigu, 60–120 ms après B2 ; apex et endapex ; membrane.","Roulement diastolique : grave, sourd, decrescendo, après le COM ; cloche, DLG.","Le renforcement présystolique (contraction de l’OG) persiste en FA.","La systole est libre (« ffout-ta-ta-rrou »)."],"ABCE",
+"D faux : le renforcement présystolique disparaît en FA. À écouter à l’apex, en DLG, en expiration, cloche, après un petit effort."],
+["B2 dédoublé, COM ou B3",
+"Concernant le dédoublement de B2, le COM et B3 :",
+["Dédoublement de B2 : 30–60 ms après A2, foyer pulmonaire, varie avec la respiration (s’élargit à l’inspiration).","COM : 60–120 ms après A2, apex/endapex, fixe, suivi du roulement diastolique.","B3 : 120–180 ms après A2, apex, sourd et grave (cloche), ± roulement bref (IM).","Plus l’intervalle B2-COM est long, plus le RM est serré.","Le COM suppose des valves souples ; il disparaît si elles sont calcifiées et rigides."],"ABCE",
+"D faux : plus l’intervalle B2-COM est court, plus le RM est serré (pression OG élevée)."],
+["Sévérité du RM au lit du malade",
+"Concernant l’appréciation clinique du RM :",
+["Arguments pour un RM serré : intervalle B2-COM court, roulement long holodiastolique, signes d’HTAP et d’IC droite, mauvaise tolérance de la tachycardie.","Signes d’HTAP : éclat de B2 pulmonaire, dédoublement de B2, souffle d’IT fonctionnelle (Carvallo +).","Souffle de Graham Steell : souffle diastolique d’IP fonctionnelle au foyer pulmonaire.","RM « muet » : bas débit, obésité, emphysème, FA rapide (roulement écourté), valves calcifiées (éclat de B1 et COM disparaissent).","RM serré : intervalle B2-COM long et roulement bref."],"ABCD",
+"E faux : c’est l’inverse, intervalle B2-COM court et roulement long (holodiastolique)."],
+["Radiographie dans le RM",
+"Radiographie thoracique dans le RM :",
+["Volume cardiaque normal ou peu augmenté.","Arc moyen gauche en double bosse (artère pulmonaire + auricule gauche).","Double contour droit, carène élargie.","VG nettement dilaté, pointe plongeante.","Redistribution vers les sommets, Kerley B, OAP ; calcifications mitrales possibles."],"ABCE",
+"D faux : le VG est normal (protégé) ; la pointe plongeante évoque l’IM."],
+["Écho du RM",
+"Écho-Doppler dans le RM :",
+["Valves épaissies, ouverture limitée, fusion commissurale.","Grande valve « en genou » (crosse de hockey) en systole.","Orifice « en bouche de poisson » au petit axe.","Quantification : surface mitrale (planimétrie, temps de demi-pression), gradient moyen OG-VG, PAPS, score de Wilkins (choix de la commissurotomie).","Dilatation de l’OG ± thrombus (surtout recherché par ETO)."],"ACDE",
+"B faux : l’aspect en genou (crosse de hockey) s’observe en diastole."],
+["Tableau comparatif IM / RM",
+"Comparaison IM / RM :",
+["Palpation : IM = choc de pointe dévié + frémissement systolique ; RM = choc normal + frémissement diastolique.","Auscultation : IM = holosystolique apex → aisselle, B1 diminué, ± B3 ; RM = éclat de B1, COM, roulement, renforcement présystolique, systole libre.","ECG : IM = HAG, HVG, FA ; RM = HAG, HVD, FA, pas d’HVG.","Radio : IM = cardiomégalie (VG) + OG dilatée ; RM = cœur normal, double bosse, double contour.","Écho : IM = surface mitrale, gradient, PAPS ; RM = SOR, volume régurgité."],"ABCD",
+"E faux : inversion. IM : SOR, volume régurgité, retentissement VG. RM : surface mitrale, gradient, PAPS. Signes fonctionnels : IM = dyspnée d’effort, palpitations ; RM = dyspnée, hémoptysies, embolies, dysphonie."],
+["Messages clés",
+"Parmi les messages clés :",
+["L’intensité du souffle d’IM ne reflète pas la sévérité : on juge sur B3, roulement, HTAP, IC et on quantifie à l’écho.","Un souffle d’IM 5/6 prouve à lui seul une IM sévère.","Rechercher systématiquement le retentissement : HTAP, insuffisance cardiaque, FA.","L’écho-Doppler confirme, précise l’étiologie et quantifie ; elle ne remplace pas l’examen clinique.","RM : rythme de Duroziez (éclat de B1, COM, roulement ± renforcement présystolique) ; la systole est libre."],"ACDE",
+"B faux : intensité ≠ sévérité."],
+["Cas clinique 1",
+"Homme de 58 ans, dyspnée NYHA III, pouls irrégulier. Choc de pointe dévié (6e EIC, hors LMC), hyperdynamique, frémissement systolique apexien. Souffle holosystolique apexien irradiant à l’aisselle, B1 diminué, B3 et roulement mésodiastolique. Éclat de B2 pulmonaire, souffle xiphoïdien majoré à l’inspiration. ECG : HAG, HVG. Radio : cardiomégalie.",
+["IM ; B1 diminué et absence de renforcement post-pause orientent contre un RAo.","B3 et roulement mésodiastolique : IM volumineuse et sévère.","Éclat de B2 et souffle xiphoïdien (Carvallo +) : HTAP et IT fonctionnelle, IM évoluée.","Le choc de pointe dévié témoigne d’un VG protégé, normal.","L’intensité ≥ 4/6 suffit à conclure à la sévérité : l’écho est inutile."],"ABC",
+"D faux : choc dévié = VG dilaté (le VG « protégé » est celui du RM). E faux : intensité ≠ sévérité ; l’écho confirme et quantifie (SOR ≥ 40 mm², vena contracta ≥ 7 mm…)."],
+["Cas clinique 2",
+"Femme de 24 ans d’Afrique subsaharienne, enceinte de 6 mois : dyspnée croissante, hémoptysie, palpitations. Faciès mitral, choc de pointe normal, frémissement diastolique apexien, signe de Harzer. Éclat de B1, COM, roulement diastolique avec renforcement présystolique, systole libre. ECG sinusal : HAG, HVD.",
+["RM probablement rhumatismal ; la grossesse (tachycardie, diastole raccourcie) est révélatrice.","Dyspnée et hémoptysie : ↑ de la pression capillaire pulmonaire.","Le renforcement présystolique est compatible avec le rythme sinusal et disparaîtrait en FA.","Choc de pointe normal et signes droits : contraste typique du RM.","L’absence d’HVG à l’ECG est un argument contre le diagnostic."],"ABCD",
+"E faux : dans le RM il n’y a pas d’HVG (HAG, HVD, FA) : c’est un argument en faveur. L’écho confirme et quantifie (surface, gradient, PAPS, Wilkins)."],
+["Retentissement mitral",
+"Concernant le retentissement des valvulopathies mitrales :",
+["RM : HTAP d’abord post-capillaire puis pré-capillaire, retentissement sur le VD, IC droite.","IM : un pouls irrégulier témoigne d’une FA liée à la dilatation de l’OG.","RM : la FA raccourcit la diastole (gradient ↑, OAP possible) et fait disparaître le renforcement présystolique.","Le VG est précocement dilaté et hypertrophié dans le RM.","Soulèvement parasternal gauche et B2 palpable au foyer pulmonaire : HTAP/HVD ; dans l’IM, le soulèvement traduit l’expansion de l’OG ou une HVD."],"ABCE",
+"D faux : le VG est « protégé » (normal ou petit) dans le RM, sans HVG à l’ECG."]
+];
+const L="ABCDE",app=document.getElementById("app"),pb=document.getElementById("pb"),pn=document.getElementById("pn"),ps=document.getElementById("ps");
+let i=0,sc=0,sel=new Set(),done=false;const res=[];
+function bar(){pb.style.width=(Math.min(i,30)/30*100)+"%";pn.textContent=i<30?"Question "+(i+1)+" sur 30":"Terminé";ps.textContent="Score : "+sc}
+function show(){
+ if(i>=30)return end();bar();const q=Q[i];sel=new Set();done=false;
+ app.innerHTML='<div class="card"><div class="sec">'+q[0]+'</div><p class="q">'+q[1]+'</p><p class="hint">Cochez toutes les réponses exactes.</p><div id="o"></div><div id="f"></div><button class="btn" id="v" disabled>Valider</button></div>';
+ const o=document.getElementById("o");
+ q[2].forEach((t,k)=>{const b=document.createElement("button");b.className="opt";b.type="button";b.dataset.k=L[k];b.innerHTML="<b>"+L[k]+"</b><span>"+t+"</span>";b.onclick=()=>{if(done)return;sel.has(L[k])?sel.delete(L[k]):sel.add(L[k]);b.classList.toggle("sel");document.getElementById("v").disabled=!sel.size};o.appendChild(b)});
+ document.getElementById("v").onclick=validate;window.scrollTo(0,0);
+}
+function validate(){
+ const q=Q[i];done=true;let ok=[...sel].sort().join("")===q[3];if(ok)sc++;res[i]=ok?1:0;
+ document.querySelectorAll(".opt").forEach(b=>{const k=b.dataset.k,c=q[3].includes(k),s=sel.has(k);b.disabled=true;b.classList.remove("sel");
+  if(c&&s)b.classList.add("ok");else if(!c&&s)b.classList.add("ko");else if(c)b.classList.add("miss")});
+ document.getElementById("f").innerHTML='<p class="res" style="color:var(--'+(ok?'ok':'ko')+')">'+(ok?"Exact.":"Incorrect.")+" Réponses : "+q[3].split("").join(", ")+'</p><div class="expl">'+q[4]+'</div>';
+ const v=document.getElementById("v");v.disabled=false;v.textContent=i<29?"Question suivante":"Voir le résultat";v.onclick=()=>{i++;show()};bar();
+}
+function end(){bar();
+ app.innerHTML='<div class="card"><div class="score">'+sc+' / 30</div><p>'+(sc>=27?"Excellent niveau.":sc>=20?"Bon niveau, revoyez les pièges.":sc>=15?"À consolider.":"Relisez le cours puis recommencez.")+' Touchez un numéro pour revoir sa correction.</p><div class="grid" id="g"></div><button class="btn" id="r">Recommencer</button></div><div id="rv"></div>';
+ const g=document.getElementById("g");
+ Q.forEach((q,k)=>{const b=document.createElement("button");b.textContent=k+1;b.className=res[k]?"g1":"g0";b.onclick=()=>{document.getElementById("rv").innerHTML='<div class="card"><div class="sec">Q'+(k+1)+" · "+q[0]+'</div><p class="q">'+q[1]+'</p><ul>'+q[2].map((t,j)=>"<li><b>"+L[j]+".</b> "+(q[3].includes(L[j])?"✔ ":"✘ ")+t+"</li>").join("")+'</ul><div class="expl">'+q[4]+'</div></div>';document.getElementById("rv").scrollIntoView({behavior:"smooth"})};g.appendChild(b)});
+ document.getElementById("r").onclick=()=>{i=0;sc=0;res.length=0;show()};
+}
+show();
+</script></body></html>
