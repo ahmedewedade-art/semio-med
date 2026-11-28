@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QCM – Sémiologie gastroduodénale</title>
+<style>
+:root{--bg:#f6f7f9;--c:#fff;--t:#1d2430;--m:#6b7482;--b:#d9dee6;--ok:#1f8a4c;--ko:#c63d3d;--ac:#2a5bd7}
+@media(prefers-color-scheme:dark){:root{--bg:#14171c;--c:#1d2229;--t:#e8ebf0;--m:#98a2b3;--b:#323a46;--ok:#4cc27f;--ko:#ef7a7a;--ac:#7aa2ff}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font:16px/1.5 system-ui,sans-serif;padding:16px;max-width:820px;margin:auto}
+h1{font-size:1.3rem}.sub{color:var(--m);font-size:.9rem}
+.q{background:var(--c);border:1px solid var(--b);border-radius:12px;padding:14px;margin:14px 0}
+.pg{font-size:.75rem;color:var(--ac);font-weight:600}.qt{font-weight:600;margin:4px 0 10px}
+.o{display:block;border:1px solid var(--b);border-radius:8px;padding:8px 10px;margin:6px 0;cursor:pointer}
+.o input{margin-right:8px}.o.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 12%,transparent)}
+.o.ko{border-color:var(--ko);background:color-mix(in srgb,var(--ko) 12%,transparent)}
+.ex{display:none;font-size:.85rem;color:var(--m);margin:4px 0 0 24px}.show .ex{display:block}
+button{background:var(--ac);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-size:.95rem;cursor:pointer;margin-top:6px}
+.r{font-weight:600;margin-top:8px}#sc{position:sticky;top:0;background:var(--bg);padding:8px 0;font-weight:600;z-index:5}
+</style></head><body>
+<h1>QCM difficiles – Sémiologie gastroduodénale (DCEM1)</h1>
+<div class="sub">Plusieurs réponses justes possibles (1 à 5) par question · Correction justifiée proposition par proposition</div>
+<div id="sc">Score : 0 / 0</div><div id="app"></div>
+<script>
+const Q=[
+[4,"À propos de l'ulcère gastroduodénal (UGD) :",["Perte de substance atteignant en profondeur la musculeuse","Lésion limitée à la sous-muqueuse","Évolution cyclique par poussées","Rupture de l'équilibre entre facteurs d'agression et moyens de défense","La douleur résulte du contact de la sécrétion acide avec la muqueuse ulcérée"],"ACDE",["Définition de l'ulcère.","C'est la définition de l'ulcération, pas de l'ulcère (qui atteint la musculeuse).","Évolution périodique par poussées.","Physiopathologie classique.","Mécanisme de la douleur ulcéreuse."]],
+[5,"Douleur ulcéreuse typique :",["Siège épigastrique sans irradiation particulière","Type crampe ou faim douloureuse","Horaire post-prandial précoce (< 30 min)","Durée de ½ h à 2 h","Calmée par aliments, antiacides, alcalins"],"ABDE",["Siège typique.","Type typique.","Faux : post-prandial tardif, 1 à 4 h après le repas.","Durée typique.","Facteurs calmants classiques."]],
+[5,"Caractères sémiologiques de la douleur ulcéreuse (suite) :",["Intensité variable, de la simple gêne à l'hyperalgie","Évolution périodique","Aggravée par la prise alimentaire","Soulagée par les alcalins","Horaire tardif, 1 à 4 h après le repas"],"ABDE",["Intensité variable.","Périodicité (poussées/rémissions).","Faux : elle est calmée par l'alimentation.","Facteur calmant.","Horaire post-prandial tardif."]],
+[6,"Manifestations ATYPIQUES du syndrome ulcéreux :",["Siège inhabituel : hypochondre droit","Brûlure épigastrique et rétrosternale","Irradiation dorsale","L'hématémèse peut révéler l'ulcère en l'absence de douleur","L'absence de périodicité exclut le diagnostic d'ulcère"],"ABCD",["Siège atypique.","Type atypique.","Irradiation dorsale = atypique.","Absence de douleur : l'hématémèse peut être inaugurale.","Faux : l'absence de périodicité s'observe lors d'une première poussée."]],
+[6,"Autres formes atypiques :",["Vomissements post-prandiaux par gêne à l'évacuation","Absence de périodicité en cas de première poussée","Douleur typique en barre avec irradiation scapulaire constante","Brûlure rétrosternale possible","Siège typique = hypochondre gauche"],"ABD",["Évoque une sténose.","Première poussée = pas de périodicité.","Faux : irradiation dorsale, non constante et non spécifique.","Type atypique décrit.","Faux : siège typique = épigastre."]],
+[7,"Conduite à tenir devant un syndrome ulcéreux :",["L'examen clinique est pauvre (sensibilité épigastrique)","La FOGD est l'examen clé","La FOGD précise siège, taille et forme de l'ulcère","Les biopsies servent à l'anapath et à la recherche d'HP","La TDM abdomino-pelvienne est l'examen de 1re intention"],"ABCD",["Examen clinique peu contributif.","FOGD = examen clé.","Elle caractérise la lésion.","Biopsies systématiques.","Faux : c'est la FOGD."]],
+[8,"Étiologies du syndrome ulcéreux :",["L'UGD est la cause habituelle","L'ulcère gastrique est plus fréquent que le duodénal","Prédominance masculine (≈ 3 hommes/1 femme)","Rôle de l'Helicobacter pylori","L'ulcère duodénal prédomine chez la femme"],"ACD",["Cause habituelle.","Faux : l'UD est plus fréquent que l'UG.","Sex-ratio de 3 hommes/femme.","HP impliqué.","Faux : prédominance masculine."]],
+[9,"Complications de l'UGD :",["Hémorragie : complication aiguë","Perforation : complication aiguë","Sténose : complication chronique","Cancérisation : complication chronique","La sténose est une complication aiguë"],"ABCD",["Aiguë.","Aiguë.","Chronique.","Chronique.","Faux : la sténose est chronique."]],
+[10,"Autres étiologies du SU (hors UGD) :",["Ulcérations gastriques ou duodénales","Gastrite ou duodénite érosive","Cancer gastrique","Lymphome gastrique","Cholécystite aiguë lithiasique"],"ABCD",["Lésion limitée à la sous-muqueuse.","Inflammation aiguë de la muqueuse.","Peut mimer un SU.","Signes cliniques = adénocarcinome.","Faux : non citée, ne donne pas un SU."]],
+[10,"Gastrite / duodénite érosive aiguë :",["Lésion endoscopique avec définition histologique","Inflammation aiguë de la muqueuse","Symptomatologie le plus souvent asymptomatique","Causes : AINS, aspirine, chimiothérapie, stress, alcool, caustiques, infections","Peut se révéler par une hémorragie digestive"],"ABDE",["Double définition.","Définition donnée.","Faux : symptomatologie bruyante (nausées, vomissements, épigastralgie).","Étiologies citées.","Hémorragie parfois."]],
+[10,"Gastrite chronique :",["Souvent asymptomatique","Rôle de l'HP","Maladie de Biermer en cause","Diagnostic : FOGD avec biopsies","Symptomatologie bruyante avec hémorragie quasi constante"],"ABCD",["Forme silencieuse.","Cause fréquente.","Gastrite atrophique auto-immune.","Biopsies indispensables.","Faux : c'est la forme aiguë qui est bruyante."]],
+[13,"Adénocarcinome gastrique – facteurs de risque :",["Représente 90 % des cancers gastriques","Helicobacter pylori","Tabac, sel, faible apport en fruits et légumes","Niveau socio-économique bas","Régime riche en fruits et légumes"],"ABCD",["90 %.","Facteur de risque majeur.","Facteurs alimentaires/toxiques.","Cité parmi les facteurs.","Faux : c'est un facteur protecteur."]],
+[13,"Lésions précancéreuses gastriques :",["Polype gastrique","Gastrectomie partielle","Maladie de Ménétrier","Anémie de Biermer","Ulcère duodénal"],"ABCD",["Cité.","Cité (gastrite du moignon).","Cité.","Cité.","Faux : non précancéreux (non cité)."]],
+[14,"Signes cliniques du cancer gastrique :",["Épigastralgies rythmées ou non par les repas","Amaigrissement, AEG, anémie","Hématémèse, dysphagie, nausées, vomissements","Métastases : ictère, ascite, ganglion de Troisier","Un syndrome ulcéreux typique élimine le cancer"],"ABCD",["Polymorphes.","Signes généraux.","Signes digestifs.","Signes d'extension.","Faux : une douleur ulcéreuse peut révéler un cancer ; FOGD + biopsies nécessaires."]],
+[14,"Cancer gastrique – syndrome paranéoplasique et diagnostic :",["Phlébites profondes","Dermatomyosite","Ganglion de Troisier = adénopathie sus-claviculaire gauche","Diagnostic : FOGD + biopsies","Diagnostic de certitude par la TDM seule"],"ABCD",["Syndrome paranéoplasique.","Syndrome paranéoplasique.","Signe de métastase ganglionnaire.","Diagnostic positif.","Faux : biopsie histologique nécessaire."]],
+[15,"Lymphomes non hodgkiniens gastriques :",["3 à 5 % des cancers gastriques","Développés aux dépens du tissu lymphoïde de la muqueuse","Souvent prolifération de lymphocytes T","Associés à la gastrite à HP","Signes cliniques comparables à l'adénocarcinome"],"ABDE",["Fréquence.","Origine.","Faux : lymphocytes B.","Lien avec HP.","Clinique identique."]],
+[17,"Physiopathologie du syndrome de sténose du pylore :",["Gêne à l'évacuation gastrique","Stase gastrique avec vomissements alimentaires à distance des repas","Phase de lutte : contractions péristaltiques","Phase atone : estomac très distendu, stase, déshydratation","La phase atone précède la phase de lutte"],"ABCD",["Définition.","Stase.","1re phase.","2e phase.","Faux : la phase de lutte précède la phase atone."]],
+[18,"Vomissements du SSP :",["Principal symptôme","Post-prandiaux précoces","Alimentaires et abondants","D'abord intermittents puis après chaque repas, aggravation progressive","Typiquement sanglants"],"ACD",["Symptôme principal.","Faux : post-prandial tardif.","Alimentaires, abondants.","Évolution progressive.","Faux : alimentaires, non sanglants."]],
+[18,"Épigastralgie du SSP :",["Souvent associée","Peut s'intégrer dans un syndrome ulcéreux","Douleur paroxystique de type colique","Soulagée par les vomissements","Aggravée par les vomissements"],"ABD",["Fréquente.","Ulcère sténosant.","Faux : douleur sourde continue.","Soulagement par vomissements.","Faux."]],
+[19,"Examen clinique du SSP :",["Signes de déshydratation","Amaigrissement","Ondulations péristaltiques épigastriques (signe de lutte)","Clapotage à jeun","Ondulations constantes en phase atone"],"ABCD",["Retentissement.","Retentissement.","Phase de lutte.","Stase liquidienne à jeun.","Faux : en phase atone, l'estomac est distendu et les ondulations disparaissent (elles caractérisent la phase de lutte)."]],
+[20,"Examens complémentaires du SSP :",["FOGD après période de jeûne prolongée","Aspiration gastrique nécessaire","La sténose peut être infranchissable","Biopsies à réaliser","La FOGD est contre-indiquée"],"ABCD",["Pour vider l'estomac.","Évite l'inhalation et améliore la vision.","Objective la sténose.","Éliminer un cancer.","Faux : c'est l'examen clé."]],
+[20,"TDM AP et biologie dans le SSP :",["Recherche d'un épaississement gastrique caractéristique","Recherche d'une compression extrinsèque","Bilan de retentissement : ionogramme sanguin","Fonction rénale","La TDM remplace les biopsies"],"ABCD",["Cancer.","Tumeur de voisinage, ADP.","Pertes digestives.","FR.","Faux : biopsies nécessaires."]],
+[21,"Étiologies du SSP chez l'ADULTE :",["Ulcère pylorique ou duodénal sténosant","Cancer antral ou antro-pylorique","Compression extrinsèque par tumeur de voisinage","Adénopathie compressive","Hypertrophie du sphincter pylorique"],"ABCD",["Cause bénigne.","Cause maligne.","Extrinsèque.","Extrinsèque.","Faux : cause pédiatrique."]],
+[21,"SSP chez l'ENFANT :",["Hypertrophie du sphincter pylorique","Intervalle libre de 15 j à 3 mois","Ondulations péristaltiques","Diagnostic par imagerie","Cause principale : ulcère duodénal sténosant"],"ABCD",["Étiologie.","Puis apparition des vomissements.","Signe de lutte.","Échographie.","Faux : cause de l'adulte."]],
+[23,"Dyspepsie – définition et types :",["Mauvaise digestion (douleurs ou inconfort épigastriques)","Type ulcéreux : brûlure épigastrique","Type moteur : satiété précoce, pesanteur post-prandiale, inconfort","Type moteur : brûlure épigastrique","Type ulcéreux : satiété précoce"],"ABC",["Définition.","Type ulcéreux.","Type moteur.","Faux : appartient au type ulcéreux.","Faux : appartient au type moteur."]],
+[23,"Dyspepsie fonctionnelle vs organique :",["Organique : tumeur, ulcère, gastrite à HP","Organique : cause médicamenteuse","Organique : maladie de système, diabète, post-chirurgie","La dyspepsie fonctionnelle s'accompagne d'une lésion organique","La FOGD est toujours normale en cas de dyspepsie organique"],"ABC",["Cause organique.","Cause organique.","Cause organique.","Faux : absence de lésion.","Faux : elle montre ulcère, tumeur, gastrite."]],
+[23,"Signes d'alarme devant une dyspepsie :",["Âge > 45 ans","Amaigrissement, AEG","Hémorragie digestive","Odynophagie","ATCD personnels ou familiaux d'ulcère simple"],"ABCD",["Signe d'alarme.","Signe d'alarme.","Signe d'alarme.","Signe d'alarme.","Faux : ce sont les ATCD de néoplasie digestive. Conduite : FOGD."]],
+[2,"Plan et conclusion de la sémiologie gastroduodénale :",["Syndrome ulcéreux","Syndrome de sténose du pylore","Syndrome de dyspepsie","Approche clinique rigoureuse puis orientation des examens paracliniques","Syndrome de reflux gastro-œsophagien"],"ABCD",["1er syndrome.","2e syndrome.","3e syndrome.","Conclusion.","Faux : non au plan."]],
+[10,"Ulcère, ulcération, gastrite érosive :",["L'ulcère atteint en profondeur la musculeuse","L'ulcération est une lésion limitée à la sous-muqueuse","La gastrite érosive est une inflammation chronique de la muqueuse","Le diagnostic repose sur la FOGD avec biopsies","Les AINS sont une cause de gastrite érosive aiguë"],"ABDE",["Définition de l'ulcère.","Définition de l'ulcération.","Faux : inflammation AIGUË de la muqueuse.","FOGD + biopsies (anapath, HP).","Cause médicamenteuse citée (AINS, aspirine)."]],
+[19,"Syndrome de sténose du pylore – synthèse clinique :",["Le clapotage à jeun témoigne de la stase gastrique","La déshydratation est attendue, surtout en phase atone","La phase de lutte se manifeste par des ondulations péristaltiques épigastriques","Les vomissements sont bilieux et précoces","L'aspiration gastrique avant la FOGD est inutile"],"ABC",["Stase liquidienne et alimentaire.","Vomissements abondants et stase importante.","Signe de lutte.","Faux : alimentaires, post-prandiaux tardifs.","Faux : elle est nécessaire pour vider l'estomac."]]
+];
+const L="ABCDE";let sc=0,tot=0,done=new Set();
+const app=document.getElementById("app");
+Q.forEach((q,i)=>{
+ let ans=q[3];
+ const d=document.createElement("div");d.className="q";
+ d.innerHTML=`<div class="pg">Page ${q[0]} · Q${i+1}</div><div class="qt">${q[1]}</div>`+
+ q[2].map((o,k)=>`<label class="o"><input type="checkbox" value="${L[k]}"><b>${L[k]}.</b> ${o}</label><div class="ex"></div>`).join("")+
+ `<button>Valider</button><div class="r"></div>`;
+ d.querySelector("button").onclick=function(){
+  if(done.has(i))return;done.add(i);
+  const labs=d.querySelectorAll(".o"),exs=d.querySelectorAll(".ex");let good=true;
+  labs.forEach((l,k)=>{const c=l.querySelector("input"),t=ans.includes(L[k]);
+   if(c.checked!==t)good=false;c.disabled=true;
+   l.classList.add(t?"ok":"ko");exs[k].textContent=(t?"✔ Vrai – ":"✘ Faux – ")+q[4][k];});
+  d.classList.add("show");tot++;if(good)sc++;
+  d.querySelector(".r").textContent=good?"✔ Réponse exacte ("+ans.split("").join(", ")+")":"✘ Bonnes réponses : "+ans.split("").join(", ");
+  document.getElementById("sc").textContent="Score : "+sc+" / "+tot+" (sur "+Q.length+")";
+ };
+ app.appendChild(d);
+});
+</script></body></html>
